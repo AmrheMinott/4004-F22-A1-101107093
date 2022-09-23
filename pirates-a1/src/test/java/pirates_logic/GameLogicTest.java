@@ -46,4 +46,12 @@ public class GameLogicTest {
 				DieSides.MONKEY, DieSides.GOLD_COIN, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY));
 		assertEquals(gameLogic.scoreTurn(dice, captain), 100);
 	}
+	
+	@Test
+	public void givenTwoGoldOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTwoHundred() {
+		Captain captain = new Captain();
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
+				DieSides.MONKEY, DieSides.GOLD_COIN, DieSides.GOLD_COIN, DieSides.SWORD, DieSides.MONKEY));
+		assertEquals(gameLogic.scoreTurn(dice, captain), 200);
+	}
 }
