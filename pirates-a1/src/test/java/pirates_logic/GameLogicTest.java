@@ -146,4 +146,13 @@ public class GameLogicTest {
 				DieSides.SKULL, DieSides.SKULL, DieSides.SWORD, DieSides.MONKEY, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, monkeyBusiness), 200);
 	}
+
+	@Test
+	public void givenFiveOfAKind_andMonkeyBusinessCard() {
+		MonkeyBusiness monkeyBusiness = new MonkeyBusiness();
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT,
+				DieSides.SKULL, DieSides.PARROT, DieSides.SWORD, DieSides.MONKEY, DieSides.PARROT));
+		assertEquals(gameLogic.scoreTurn(dice, monkeyBusiness), 500);
+	}
 }
