@@ -19,7 +19,7 @@ public class GameLogic {
 
 	public int scoreTurn(ArrayList<String> dice, FortuneCard card) {
 		diceSideMap.put(DieSides.DIAMOND, 0);
-		diceSideMap.put(DieSides.GOLD_COIN, 0);
+		diceSideMap.put(DieSides.GOLD, 0);
 		diceSideMap.put(DieSides.MONKEY, 0);
 		diceSideMap.put(DieSides.PARROT, 0);
 		diceSideMap.put(DieSides.SKULL, 0);
@@ -33,7 +33,7 @@ public class GameLogic {
 			return 0;
 		}
 		int POINTS_DIAMOND_COIN = diceSideMap.get(DieSides.DIAMOND) * DIAMOND_AND_GOLD_MULTIPLIER;
-		int POINTS_GOLD_COIN = diceSideMap.get(DieSides.GOLD_COIN) * DIAMOND_AND_GOLD_MULTIPLIER;
+		int POINTS_GOLD_COIN = diceSideMap.get(DieSides.GOLD) * DIAMOND_AND_GOLD_MULTIPLIER;
 		return POINTS_DIAMOND_COIN + POINTS_GOLD_COIN;
 	}
 }

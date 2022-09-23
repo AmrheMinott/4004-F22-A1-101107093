@@ -3,7 +3,7 @@ package constants;
 public class DieSides {
 
 	public static final String DIAMOND = "Diamond";
-	public static final String GOLD_COIN = "Gold Coin";
+	public static final String GOLD = "Gold";
 
 	public static final String MONKEY = "Monkey";
 	public static final String PARROT = "Parrot";
