@@ -62,6 +62,7 @@ public class GameLogicTest {
 		assertEquals(gameLogic.scoreTurn(dice, captain), 400);
 	}
 
+	@Test
 	public void givenThreeOfAKind_andCaptainCard_assertScoreIsTwoHundred() {
 		Captain captain = new Captain();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
