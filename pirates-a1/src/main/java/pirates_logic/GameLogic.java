@@ -33,6 +33,7 @@ public class GameLogic {
 			return 0;
 		}
 		int POINTS_DIAMOND_COIN = diceSideMap.get(DieSides.DIAMOND) * DIAMOND_AND_GOLD_MULTIPLIER;
-		return POINTS_DIAMOND_COIN;
+		int POINTS_GOLD_COIN = diceSideMap.get(DieSides.GOLD_COIN) * DIAMOND_AND_GOLD_MULTIPLIER;
+		return POINTS_DIAMOND_COIN + POINTS_GOLD_COIN;
 	}
 }
