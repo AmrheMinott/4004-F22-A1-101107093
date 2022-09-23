@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import constants.DieSides;
+import fortune_cards.Captain;
 import fortune_cards.FortuneCard;
 
 /**
@@ -34,6 +35,11 @@ public class GameLogic {
 		}
 		int POINTS_DIAMOND_COIN = diceSideMap.get(DieSides.DIAMOND) * DIAMOND_AND_GOLD_MULTIPLIER;
 		int POINTS_GOLD_COIN = diceSideMap.get(DieSides.GOLD) * DIAMOND_AND_GOLD_MULTIPLIER;
-		return POINTS_DIAMOND_COIN + POINTS_GOLD_COIN;
+		
+		int final_score = POINTS_DIAMOND_COIN + POINTS_GOLD_COIN;
+		if (card instanceof Captain) {
+			final_score = final_score * 2;
+		}
+		return final_score;
 	}
 }
