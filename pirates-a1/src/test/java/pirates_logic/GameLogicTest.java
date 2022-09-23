@@ -27,7 +27,7 @@ public class GameLogicTest {
 		Captain captain = new Captain();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
 				DieSides.MONKEY, DieSides.DIAMOND, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY));
-		assertEquals(gameLogic.scoreTurn(dice, captain), 100);
+		assertEquals(gameLogic.scoreTurn(dice, captain), 200);
 	}
 
 	@Test
