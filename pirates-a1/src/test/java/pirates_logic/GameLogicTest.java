@@ -7,17 +7,18 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import constants.DieSides;
 import fortune_cards.Captain;
 
-public class PirateGameLogic {
+public class GameLogicTest {
 
 	private GameLogic gameLogic = new GameLogic();
 
 	@Test
 	public void givenThreeSkulls_assertScoreIsZero() {
 		Captain captain = new Captain();
-		ArrayList<String> dice = new ArrayList<>(
-				Arrays.asList("Skull", "Skull", "Skull", "Monkey", "Diamond", "Monkey", "Diamond", "Monkey"));
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+				DieSides.MONKEY, DieSides.DIAMOND, DieSides.MONKEY, DieSides.DIAMOND, DieSides.MONKEY));
 		assertEquals(gameLogic.scoreTurn(dice, captain), 0);
 	}
 }
