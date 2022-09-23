@@ -15,6 +15,7 @@ public class GameLogic {
 
 	private HashMap<String, Integer> diceSideMap = new HashMap<String, Integer>();
 	private final int MAX_NUMBER_OF_SKULLS = 3;
+	private final int DIAMOND_AND_GOLD_MULTIPLIER = 100;
 
 	public int scoreTurn(ArrayList<String> dice, FortuneCard card) {
 		diceSideMap.put(DieSides.DIAMOND, 0);
@@ -31,6 +32,7 @@ public class GameLogic {
 		if (diceSideMap.get(DieSides.SKULL) >= MAX_NUMBER_OF_SKULLS) {
 			return 0;
 		}
-		return 0;
+		int POINTS_DIAMOND_COIN = diceSideMap.get(DieSides.DIAMOND) * DIAMOND_AND_GOLD_MULTIPLIER;
+		return POINTS_DIAMOND_COIN;
 	}
 }
