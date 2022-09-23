@@ -21,4 +21,12 @@ public class GameLogicTest {
 				DieSides.MONKEY, DieSides.DIAMOND, DieSides.MONKEY, DieSides.DIAMOND, DieSides.MONKEY));
 		assertEquals(gameLogic.scoreTurn(dice, captain), 0);
 	}
+	
+	@Test
+	public void givenDiamondOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTwoHundred() {
+		Captain captain = new Captain();
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
+				DieSides.MONKEY, DieSides.DIAMOND, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY));
+		assertEquals(gameLogic.scoreTurn(dice, captain), 200);
+	}
 }
