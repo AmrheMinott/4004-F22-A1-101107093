@@ -9,6 +9,7 @@ import java.util.Map;
 import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.FortuneCard;
+import fortune_cards.MonkeyBusiness;
 
 /**
  * 
@@ -40,6 +41,13 @@ public class GameLogic {
 		}
 
 		int final_score = 0;
+
+		if (card instanceof MonkeyBusiness) {
+			int total = (diceSideMap.get(DieSides.MONKEY) + diceSideMap.get(DieSides.PARROT));
+			diceSideMap.put(DieSides.MONKEY, total);
+			diceSideMap.put(DieSides.PARROT, 0);
+		}
+
 		for (Integer value : diceSideMap.values()) {
 			if (ofAKindScoreMap.get(value) != null) {
 				final_score += ofAKindScoreMap.get(value).intValue();
