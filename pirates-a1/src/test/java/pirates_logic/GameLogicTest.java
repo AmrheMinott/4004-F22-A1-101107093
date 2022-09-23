@@ -65,8 +65,17 @@ public class GameLogicTest {
 	@Test
 	public void givenThreeOfAKind_andCaptainCard_assertScoreIsTwoHundred() {
 		Captain captain = new Captain();
+
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
 				DieSides.MONKEY, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY));
 		assertEquals(gameLogic.scoreTurn(dice, captain), 200);
+
+		dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY, DieSides.MONKEY,
+				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY));
+		assertEquals(gameLogic.scoreTurn(dice, captain), 400);
+
+		dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY, DieSides.MONKEY,
+				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SKULL));
+		assertEquals(gameLogic.scoreTurn(dice, captain), 0);
 	}
 }
