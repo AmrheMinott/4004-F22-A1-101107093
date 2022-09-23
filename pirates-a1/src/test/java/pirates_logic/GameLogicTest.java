@@ -118,4 +118,13 @@ public class GameLogicTest {
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD));
 		assertEquals(gameLogic.scoreTurn(dice, captain), 4000);
 	}
+
+	@Test
+	public void givenEightOfAKind_andCaptainCard() {
+		Captain captain = new Captain();
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
+				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD));
+		assertEquals(gameLogic.scoreTurn(dice, captain), 8000);
+	}
 }
