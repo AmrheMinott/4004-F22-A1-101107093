@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.MonkeyBusiness;
+import fortune_cards.SeaBattleTypeOne;
 
 public class GameLogicTest {
 

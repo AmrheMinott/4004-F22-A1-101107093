@@ -10,6 +10,7 @@ import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.FortuneCard;
 import fortune_cards.MonkeyBusiness;
+import fortune_cards.SeaBattleTypeOne;
 
 /**
  * 
@@ -41,6 +42,12 @@ public class GameLogic {
 		}
 
 		int final_score = 0;
+
+		if (card instanceof SeaBattleTypeOne) {
+			if (diceSideMap.get(DieSides.SWORD).equals(((SeaBattleTypeOne) card).getRequiredNumberOfSwords())) {
+				final_score += ((SeaBattleTypeOne) card).getAdditionalPoints();
+			}
+		}
 
 		if (card instanceof MonkeyBusiness) {
 			int total = (diceSideMap.get(DieSides.MONKEY) + diceSideMap.get(DieSides.PARROT));
