@@ -198,7 +198,7 @@ public class GameLogicTest {
 		int additionalPoints = seaBattle.getAdditionalPoints();
 
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
-				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.PARROT));
+				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), additionalPoints + 100);
 	}
 }
