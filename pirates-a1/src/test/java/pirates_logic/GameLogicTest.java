@@ -193,12 +193,21 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenThreeSwordsOfAKind_andSeaBattleCardTypeOne() {
+	public void givenFourSwordsOfAKind_andSeaBattleCardTypeOne() {
 		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
 		int additionalPoints = seaBattle.getAdditionalPoints();
 
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), additionalPoints + 200);
+	}
+	
+	@Test
+	public void givenPlayerLostAtSea_andSeaBattleCardTypeOne() {
+		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
+				DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.PARROT));
+		assertEquals(gameLogic.scoreTurn(dice, seaBattle), 0);
 	}
 }
