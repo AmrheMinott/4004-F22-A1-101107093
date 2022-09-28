@@ -229,4 +229,20 @@ public class GameLogicTest {
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), additionalPoints + 100);
 	}
+	
+	
+	
+	/*
+	 * Chest Testing
+	 */
+	@Test
+	public void givenPlayerPlaced_andChestCard() {
+		Chest chest = new Chest();
+		chest.addDiceToChest(DieSides.SWORD);
+		chest.addDiceToChest(DieSides.SWORD);
+		chest.addDiceToChest(DieSides.SWORD);
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL));
+		assertEquals(gameLogic.scoreTurn(dice, chest), 100);
+	}
 }
