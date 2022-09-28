@@ -46,6 +46,8 @@ public class GameLogic {
 		if (card instanceof SeaBattleTypeOne) {
 			if (diceSideMap.get(DieSides.SWORD).equals(((SeaBattleTypeOne) card).getRequiredNumberOfSwords())) {
 				final_score += ((SeaBattleTypeOne) card).getAdditionalPoints();
+			} else {
+				final_score -= ((SeaBattleTypeOne) card).getAdditionalPoints();
 			}
 		}
 
@@ -67,6 +69,7 @@ public class GameLogic {
 		if (card instanceof Captain) {
 			final_score = final_score * 2;
 		}
-		return final_score;
+
+		return final_score > 0 ? final_score : 0;
 	}
 }
