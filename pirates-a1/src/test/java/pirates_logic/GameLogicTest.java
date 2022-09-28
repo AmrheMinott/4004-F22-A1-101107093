@@ -235,7 +235,7 @@ public class GameLogicTest {
 	 * Chest Testing
 	 */
 	@Test
-	public void givenPlayerPlaced_andChestCard() {
+	public void givenPlayerPlaced_andDiedFromSkulls_assertDiceInChestAreValid() {
 		Chest chest = new Chest();
 		chest.addDiceToChest(DieSides.SWORD);
 		chest.addDiceToChest(DieSides.SWORD);
