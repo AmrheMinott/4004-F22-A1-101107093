@@ -9,7 +9,7 @@ public class SeaBattleTypeOne extends SeaBattle {
 
 	@Override
 	public int getRequiredNumberOfSwords() {
-		return 3;
+		return 4;
 	}
 
 }
