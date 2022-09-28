@@ -245,4 +245,17 @@ public class GameLogicTest {
 				Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL));
 		assertEquals(gameLogic.scoreTurn(dice, chest), 100);
 	}
+
+	@Test
+	public void givenPlayerPlacedDiceInChest_assertScoreIsStillRecorded() {
+		Chest chest = new Chest();
+		chest.addDiceToChest(DieSides.SWORD);
+		chest.addDiceToChest(DieSides.SWORD);
+		chest.addDiceToChest(DieSides.SWORD);
+		chest.addDiceToChest(DieSides.SWORD);
+
+		ArrayList<String> dice = new ArrayList<>(
+				Arrays.asList(DieSides.MONKEY, DieSides.PARROT, DieSides.GOLD, DieSides.PARROT));
+		assertEquals(gameLogic.scoreTurn(dice, chest), 300);
+	}
 }
