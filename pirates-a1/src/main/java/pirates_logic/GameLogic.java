@@ -8,10 +8,10 @@ import java.util.Map;
 
 import constants.DieSides;
 import fortune_cards.Captain;
+import fortune_cards.Chest;
 import fortune_cards.FortuneCard;
 import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattle;
-import fortune_cards.SeaBattleTypeOne;
 
 /**
  * 
@@ -27,19 +27,18 @@ public class GameLogic {
 	private final int DIAMOND_AND_GOLD_MULTIPLIER = 100;
 
 	public int scoreTurn(ArrayList<String> dice, FortuneCard card) {
-		diceSideMap.put(DieSides.DIAMOND, 0);
-		diceSideMap.put(DieSides.GOLD, 0);
-		diceSideMap.put(DieSides.MONKEY, 0);
-		diceSideMap.put(DieSides.PARROT, 0);
-		diceSideMap.put(DieSides.SKULL, 0);
-		diceSideMap.put(DieSides.SWORD, 0);
+		resetDiceSideMap();
 
-		for (String dieSide : dice) {
-			diceSideMap.put(dieSide, diceSideMap.get(dieSide) + 1);
-		}
+		populateDiceSideMap(dice);
 
 		if (diceSideMap.get(DieSides.SKULL) >= MAX_NUMBER_OF_SKULLS) {
-			return 0;
+			if (card instanceof Chest) {
+				resetDiceSideMap();
+				populateDiceSideMap(((Chest) card).getChestContent());
+			} else {
+				return 0;
+
+			}
 		}
 
 		int final_score = 0;
@@ -63,6 +62,7 @@ public class GameLogic {
 				final_score += ofAKindScoreMap.get(value).intValue();
 			}
 		}
+
 		int POINTS_DIAMOND_COIN = diceSideMap.get(DieSides.DIAMOND) * DIAMOND_AND_GOLD_MULTIPLIER;
 		int POINTS_GOLD_COIN = diceSideMap.get(DieSides.GOLD) * DIAMOND_AND_GOLD_MULTIPLIER;
 
@@ -72,5 +72,20 @@ public class GameLogic {
 		}
 
 		return final_score > 0 ? final_score : 0;
+	}
+
+	private void populateDiceSideMap(ArrayList<String> dice) {
+		for (String dieSide : dice) {
+			diceSideMap.put(dieSide, diceSideMap.get(dieSide) + 1);
+		}
+	}
+
+	private void resetDiceSideMap() {
+		diceSideMap.put(DieSides.DIAMOND, 0);
+		diceSideMap.put(DieSides.GOLD, 0);
+		diceSideMap.put(DieSides.MONKEY, 0);
+		diceSideMap.put(DieSides.PARROT, 0);
+		diceSideMap.put(DieSides.SKULL, 0);
+		diceSideMap.put(DieSides.SWORD, 0);
 	}
 }
