@@ -43,7 +43,7 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenGoinCoinOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTwoHundred() {
+	public void givenGoldCoinOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTwoHundred() {
 		Captain captain = new Captain();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
 				DieSides.MONKEY, DieSides.GOLD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY));
@@ -230,9 +230,7 @@ public class GameLogicTest {
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), additionalPoints + 100);
 	}
-	
-	
-	
+
 	/*
 	 * Chest Testing
 	 */
@@ -243,7 +241,8 @@ public class GameLogicTest {
 		chest.addDiceToChest(DieSides.SWORD);
 		chest.addDiceToChest(DieSides.SWORD);
 
-		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL));
+		ArrayList<String> dice = new ArrayList<>(
+				Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL));
 		assertEquals(gameLogic.scoreTurn(dice, chest), 100);
 	}
 }
