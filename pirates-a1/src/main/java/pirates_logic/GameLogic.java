@@ -35,10 +35,14 @@ public class GameLogic {
 			if (card instanceof Chest) {
 				resetDiceSideMap();
 				populateDiceSideMap(((Chest) card).getChestContent());
+				((Chest) card).emptyChest();
 			} else {
 				return 0;
-
 			}
+		}
+
+		if (card instanceof Chest) {
+			populateDiceSideMap(((Chest) card).getChestContent());
 		}
 
 		int final_score = 0;
