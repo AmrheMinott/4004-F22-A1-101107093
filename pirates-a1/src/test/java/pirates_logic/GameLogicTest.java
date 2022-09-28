@@ -25,7 +25,7 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenDiamondOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTOneHundred() {
+	public void givenDiamondOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTwoHundred() {
 		Captain captain = new Captain();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
 				DieSides.MONKEY, DieSides.DIAMOND, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY));
@@ -33,7 +33,7 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenTwoDiamond_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTwoHundred() {
+	public void givenTwoDiamond_andNoScoringOfAKinds_andCaptainCard_assertScoreIsFourHundred() {
 		Captain captain = new Captain();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
 				DieSides.MONKEY, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.SWORD, DieSides.MONKEY));
@@ -41,7 +41,7 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenGoinCoinOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTOneHundred() {
+	public void givenGoinCoinOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTwoHundred() {
 		Captain captain = new Captain();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
 				DieSides.MONKEY, DieSides.GOLD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY));
@@ -49,7 +49,7 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenTwoGoldOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTwoHundred() {
+	public void givenTwoGoldOnly_andNoScoringOfAKinds_andCaptainCard_assertScoreIsFourHundred() {
 		Captain captain = new Captain();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
 				DieSides.MONKEY, DieSides.GOLD, DieSides.GOLD, DieSides.SWORD, DieSides.MONKEY));
@@ -57,7 +57,7 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenAGoldAndDiamond_andNoScoringOfAKinds_andCaptainCard_assertScoreIsTwoHundred() {
+	public void givenAGoldAndDiamond_andNoScoringOfAKinds_andCaptainCard_assertScoreIsFourHundred() {
 		Captain captain = new Captain();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
 				DieSides.MONKEY, DieSides.GOLD, DieSides.DIAMOND, DieSides.SWORD, DieSides.MONKEY));
