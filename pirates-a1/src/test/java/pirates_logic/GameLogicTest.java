@@ -11,6 +11,7 @@ import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattleTypeOne;
+import fortune_cards.SeaBattleTypeTwo;
 
 public class GameLogicTest {
 

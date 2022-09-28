@@ -10,6 +10,7 @@ import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.FortuneCard;
 import fortune_cards.MonkeyBusiness;
+import fortune_cards.SeaBattle;
 import fortune_cards.SeaBattleTypeOne;
 
 /**
@@ -43,11 +44,11 @@ public class GameLogic {
 
 		int final_score = 0;
 
-		if (card instanceof SeaBattleTypeOne) {
-			if (diceSideMap.get(DieSides.SWORD).equals(((SeaBattleTypeOne) card).getRequiredNumberOfSwords())) {
-				final_score += ((SeaBattleTypeOne) card).getAdditionalPoints();
+		if (card instanceof SeaBattle) {
+			if (diceSideMap.get(DieSides.SWORD).equals(((SeaBattle) card).getRequiredNumberOfSwords())) {
+				final_score += ((SeaBattle) card).getAdditionalPoints();
 			} else {
-				final_score -= ((SeaBattleTypeOne) card).getAdditionalPoints();
+				final_score -= ((SeaBattle) card).getAdditionalPoints();
 			}
 		}
 
