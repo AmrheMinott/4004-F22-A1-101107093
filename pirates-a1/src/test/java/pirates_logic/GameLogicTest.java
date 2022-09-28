@@ -64,7 +64,7 @@ public class GameLogicTest {
 				DieSides.MONKEY, DieSides.GOLD, DieSides.DIAMOND, DieSides.SWORD, DieSides.MONKEY));
 		assertEquals(gameLogic.scoreTurn(dice, captain), 400);
 	}
-	
+
 	@Test
 	public void givenThreeGoldAndThreeDiamond_andCaptainCard_assertScoreIsSixteenHundred() {
 		Captain captain = new Captain();
@@ -202,7 +202,7 @@ public class GameLogicTest {
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), additionalPoints + 200);
 	}
-	
+
 	@Test
 	public void givenPlayerLostAtSea_andSeaBattleCardTypeOne() {
 		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
@@ -211,14 +211,14 @@ public class GameLogicTest {
 				DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), 0);
 	}
-	
+
 	@Test
 	public void givenPlayerWon_andSeaBattleCardTypeTwo() {
 		SeaBattleTypeTwo seaBattle = new SeaBattleTypeTwo();
 		int additionalPoints = seaBattle.getAdditionalPoints();
 
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
-				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT));
+				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), additionalPoints + 100);
 	}
 }
