@@ -12,6 +12,7 @@ import fortune_cards.Captain;
 import fortune_cards.Chest;
 import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattleTypeOne;
+import fortune_cards.SeaBattleTypeThree;
 import fortune_cards.SeaBattleTypeTwo;
 
 public class GameLogicTest {
@@ -229,6 +230,15 @@ public class GameLogicTest {
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), additionalPoints + 100);
+	}
+
+	@Test
+	public void givenPlayerLostAtSea_andSeaBattleCardTypeThree() {
+		SeaBattleTypeThree seaBattle = new SeaBattleTypeThree();
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
+				DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.PARROT));
+		assertEquals(gameLogic.scoreTurn(dice, seaBattle), -seaBattle.getAdditionalPoints());
 	}
 
 	/*
