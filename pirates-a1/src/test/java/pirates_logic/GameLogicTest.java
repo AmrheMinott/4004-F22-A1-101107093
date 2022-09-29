@@ -218,7 +218,7 @@ public class GameLogicTest {
 
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
 				DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.PARROT));
-		assertEquals(gameLogic.scoreTurn(dice, seaBattle), 0);
+		assertEquals(gameLogic.scoreTurn(dice, seaBattle), -seaBattle.getAdditionalPoints());
 	}
 
 	@Test
