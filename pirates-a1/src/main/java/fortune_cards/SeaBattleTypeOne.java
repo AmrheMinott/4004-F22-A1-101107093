@@ -4,12 +4,12 @@ public class SeaBattleTypeOne extends SeaBattle {
 
 	@Override
 	public int getAdditionalPoints() {
-		return 1000;
+		return 300;
 	}
 
 	@Override
 	public int getRequiredNumberOfSwords() {
-		return 4;
+		return 2;
 	}
 
 }
