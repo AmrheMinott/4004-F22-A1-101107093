@@ -51,7 +51,7 @@ public class GameLogic {
 			if (diceSideMap.get(DieSides.SWORD).equals(((SeaBattle) card).getRequiredNumberOfSwords())) {
 				final_score += ((SeaBattle) card).getAdditionalPoints();
 			} else {
-				final_score -= ((SeaBattle) card).getAdditionalPoints();
+				return -((SeaBattle) card).getAdditionalPoints();
 			}
 		}
 
