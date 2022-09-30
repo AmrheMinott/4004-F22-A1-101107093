@@ -61,11 +61,11 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenTwoGoldCoins_andCaptainCard_assertScoreIsEightHundred() {
+	public void givenTwoGoldCoins_andCaptainCard_assertScoreIsEightHundred_withBonus() {
 		Captain captain = new Captain();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.PARROT, DieSides.PARROT, DieSides.PARROT,
 				DieSides.SWORD, DieSides.GOLD, DieSides.GOLD, DieSides.SWORD, DieSides.SWORD));
-		assertEquals(gameLogic.scoreTurn(dice, captain), 800);
+		assertEquals(gameLogic.scoreTurn(dice, captain), 1800);
 	}
 
 	@Test
@@ -142,12 +142,12 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenEightOfAKind_andCaptainCard() {
+	public void givenEightOfAKind_andCaptainCard_withBonus() {
 		Captain captain = new Captain();
 
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD));
-		assertEquals(gameLogic.scoreTurn(dice, captain), 8000);
+		assertEquals(gameLogic.scoreTurn(dice, captain), 9000);
 	}
 
 	@Test
@@ -196,12 +196,12 @@ public class GameLogicTest {
 	}
 
 	@Test
-	public void givenEightOfAKind_andMonkeyBusinessCard() {
+	public void givenEightOfAKind_andMonkeyBusinessCard_withBonus() {
 		MonkeyBusiness monkeyBusiness = new MonkeyBusiness();
 
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.PARROT,
 				DieSides.PARROT, DieSides.PARROT, DieSides.MONKEY, DieSides.MONKEY, DieSides.PARROT));
-		assertEquals(gameLogic.scoreTurn(dice, monkeyBusiness), 4000);
+		assertEquals(gameLogic.scoreTurn(dice, monkeyBusiness), 4500);
 	}
 
 	@Test
@@ -297,7 +297,7 @@ public class GameLogicTest {
 	public void givenDiamondCard_whenCalculatingScore_assertAdditionalDiamondIsPresent_bonus() {
 		DiamondCard diamond = new DiamondCard();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
-				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.SWORD));
+				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.GOLD, DieSides.SWORD));
 
 		assertEquals(gameLogic.scoreTurn(dice, diamond), 1000);
 	}
