@@ -221,6 +221,15 @@ public class GameLogicTest {
 				DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), -seaBattle.getAdditionalPoints());
 	}
+	
+	@Test
+	public void givenPlayerWonAtSea_andSeaBattleCardTypeOne_andBonus() {
+		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+				DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.GOLD, DieSides.GOLD));
+		assertEquals(gameLogic.scoreTurn(dice, seaBattle), 1200);
+	}
 
 	@Test
 	public void givenPlayerWon_andSeaBattleCardTypeTwo() {
