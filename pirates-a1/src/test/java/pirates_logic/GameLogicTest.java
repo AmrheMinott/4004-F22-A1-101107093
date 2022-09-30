@@ -204,24 +204,54 @@ public class GameLogicTest {
 		assertEquals(gameLogic.scoreTurn(dice, monkeyBusiness), 4500);
 	}
 
+	/*
+	 * Sea Battle Testing
+	 */
 	@Test
 	public void givenFourSwordsOfAKind_andSeaBattleCardTypeOne() {
 		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
 
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.PARROT));
+		assertEquals(gameLogic.scoreTurn(dice, seaBattle), seaBattle.getAdditionalPoints() + 200);
+	}
+
+	@Test
+	public void givenPlayerLostAtSea_withTwo3OfAKind_andSeaBattleCardTypeOne() {
+		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
+				DieSides.SWORD, DieSides.SKULL, DieSides.PARROT, DieSides.MONKEY, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), -seaBattle.getAdditionalPoints());
 	}
 
 	@Test
-	public void givenPlayerLostAtSea_andSeaBattleCardTypeOne() {
+	public void givenPlayerWonAtSea_withTwo3OfAKind_andSeaBattleCardTypeOne() {
 		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
 
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
 				DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.PARROT));
-		assertEquals(gameLogic.scoreTurn(dice, seaBattle), -seaBattle.getAdditionalPoints());
+		assertEquals(gameLogic.scoreTurn(dice, seaBattle), seaBattle.getAdditionalPoints() + 200);
 	}
-	
+
+	@Test
+	public void givenPlayerWonAtSea_andSeaBattleCardTypeOne() {
+		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+				DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.GOLD, DieSides.PARROT));
+		assertEquals(gameLogic.scoreTurn(dice, seaBattle), 500);
+	}
+
+	@Test
+	public void givenPlayerWonAtSea_andTwoSkulls_withSeaBattleCardTypeOne() {
+		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+				DieSides.SWORD, DieSides.SWORD, DieSides.SKULL, DieSides.MONKEY, DieSides.SKULL));
+		assertEquals(gameLogic.scoreTurn(dice, seaBattle), 500);
+	}
+
 	@Test
 	public void givenPlayerWonAtSea_andSeaBattleCardTypeOne_andBonus() {
 		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
@@ -239,6 +269,16 @@ public class GameLogicTest {
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, seaBattle), additionalPoints + 100);
+	}
+
+	@Test
+	public void givenPlayerWon_andSeaBattleCardTypeTwo_withBonus() {
+		SeaBattleTypeTwo seaBattle = new SeaBattleTypeTwo();
+		int additionalPoints = seaBattle.getAdditionalPoints();
+
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.PARROT,
+				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.SWORD));
+		assertEquals(gameLogic.scoreTurn(dice, seaBattle), additionalPoints + 300);
 	}
 
 	@Test
@@ -284,7 +324,7 @@ public class GameLogicTest {
 		chest.addDiceToChest(DieSides.SWORD);
 		chest.addDiceToChest(DieSides.MONKEY);
 		chest.addDiceToChest(DieSides.PARROT);
-		
+
 		String removedDie = chest.takeOut(1);
 		assertEquals(removedDie, DieSides.MONKEY);
 		assertEquals(chest.getChestContent().size(), 2);
