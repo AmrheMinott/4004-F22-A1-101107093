@@ -268,4 +268,16 @@ public class GameLogicTest {
 				Arrays.asList(DieSides.MONKEY, DieSides.PARROT, DieSides.GOLD, DieSides.PARROT));
 		assertEquals(gameLogic.scoreTurn(dice, chest), 300);
 	}
+	
+	@Test
+	public void assertDieTakenFromChest_isWhatWasPlacedInside() {
+		Chest chest = new Chest();
+		chest.addDiceToChest(DieSides.SWORD);
+		chest.addDiceToChest(DieSides.MONKEY);
+		chest.addDiceToChest(DieSides.PARROT);
+		
+		String removedDie = chest.takeOut(1);
+		assertEquals(removedDie, DieSides.MONKEY);
+		assertEquals(chest.getChestContent().size(), 2);
+	}
 }
