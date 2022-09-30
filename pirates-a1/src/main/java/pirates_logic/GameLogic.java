@@ -91,7 +91,9 @@ public class GameLogic {
 	}
 
 	private boolean hasEarnedBonus() {
-		HashMap<String, Integer> bonusMap = diceSideMap;
+		if (diceSideMap.get(DieSides.SKULL) > 0) {
+			return false;
+		}
 		if (diceSideMap.get(DieSides.SWORD) ==1 || diceSideMap.get(DieSides.SWORD) == 2) {
 			return false;
 		}
