@@ -3,12 +3,14 @@ package pirates_logic;
 import static java.util.Map.entry;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.Chest;
+import fortune_cards.DiamondCard;
 import fortune_cards.FortuneCard;
 import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattle;
@@ -26,8 +28,15 @@ public class GameLogic {
 	private final int MAX_NUMBER_OF_SKULLS = 3;
 	private final int DIAMOND_AND_GOLD_MULTIPLIER = 100;
 
+	private ArrayList<String> diceFaces = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.GOLD,
+			DieSides.SWORD, DieSides.PARROT, DieSides.DIAMOND));
+
 	public int scoreTurn(ArrayList<String> dice, FortuneCard card) {
 		resetDiceSideMap();
+
+		if (card instanceof DiamondCard) {
+			dice.add(DieSides.DIAMOND);
+		}
 
 		populateDiceSideMap(dice);
 
@@ -70,12 +79,30 @@ public class GameLogic {
 		int POINTS_DIAMOND_COIN = diceSideMap.get(DieSides.DIAMOND) * DIAMOND_AND_GOLD_MULTIPLIER;
 		int POINTS_GOLD_COIN = diceSideMap.get(DieSides.GOLD) * DIAMOND_AND_GOLD_MULTIPLIER;
 
+		if (hasEarnedBonus()) {
+			final_score += 500;
+		}
 		final_score += (POINTS_DIAMOND_COIN + POINTS_GOLD_COIN);
 		if (card instanceof Captain) {
 			final_score = final_score * 2;
 		}
 
 		return final_score > 0 ? final_score : 0;
+	}
+
+	private boolean hasEarnedBonus() {
+		HashMap<String, Integer> bonusMap = diceSideMap;
+		if (diceSideMap.get(DieSides.SWORD) ==1 || diceSideMap.get(DieSides.SWORD) == 2) {
+			return false;
+		}
+		if (diceSideMap.get(DieSides.MONKEY) ==1 || diceSideMap.get(DieSides.MONKEY) == 2) {
+			return false;
+		}
+		if (diceSideMap.get(DieSides.PARROT) ==1 || diceSideMap.get(DieSides.PARROT) == 2) {
+			return false;
+		}
+		
+		return true;
 	}
 
 	private void populateDiceSideMap(ArrayList<String> dice) {
