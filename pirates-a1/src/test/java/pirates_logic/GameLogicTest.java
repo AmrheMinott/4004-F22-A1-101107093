@@ -11,6 +11,7 @@ import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.Chest;
 import fortune_cards.DiamondCard;
+import fortune_cards.GoldCard;
 import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattleTypeOne;
 import fortune_cards.SeaBattleTypeThree;
@@ -20,6 +21,9 @@ public class GameLogicTest {
 
 	private GameLogic gameLogic = new GameLogic();
 
+	/**
+	 * Captain Card testing
+	 */
 	@Test
 	public void givenThreeSkulls_assertScoreIsZero() {
 		Captain captain = new Captain();
@@ -150,6 +154,9 @@ public class GameLogicTest {
 		assertEquals(gameLogic.scoreTurn(dice, captain), 9000);
 	}
 
+	/*
+	 * Monkey Business Card
+	 */
 	@Test
 	public void givenThreeOfAKind_andMonkeyBusinessCard() {
 		MonkeyBusiness monkeyBusiness = new MonkeyBusiness();
@@ -350,8 +357,7 @@ public class GameLogicTest {
 
 		assertEquals(gameLogic.scoreTurn(dice, diamond), 1000);
 	}
-	
-	
+
 	@Test
 	public void givenAllGold_whenCalculatingScore_assertAdditional_withBonus() {
 		GoldCard gold = new GoldCard();

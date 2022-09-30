@@ -11,4 +11,6 @@ public class DieSides {
 	public static final String SKULL = "Skull";
 	public static final String SWORD = "Sword";
 
+	public static final String NONE = "-";
+
 }
