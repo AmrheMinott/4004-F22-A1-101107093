@@ -60,7 +60,7 @@ public class GameLogic {
 		int final_score = 0;
 
 		if (card instanceof SeaBattle) {
-			if (diceSideMap.get(DieSides.SWORD).equals(((SeaBattle) card).getRequiredNumberOfSwords())) {
+			if (diceSideMap.get(DieSides.SWORD) >= ((SeaBattle) card).getRequiredNumberOfSwords()) {
 				final_score += ((SeaBattle) card).getAdditionalPoints();
 				hasWonAtSea = true;
 			} else {
