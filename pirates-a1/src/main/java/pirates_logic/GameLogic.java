@@ -12,6 +12,7 @@ import fortune_cards.Captain;
 import fortune_cards.Chest;
 import fortune_cards.DiamondCard;
 import fortune_cards.FortuneCard;
+import fortune_cards.GoldCard;
 import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattle;
 
@@ -23,7 +24,7 @@ import fortune_cards.SeaBattle;
 public class GameLogic {
 
 	private Map<Integer, Integer> ofAKindScoreMap = Map.ofEntries(entry(3, 100), entry(4, 200), entry(5, 500),
-			entry(6, 1000), entry(7, 2000), entry(8, 4000));
+			entry(6, 1000), entry(7, 2000), entry(8, 4000), entry(9, 4000));
 	private HashMap<String, Integer> diceSideMap = new HashMap<String, Integer>();
 	private final int MAX_NUMBER_OF_SKULLS = 3;
 	private final int DIAMOND_AND_GOLD_MULTIPLIER = 100;
@@ -38,6 +39,10 @@ public class GameLogic {
 
 		if (card instanceof DiamondCard) {
 			dice.add(DieSides.DIAMOND);
+		}
+
+		if (card instanceof GoldCard) {
+			dice.add(DieSides.GOLD);
 		}
 
 		populateDiceSideMap(dice);
