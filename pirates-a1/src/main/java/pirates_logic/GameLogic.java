@@ -27,6 +27,7 @@ public class GameLogic {
 	private HashMap<String, Integer> diceSideMap = new HashMap<String, Integer>();
 	private final int MAX_NUMBER_OF_SKULLS = 3;
 	private final int DIAMOND_AND_GOLD_MULTIPLIER = 100;
+	private boolean hasPlayerDied = false;
 
 	private ArrayList<String> diceFaces = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.GOLD,
 			DieSides.SWORD, DieSides.PARROT, DieSides.DIAMOND));
@@ -48,6 +49,7 @@ public class GameLogic {
 			} else {
 				return 0;
 			}
+			hasPlayerDied = true;
 		}
 
 		if (card instanceof Chest) {
@@ -79,7 +81,7 @@ public class GameLogic {
 		int POINTS_DIAMOND_COIN = diceSideMap.get(DieSides.DIAMOND) * DIAMOND_AND_GOLD_MULTIPLIER;
 		int POINTS_GOLD_COIN = diceSideMap.get(DieSides.GOLD) * DIAMOND_AND_GOLD_MULTIPLIER;
 
-		if (hasEarnedBonus()) {
+		if (hasEarnedBonus() && !hasPlayerDied) {
 			final_score += 500;
 		}
 		final_score += (POINTS_DIAMOND_COIN + POINTS_GOLD_COIN);
@@ -94,16 +96,16 @@ public class GameLogic {
 		if (diceSideMap.get(DieSides.SKULL) > 0) {
 			return false;
 		}
-		if (diceSideMap.get(DieSides.SWORD) ==1 || diceSideMap.get(DieSides.SWORD) == 2) {
+		if (diceSideMap.get(DieSides.SWORD) == 1 || diceSideMap.get(DieSides.SWORD) == 2) {
 			return false;
 		}
-		if (diceSideMap.get(DieSides.MONKEY) ==1 || diceSideMap.get(DieSides.MONKEY) == 2) {
+		if (diceSideMap.get(DieSides.MONKEY) == 1 || diceSideMap.get(DieSides.MONKEY) == 2) {
 			return false;
 		}
-		if (diceSideMap.get(DieSides.PARROT) ==1 || diceSideMap.get(DieSides.PARROT) == 2) {
+		if (diceSideMap.get(DieSides.PARROT) == 1 || diceSideMap.get(DieSides.PARROT) == 2) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
