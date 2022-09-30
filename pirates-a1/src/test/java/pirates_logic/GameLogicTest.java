@@ -279,4 +279,16 @@ public class GameLogicTest {
 		assertEquals(removedDie, DieSides.MONKEY);
 		assertEquals(chest.getChestContent().size(), 2);
 	}
+
+	/*
+	 * Diamond / Gold coin Card Bonus Test
+	 */
+	@Test
+	public void givenDiamondCard_whenCalculatingScore_assertAdditionalDiamondIsPresent_noBonus() {
+		DiamondCard diamond = new DiamondCard();
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.PARROT));
+
+		assertEquals(gameLogic.scoreTurn(dice, diamond), 400);
+	}
 }
