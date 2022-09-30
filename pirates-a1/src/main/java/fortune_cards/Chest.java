@@ -9,6 +9,12 @@ public class Chest extends FortuneCard {
 	public void addDiceToChest(String dieFace) {
 		chestDice.add(dieFace);
 	}
+	
+	public String takeOut(int index) {
+		String die = chestDice.get(index);
+		chestDice.remove(index);
+		return die;
+	}
 
 	public ArrayList<String> getChestContent() {
 		return chestDice;
