@@ -28,6 +28,7 @@ public class GameLogic {
 	private final int MAX_NUMBER_OF_SKULLS = 3;
 	private final int DIAMOND_AND_GOLD_MULTIPLIER = 100;
 	private boolean hasPlayerDied = false;
+	private boolean hasWonAtSea = false;
 
 	private ArrayList<String> diceFaces = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.GOLD,
 			DieSides.SWORD, DieSides.PARROT, DieSides.DIAMOND));
@@ -61,6 +62,7 @@ public class GameLogic {
 		if (card instanceof SeaBattle) {
 			if (diceSideMap.get(DieSides.SWORD).equals(((SeaBattle) card).getRequiredNumberOfSwords())) {
 				final_score += ((SeaBattle) card).getAdditionalPoints();
+				hasWonAtSea = true;
 			} else {
 				return -((SeaBattle) card).getAdditionalPoints();
 			}
@@ -84,11 +86,14 @@ public class GameLogic {
 		if (hasEarnedBonus() && !hasPlayerDied) {
 			final_score += 500;
 		}
+
 		final_score += (POINTS_DIAMOND_COIN + POINTS_GOLD_COIN);
 		if (card instanceof Captain) {
 			final_score = final_score * 2;
 		}
 
+		hasWonAtSea = false;
+		hasPlayerDied = false;
 		return final_score > 0 ? final_score : 0;
 	}
 
@@ -96,9 +101,12 @@ public class GameLogic {
 		if (diceSideMap.get(DieSides.SKULL) > 0) {
 			return false;
 		}
-		if (diceSideMap.get(DieSides.SWORD) == 1 || diceSideMap.get(DieSides.SWORD) == 2) {
-			return false;
+		if (!hasWonAtSea) {
+			if (diceSideMap.get(DieSides.SWORD) == 1 || diceSideMap.get(DieSides.SWORD) == 2) {
+				return false;
+			}
 		}
+
 		if (diceSideMap.get(DieSides.MONKEY) == 1 || diceSideMap.get(DieSides.MONKEY) == 2) {
 			return false;
 		}
