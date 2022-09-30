@@ -350,4 +350,14 @@ public class GameLogicTest {
 
 		assertEquals(gameLogic.scoreTurn(dice, diamond), 1000);
 	}
+	
+	
+	@Test
+	public void givenAllGold_whenCalculatingScore_assertAdditional_withBonus() {
+		GoldCard gold = new GoldCard();
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.GOLD, DieSides.GOLD, DieSides.GOLD,
+				DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD));
+
+		assertEquals(gameLogic.scoreTurn(dice, gold), 5400);
+	}
 }
