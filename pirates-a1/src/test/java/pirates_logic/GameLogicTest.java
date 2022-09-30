@@ -206,7 +206,6 @@ public class GameLogicTest {
 	@Test
 	public void givenFourSwordsOfAKind_andSeaBattleCardTypeOne() {
 		SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
-		int additionalPoints = seaBattle.getAdditionalPoints();
 
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.PARROT));
