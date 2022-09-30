@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.Chest;
+import fortune_cards.DiamondCard;
 import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattleTypeOne;
 import fortune_cards.SeaBattleTypeThree;
@@ -290,5 +291,14 @@ public class GameLogicTest {
 				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.PARROT));
 
 		assertEquals(gameLogic.scoreTurn(dice, diamond), 400);
+	}
+
+	@Test
+	public void givenDiamondCard_whenCalculatingScore_assertAdditionalDiamondIsPresent_bonus() {
+		DiamondCard diamond = new DiamondCard();
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+				DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.SWORD));
+
+		assertEquals(gameLogic.scoreTurn(dice, diamond), 1000);
 	}
 }
