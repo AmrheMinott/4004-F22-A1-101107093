@@ -2,6 +2,7 @@ package pirates_logic;
 
 import static java.util.Map.entry;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,8 +22,9 @@ import fortune_cards.SeaBattle;
  * @author Amrhe Minott
  *
  */
-public class GameLogic {
+public class GameLogic implements Serializable {
 
+	private static final long serialVersionUID = -6515253901269225393L;
 	private Map<Integer, Integer> ofAKindScoreMap = Map.ofEntries(entry(3, 100), entry(4, 200), entry(5, 500),
 			entry(6, 1000), entry(7, 2000), entry(8, 4000), entry(9, 4000));
 	private HashMap<String, Integer> diceSideMap = new HashMap<String, Integer>();
