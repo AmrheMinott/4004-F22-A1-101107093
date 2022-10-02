@@ -97,5 +97,27 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 0);
     }
 
-    
+    @Test
+    public void row51() {
+        player.setFortuneCard(coin);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.PARROT,
+                DieSides.PARROT, DieSides.GOLD, DieSides.GOLD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD)));
+
+        player.reRollAtIndex(1, DieSides.GOLD);
+        player.reRollAtIndex(2, DieSides.GOLD);
+
+        assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.GOLD,
+                DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD));
+        player.reRollAtIndex(5, DieSides.GOLD);
+        player.reRollAtIndex(6, DieSides.GOLD);
+        player.reRollAtIndex(7, DieSides.GOLD);
+
+        assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.GOLD,
+                DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD));
+
+        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 4800);
+    }
 }
