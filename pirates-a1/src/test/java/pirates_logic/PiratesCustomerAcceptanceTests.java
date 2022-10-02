@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import constants.DieSides;
 import fortune_cards.Captain;
+import fortune_cards.DiamondCard;
 import fortune_cards.GoldCard;
 import player.Player;
 
@@ -20,6 +21,7 @@ public class PiratesCustomerAcceptanceTests {
             DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE));
 
     private GoldCard coin = new GoldCard();
+    private DiamondCard diamond = new DiamondCard();
     private Captain captain = new Captain();
 
     /**
@@ -202,5 +204,20 @@ public class PiratesCustomerAcceptanceTests {
                 DieSides.DIAMOND, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL));
 
         assertEquals(500, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+    }
+
+    @Test
+    public void row57() {
+        player.setFortuneCard(diamond);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.GOLD, DieSides.GOLD,
+                DieSides.GOLD, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.GOLD, DieSides.SKULL)));
+        assertEquals(Arrays.asList(DieSides.GOLD, DieSides.GOLD,
+                DieSides.GOLD, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.GOLD, DieSides.SKULL),
+                player.getRoll());
+
+        assertEquals(700, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 }
