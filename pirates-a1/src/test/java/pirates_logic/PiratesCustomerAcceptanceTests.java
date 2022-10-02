@@ -47,6 +47,9 @@ public class PiratesCustomerAcceptanceTests {
         player.reRollAtIndex(5, DieSides.SKULL);
         player.reRollAtIndex(6, DieSides.SKULL);
         player.reRollAtIndex(7, DieSides.SWORD);
+        
+        assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.PARROT, DieSides.PARROT,
+                DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL, DieSides.SWORD));
 
         assertEquals(gameLogic.scoreTurn(player.getRoll(), coin), 0);
     }
