@@ -114,7 +114,7 @@ public class GameServer implements Runnable {
             int score_player = playerServer.get(currentPlayer).receiveScoreFromCurrentPlayer();
             System.out.println("SERVER: Score = " + score_player);
             players.get(currentPlayer).setScore(score_player);
-            playerServer.get(currentPlayer).sendRoundStatus(new PirateStatus(null, GameStatus.PLAY));
+            playerServer.get(currentPlayer).sendRoundStatus(new PirateStatus(null, GameStatus.WAITING));
 
             roundsPlayed++;
             currentPlayer++;
