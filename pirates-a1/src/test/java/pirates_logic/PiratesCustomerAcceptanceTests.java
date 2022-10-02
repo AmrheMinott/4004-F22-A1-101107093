@@ -25,19 +25,19 @@ public class PiratesCustomerAcceptanceTests {
      */
     @Test
     public void deathWithThreeSkullsOnFristRoll() {
-
+        player.setFortuneCard(coin);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
 
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
                 DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY)));
 
-        assertEquals(gameLogic.scoreTurn(player.getRoll(), coin), 0);
+        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 0);
     }
 
     @Test
     public void row46() {
-
+        player.setFortuneCard(coin);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
 
@@ -47,16 +47,16 @@ public class PiratesCustomerAcceptanceTests {
         player.reRollAtIndex(5, DieSides.SKULL);
         player.reRollAtIndex(6, DieSides.SKULL);
         player.reRollAtIndex(7, DieSides.SWORD);
-        
+
         assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.PARROT, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL, DieSides.SWORD));
 
-        assertEquals(gameLogic.scoreTurn(player.getRoll(), coin), 0);
+        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 0);
     }
 
     @Test
     public void row47() {
-
+        player.setFortuneCard(coin);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
 
@@ -69,12 +69,12 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SWORD));
 
-        assertEquals(gameLogic.scoreTurn(player.getRoll(), coin), 0);
+        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 0);
     }
 
     @Test
     public void row49() {
-
+        player.setFortuneCard(coin);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
 
@@ -94,6 +94,8 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY));
 
-        assertEquals(gameLogic.scoreTurn(player.getRoll(), coin), 0);
+        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 0);
     }
+
+    
 }

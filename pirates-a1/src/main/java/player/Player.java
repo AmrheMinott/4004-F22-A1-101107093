@@ -266,4 +266,12 @@ public class Player implements Serializable {
         this.dieRolled.set(i, dieSide);
     }
 
+    public void setFortuneCard(FortuneCard fortuneCard) {
+        this.fortuneCard = fortuneCard;
+    }
+
+    public FortuneCard getFortuneCard() {
+        return this.fortuneCard;
+    }
+
 }
