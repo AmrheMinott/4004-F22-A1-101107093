@@ -14,6 +14,7 @@ import constants.DieSides;
 import constants.GameStatus;
 import constants.ServerConstants;
 import fortune_cards.FortuneCard;
+import game_server.PirateStatus;
 import pirates_logic.GameLogic;
 
 public class Player implements Serializable {
@@ -42,19 +43,20 @@ public class Player implements Serializable {
         this.currentScore = score;
     }
 
-    public void startGame() {
+    public void startGame() throws ClassNotFoundException {
         while (true) {
-            int status = clientConnection.receiveRoundStatus();
+            PirateStatus status = clientConnection.receiveRoundStatus();
+            this.fortuneCard = status.getFortuneCard();
             System.out.println("Status" + status);
-            if (status == GameStatus.STOP) {
+            if (status.getMessage() == GameStatus.STOP) {
                 break;
             }
 
-            if (status == GameStatus.WAITING) {
+            if (status.getMessage() == GameStatus.WAITING) {
                 System.out.println("HERE EWAITING");
             }
 
-            if (status == GameStatus.PLAY) {
+            if (status.getMessage() == GameStatus.PLAY) {
                 System.out.println("STATUS " + status + " hasRoundPlayed " + hasRoundPlayed);
                 playRound();
                 System.out.println("HELLO");
@@ -222,17 +224,18 @@ public class Player implements Serializable {
          * going forward.
          * 
          * @return int - the value of the status from the Server
+         * @throws ClassNotFoundException 
          */
-        public int receiveRoundStatus() {
+        public PirateStatus receiveRoundStatus() throws ClassNotFoundException {
             try {
                 // dIn.readObject();
-                return objectInputStream.readInt();
+                return (PirateStatus) objectInputStream.readObject();
 
             } catch (IOException e) {
                 System.out.println("Score sheet not received");
                 e.printStackTrace();
             }
-            return 0;
+            return null;
         }
 
         public void terminate() {
@@ -245,7 +248,7 @@ public class Player implements Serializable {
 
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ClassNotFoundException {
         playerNameScanner = new Scanner(System.in);
         System.out.println("Enter Name!");
         String name = playerNameScanner.nextLine();
