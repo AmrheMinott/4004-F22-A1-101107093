@@ -24,11 +24,8 @@ public class PiratesCustomerAcceptanceTests {
     private DiamondCard diamond = new DiamondCard();
     private Captain captain = new Captain();
 
-    /**
-     * Row 45 of SpreadSheet
-     */
     @Test
-    public void deathWithThreeSkullsOnFristRoll() {
+    public void row45() {
         player.setFortuneCard(coin);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
@@ -36,7 +33,7 @@ public class PiratesCustomerAcceptanceTests {
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
                 DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY)));
 
-        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 0);
+        assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
     @Test
@@ -48,14 +45,14 @@ public class PiratesCustomerAcceptanceTests {
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.PARROT, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD)));
 
-        player.reRollAtIndex(5, DieSides.SKULL);
-        player.reRollAtIndex(6, DieSides.SKULL);
-        player.reRollAtIndex(7, DieSides.SWORD);
+        player.setRollAtIndex(5, DieSides.SKULL);
+        player.setRollAtIndex(6, DieSides.SKULL);
+        player.setRollAtIndex(7, DieSides.SWORD);
 
         assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.PARROT, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL, DieSides.SWORD));
 
-        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 0);
+        assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
     @Test
@@ -67,13 +64,13 @@ public class PiratesCustomerAcceptanceTests {
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.SWORD, DieSides.SWORD)));
 
-        player.reRollAtIndex(6, DieSides.SKULL);
-        player.reRollAtIndex(7, DieSides.SWORD);
+        player.setRollAtIndex(6, DieSides.SKULL);
+        player.setRollAtIndex(7, DieSides.SWORD);
 
         assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SWORD));
 
-        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 0);
+        assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
     @Test
@@ -85,20 +82,20 @@ public class PiratesCustomerAcceptanceTests {
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD)));
 
-        player.reRollAtIndex(5, DieSides.SKULL);
-        player.reRollAtIndex(6, DieSides.MONKEY);
-        player.reRollAtIndex(7, DieSides.MONKEY);
+        player.setRollAtIndex(5, DieSides.SKULL);
+        player.setRollAtIndex(6, DieSides.MONKEY);
+        player.setRollAtIndex(7, DieSides.MONKEY);
 
         assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.MONKEY, DieSides.MONKEY));
 
-        player.reRollAtIndex(6, DieSides.SKULL);
-        player.reRollAtIndex(7, DieSides.MONKEY);
+        player.setRollAtIndex(6, DieSides.SKULL);
+        player.setRollAtIndex(7, DieSides.MONKEY);
 
         assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY));
 
-        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 0);
+        assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
     @Test
@@ -110,19 +107,19 @@ public class PiratesCustomerAcceptanceTests {
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.PARROT,
                 DieSides.PARROT, DieSides.GOLD, DieSides.GOLD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD)));
 
-        player.reRollAtIndex(1, DieSides.GOLD);
-        player.reRollAtIndex(2, DieSides.GOLD);
+        player.setRollAtIndex(1, DieSides.GOLD);
+        player.setRollAtIndex(2, DieSides.GOLD);
 
         assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.GOLD,
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD));
-        player.reRollAtIndex(5, DieSides.GOLD);
-        player.reRollAtIndex(6, DieSides.GOLD);
-        player.reRollAtIndex(7, DieSides.GOLD);
+        player.setRollAtIndex(5, DieSides.GOLD);
+        player.setRollAtIndex(6, DieSides.GOLD);
+        player.setRollAtIndex(7, DieSides.GOLD);
 
         assertEquals(player.getRoll(), Arrays.asList(DieSides.SKULL, DieSides.GOLD,
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD));
 
-        assertEquals(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()), 4800);
+        assertEquals(4800, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
     @Test
@@ -150,8 +147,8 @@ public class PiratesCustomerAcceptanceTests {
 
         gameLogic.rollDiePair(3, 4, dieRolled);
 
-        player.reRollAtIndex(2, DieSides.MONKEY);
-        player.reRollAtIndex(3, DieSides.PARROT);
+        player.setRollAtIndex(2, DieSides.MONKEY);
+        player.setRollAtIndex(3, DieSides.PARROT);
 
         assertEquals(player.getRoll(), Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
                 DieSides.MONKEY, DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SWORD, DieSides.SWORD));

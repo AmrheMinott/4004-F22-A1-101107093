@@ -265,8 +265,8 @@ public class Player implements Serializable {
         return this.dieRolled;
     }
 
-    public void reRollAtIndex(int i, String dieSide) {
-        this.dieRolled.set(i, dieSide);
+    public void setRollAtIndex(int index, String dieSide) {
+        this.dieRolled.set(index, dieSide);
     }
 
     public void setFortuneCard(FortuneCard fortuneCard) {
