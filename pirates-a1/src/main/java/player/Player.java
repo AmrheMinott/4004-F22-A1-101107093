@@ -92,6 +92,30 @@ public class Player implements Serializable {
                 break;
             }
             playerOption = Integer.parseInt(playerInput.nextLine());
+            if (playerOption == RE_ROLL_COMMAND) {
+                while (true) {
+                    game.printPlayerDice(dieRolled);
+
+                    System.out.println("Select the die you wish to re-roll: Format -> 1,2...");
+                    String[] die = (playerInput.next()).replaceAll("\\s", "").split(",");
+                    int index_1 = Integer.valueOf(die[0]) - 1;
+                    int index_2 = Integer.valueOf(die[1]) - 1;
+                    try {
+                        if (dieRolled.get(index_1) == DieSides.SKULL
+                                || dieRolled.get(index_2) == DieSides.SKULL) {
+                            System.out.println("You selected a Skull and Skulls can not be re rolled.");
+                            continue;
+                        }
+                    } catch (NumberFormatException e) {
+                        continue;
+                    }
+
+                    game.rollDiePair(index_1 + 1, index_2 + 1, dieRolled);
+                    System.out.println("New Roll");
+                    game.printPlayerDice(dieRolled);
+                    break;
+                }
+            }
             if (hasPlayerDied()) {
                 return;
             }
@@ -201,7 +225,7 @@ public class Player implements Serializable {
          */
         public int receiveRoundStatus() {
             try {
-//				dIn.readObject();
+                // dIn.readObject();
                 return objectInputStream.readInt();
 
             } catch (IOException e) {
@@ -236,6 +260,10 @@ public class Player implements Serializable {
 
     public ArrayList<String> getRoll() {
         return this.dieRolled;
+    }
+
+    public void reRollAtIndex(int i, String dieSide) {
+        this.dieRolled.set(i, dieSide);
     }
 
 }
