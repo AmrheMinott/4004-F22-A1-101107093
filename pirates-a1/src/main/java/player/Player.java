@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 import constants.DieSides;
@@ -43,7 +44,22 @@ public class Player implements Serializable {
 
     public void startGame() {
         while (true) {
-            
+            int status = clientConnection.receiveRoundStatus();
+            System.out.println("Status" + status);
+            if (status == GameStatus.STOP) {
+                break;
+            }
+
+            if (status == GameStatus.WAITING) {
+                System.out.println("HERE EWAITING");
+            }
+
+            if (status == GameStatus.PLAY) {
+                System.out.println("STATUS " + status + " hasRoundPlayed " + hasRoundPlayed);
+                playRound();
+                System.out.println("HELLO");
+                clientConnection.sendScores();
+            }
 
         }
     }
@@ -54,7 +70,41 @@ public class Player implements Serializable {
 
     @SuppressWarnings("resource")
     public void playRound() {
+        Scanner playerInput = new Scanner(System.in);
+        System.out.println("Start of " + this.playerName + " Turn. Roll All 8 dice.");
+        game.rollAllEightDie(dieRolled);
 
+        if (hasPlayerDied()) {
+            return;
+        }
+
+        game.printPlayerDice(dieRolled);
+
+        // Has player died on first Roll Or gone to Island of the Dead.
+
+        boolean exit = true;
+        // this is where the main game play will be conducted by the player
+        while (exit) {
+            menuOption();
+            int playerOption = 0;
+            if (!playerInput.hasNextLine()) {
+                System.out.println("UMMMM");
+                break;
+            }
+            playerOption = Integer.parseInt(playerInput.nextLine());
+            if (hasPlayerDied()) {
+                return;
+            }
+            if (playerOption == END_PLAYER_ROUND) {
+                hasRoundPlayed = true;
+                exit = false;
+                System.out.println("END TURN COMMAND");
+                currentScore += game.scoreTurn(dieRolled, fortuneCard);
+                return;
+            }
+        }
+
+        playerInput.close();
     }
 
     public Player getPlayer() {
@@ -65,16 +115,35 @@ public class Player implements Serializable {
         clientConnection.terminate();
     }
 
+    private boolean hasPlayerDied() {
+        int skullCount = 0;
+        for (String dieFace : dieRolled) {
+            if (dieFace.equals(DieSides.SKULL)) {
+                skullCount++;
+            }
+        }
+        if (skullCount >= 3) {
+            return true;
+        }
+        return false;
+    }
+
+    private void menuOption() {
+        System.out.println("\n\n\n");
+        System.out.println(RE_ROLL_COMMAND + " -> Re roll die of choice.... FORMAT 1,2");
+        System.out.println(END_PLAYER_ROUND + " -> End turn!");
+    }
+
     private class Client {
         Socket socket;
-        private ObjectInputStream dIn;
-        private ObjectOutputStream dOut;
+        private ObjectInputStream objectInputStream;
+        private ObjectOutputStream objectOutputStream;
 
         public Client() {
             try {
                 socket = new Socket("localhost", ServerConstants.GAME_SERVER_PORT_NUMBER);
-                dOut = new ObjectOutputStream(socket.getOutputStream());
-                dIn = new ObjectInputStream(socket.getInputStream());
+                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                objectInputStream = new ObjectInputStream(socket.getInputStream());
 
                 sendPlayer();
 
@@ -86,8 +155,8 @@ public class Player implements Serializable {
         public Client(int portId) {
             try {
                 socket = new Socket("localhost", ServerConstants.GAME_SERVER_PORT_NUMBER);
-                dOut = new ObjectOutputStream(socket.getOutputStream());
-                dIn = new ObjectInputStream(socket.getInputStream());
+                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                objectInputStream = new ObjectInputStream(socket.getInputStream());
 
                 sendPlayer();
 
@@ -101,8 +170,8 @@ public class Player implements Serializable {
          */
         public void sendPlayer() {
             try {
-                dOut.writeObject(getPlayer());
-                dOut.flush();
+                objectOutputStream.writeObject(getPlayer());
+                objectOutputStream.flush();
             } catch (IOException e) {
                 System.out.println("ERROR - Player failed to send!");
                 e.printStackTrace();
@@ -115,8 +184,8 @@ public class Player implements Serializable {
         public void sendScores() {
             try {
 
-                dOut.writeInt(currentScore);
-                dOut.flush();
+                objectOutputStream.writeInt(currentScore);
+                objectOutputStream.flush();
 
             } catch (IOException e) {
                 System.out.println("Score sheet not received");
@@ -133,7 +202,7 @@ public class Player implements Serializable {
         public int receiveRoundStatus() {
             try {
 //				dIn.readObject();
-                return dIn.readInt();
+                return objectInputStream.readInt();
 
             } catch (IOException e) {
                 System.out.println("Score sheet not received");
@@ -159,6 +228,14 @@ public class Player implements Serializable {
         Player player = new Player(name, (int) (Math.random() * 98764321));
 
         player.startGame();
+    }
+
+    public void setRoll(ArrayList<String> dieRolled) {
+        Collections.copy(this.dieRolled, dieRolled);
+    }
+
+    public ArrayList<String> getRoll() {
+        return this.dieRolled;
     }
 
 }

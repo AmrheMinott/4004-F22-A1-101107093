@@ -24,118 +24,138 @@ import fortune_cards.SeaBattle;
  */
 public class GameLogic implements Serializable {
 
-	private static final long serialVersionUID = -6515253901269225393L;
-	private Map<Integer, Integer> ofAKindScoreMap = Map.ofEntries(entry(3, 100), entry(4, 200), entry(5, 500),
-			entry(6, 1000), entry(7, 2000), entry(8, 4000), entry(9, 4000));
-	private HashMap<String, Integer> diceSideMap = new HashMap<String, Integer>();
-	private final int MAX_NUMBER_OF_SKULLS = 3;
-	private final int DIAMOND_AND_GOLD_MULTIPLIER = 100;
-	private boolean hasPlayerDied = false;
-	private boolean hasWonAtSea = false;
+    private static final long serialVersionUID = -6515253901269225393L;
+    private Map<Integer, Integer> ofAKindScoreMap = Map.ofEntries(entry(3, 100), entry(4, 200), entry(5, 500),
+            entry(6, 1000), entry(7, 2000), entry(8, 4000), entry(9, 4000));
+    private HashMap<String, Integer> diceSideMap = new HashMap<String, Integer>();
+    private final int MAX_NUMBER_OF_SKULLS = 3;
+    private final int DIAMOND_AND_GOLD_MULTIPLIER = 100;
+    private boolean hasPlayerDied = false;
+    private boolean hasWonAtSea = false;
 
-	private ArrayList<String> diceFaces = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.GOLD,
-			DieSides.SWORD, DieSides.PARROT, DieSides.DIAMOND));
+    private ArrayList<String> diceFaces = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.GOLD,
+            DieSides.SWORD, DieSides.PARROT, DieSides.DIAMOND));
 
-	public int scoreTurn(ArrayList<String> dice, FortuneCard card) {
-		resetDiceSideMap();
+    public int scoreTurn(ArrayList<String> dice, FortuneCard card) {
+        resetDiceSideMap();
 
-		if (card instanceof DiamondCard) {
-			dice.add(DieSides.DIAMOND);
-		}
+        if (card instanceof DiamondCard) {
+            dice.add(DieSides.DIAMOND);
+        }
 
-		if (card instanceof GoldCard) {
-			dice.add(DieSides.GOLD);
-		}
+        if (card instanceof GoldCard) {
+            dice.add(DieSides.GOLD);
+        }
 
-		populateDiceSideMap(dice);
+        populateDiceSideMap(dice);
 
-		if (diceSideMap.get(DieSides.SKULL) >= MAX_NUMBER_OF_SKULLS) {
-			if (card instanceof Chest) {
-				resetDiceSideMap();
-				populateDiceSideMap(((Chest) card).getChestContent());
-				((Chest) card).emptyChest();
-			} else {
-				return 0;
-			}
-			hasPlayerDied = true;
-		}
+        if (diceSideMap.get(DieSides.SKULL) >= MAX_NUMBER_OF_SKULLS) {
+            if (card instanceof Chest) {
+                resetDiceSideMap();
+                populateDiceSideMap(((Chest) card).getChestContent());
+                ((Chest) card).emptyChest();
+            } else {
+                return 0;
+            }
+            hasPlayerDied = true;
+        }
 
-		if (card instanceof Chest) {
-			populateDiceSideMap(((Chest) card).getChestContent());
-		}
+        if (card instanceof Chest) {
+            populateDiceSideMap(((Chest) card).getChestContent());
+        }
 
-		int final_score = 0;
+        int final_score = 0;
 
-		if (card instanceof SeaBattle) {
-			if (diceSideMap.get(DieSides.SWORD) >= ((SeaBattle) card).getRequiredNumberOfSwords()) {
-				final_score += ((SeaBattle) card).getAdditionalPoints();
-				hasWonAtSea = true;
-			} else {
-				return -((SeaBattle) card).getAdditionalPoints();
-			}
-		}
+        if (card instanceof SeaBattle) {
+            if (diceSideMap.get(DieSides.SWORD) >= ((SeaBattle) card).getRequiredNumberOfSwords()) {
+                final_score += ((SeaBattle) card).getAdditionalPoints();
+                hasWonAtSea = true;
+            } else {
+                return -((SeaBattle) card).getAdditionalPoints();
+            }
+        }
 
-		if (card instanceof MonkeyBusiness) {
-			int total = (diceSideMap.get(DieSides.MONKEY) + diceSideMap.get(DieSides.PARROT));
-			diceSideMap.put(DieSides.MONKEY, total);
-			diceSideMap.put(DieSides.PARROT, 0);
-		}
+        if (card instanceof MonkeyBusiness) {
+            int total = (diceSideMap.get(DieSides.MONKEY) + diceSideMap.get(DieSides.PARROT));
+            diceSideMap.put(DieSides.MONKEY, total);
+            diceSideMap.put(DieSides.PARROT, 0);
+        }
 
-		for (Integer value : diceSideMap.values()) {
-			if (ofAKindScoreMap.get(value) != null) {
-				final_score += ofAKindScoreMap.get(value).intValue();
-			}
-		}
+        for (Integer value : diceSideMap.values()) {
+            if (ofAKindScoreMap.get(value) != null) {
+                final_score += ofAKindScoreMap.get(value).intValue();
+            }
+        }
 
-		int POINTS_DIAMOND_COIN = diceSideMap.get(DieSides.DIAMOND) * DIAMOND_AND_GOLD_MULTIPLIER;
-		int POINTS_GOLD_COIN = diceSideMap.get(DieSides.GOLD) * DIAMOND_AND_GOLD_MULTIPLIER;
+        int POINTS_DIAMOND_COIN = diceSideMap.get(DieSides.DIAMOND) * DIAMOND_AND_GOLD_MULTIPLIER;
+        int POINTS_GOLD_COIN = diceSideMap.get(DieSides.GOLD) * DIAMOND_AND_GOLD_MULTIPLIER;
 
-		if (hasEarnedBonus() && !hasPlayerDied) {
-			final_score += 500;
-		}
+        if (hasEarnedBonus() && !hasPlayerDied) {
+            final_score += 500;
+        }
 
-		final_score += (POINTS_DIAMOND_COIN + POINTS_GOLD_COIN);
-		if (card instanceof Captain) {
-			final_score = final_score * 2;
-		}
+        final_score += (POINTS_DIAMOND_COIN + POINTS_GOLD_COIN);
+        if (card instanceof Captain) {
+            final_score = final_score * 2;
+        }
 
-		hasWonAtSea = false;
-		hasPlayerDied = false;
-		return final_score > 0 ? final_score : 0;
-	}
+        hasWonAtSea = false;
+        hasPlayerDied = false;
+        return final_score > 0 ? final_score : 0;
+    }
 
-	private boolean hasEarnedBonus() {
-		if (diceSideMap.get(DieSides.SKULL) > 0) {
-			return false;
-		}
-		if (!hasWonAtSea) {
-			if (diceSideMap.get(DieSides.SWORD) == 1 || diceSideMap.get(DieSides.SWORD) == 2) {
-				return false;
-			}
-		}
+    private boolean hasEarnedBonus() {
+        if (diceSideMap.get(DieSides.SKULL) > 0) {
+            return false;
+        }
+        if (!hasWonAtSea) {
+            if (diceSideMap.get(DieSides.SWORD) == 1 || diceSideMap.get(DieSides.SWORD) == 2) {
+                return false;
+            }
+        }
 
-		if (diceSideMap.get(DieSides.MONKEY) == 1 || diceSideMap.get(DieSides.MONKEY) == 2) {
-			return false;
-		}
-		if (diceSideMap.get(DieSides.PARROT) == 1 || diceSideMap.get(DieSides.PARROT) == 2) {
-			return false;
-		}
+        if (diceSideMap.get(DieSides.MONKEY) == 1 || diceSideMap.get(DieSides.MONKEY) == 2) {
+            return false;
+        }
+        if (diceSideMap.get(DieSides.PARROT) == 1 || diceSideMap.get(DieSides.PARROT) == 2) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	private void populateDiceSideMap(ArrayList<String> dice) {
-		for (String dieSide : dice) {
-			diceSideMap.put(dieSide, diceSideMap.get(dieSide) + 1);
-		}
-	}
+    private void populateDiceSideMap(ArrayList<String> dice) {
+        for (String dieSide : dice) {
+            diceSideMap.put(dieSide, diceSideMap.get(dieSide) + 1);
+        }
+    }
 
-	private void resetDiceSideMap() {
-		diceSideMap.put(DieSides.DIAMOND, 0);
-		diceSideMap.put(DieSides.GOLD, 0);
-		diceSideMap.put(DieSides.MONKEY, 0);
-		diceSideMap.put(DieSides.PARROT, 0);
-		diceSideMap.put(DieSides.SKULL, 0);
-		diceSideMap.put(DieSides.SWORD, 0);
-	}
+    private void resetDiceSideMap() {
+        diceSideMap.put(DieSides.DIAMOND, 0);
+        diceSideMap.put(DieSides.GOLD, 0);
+        diceSideMap.put(DieSides.MONKEY, 0);
+        diceSideMap.put(DieSides.PARROT, 0);
+        diceSideMap.put(DieSides.SKULL, 0);
+        diceSideMap.put(DieSides.SWORD, 0);
+    }
+
+    public void printPlayerDice(ArrayList<String> dice) {
+        System.out.println(
+                "1-> " + dice.get(0) + "\t 2-> " + dice.get(1) + "\t 3-> " + dice.get(2) + "\t 4-> " + dice.get(3));
+        System.out.println(
+                "5-> " + dice.get(4) + "\t 6-> " + dice.get(5) + "\t 7-> " + dice.get(6) + "\t 8-> " + dice.get(7));
+    }
+
+    public void rollAllEightDie(ArrayList<String> dice) {
+        rollDiePair(1, 2, dice);
+        rollDiePair(3, 4, dice);
+        rollDiePair(5, 6, dice);
+        rollDiePair(7, 8, dice);
+    }
+
+    public ArrayList<String> rollDiePair(int index_1, int index_2, ArrayList<String> dice) {
+        dice.set(index_1 - 1, diceFaces.get((int) (Math.random() * 6)));
+        dice.set(index_2 - 1, diceFaces.get((int) (Math.random() * 6)));
+        return dice;
+    }
 }
