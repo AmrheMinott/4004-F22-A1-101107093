@@ -182,7 +182,7 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(player.getRoll(), Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
                 DieSides.PARROT, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL));
 
-        gameLogic.rollDiePair(6, 4, dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
 
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
                 DieSides.PARROT, DieSides.MONKEY, DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL)));
