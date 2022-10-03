@@ -136,10 +136,12 @@ public class GameLogic implements Serializable {
     }
 
     public void printPlayerDice(ArrayList<String> dice) {
-        System.out.println(
-                "1-> " + dice.get(0) + "\t 2-> " + dice.get(1) + "\t 3-> " + dice.get(2) + "\t 4-> " + dice.get(3));
-        System.out.println(
-                "5-> " + dice.get(4) + "\t 6-> " + dice.get(5) + "\t 7-> " + dice.get(6) + "\t 8-> " + dice.get(7));
+        for (int i = 0; i < dice.size(); i++) {
+            if (i == 4)
+                System.out.println();
+            System.out.print(i + 1 + "-> " + dice.get(i) + "\t ");
+        }
+        System.out.println();
     }
 
     public void rollAllEightDie(ArrayList<String> dice) {
