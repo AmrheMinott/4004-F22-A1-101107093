@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import constants.DieSides;
 import constants.GameStatus;
+import constants.PlayerCommand;
 import constants.ServerConstants;
 import fortune_cards.FortuneCard;
 import fortune_cards.Sorceress;
@@ -24,9 +25,6 @@ public class Player implements Serializable {
     private String playerName = "";
     private boolean hasRoundPlayed = false;
     private int currentScore = 0;
-    private final int END_PLAYER_ROUND = 2;
-    private final int RE_ROLL_COMMAND = 1;
-    private final int ACTIVATE_SORCERER_COMMAND = 3;
 
     private FortuneCard fortuneCard = new FortuneCard();
     private Client clientConnection;
@@ -98,7 +96,7 @@ public class Player implements Serializable {
                 break;
             }
             playerOption = Integer.parseInt(playerInput.nextLine());
-            if (playerOption == RE_ROLL_COMMAND) {
+            if (playerOption == PlayerCommand.RE_ROLL_COMMAND) {
                 while (true) {
                     game.printPlayerDice(dieRolled);
 
@@ -127,7 +125,7 @@ public class Player implements Serializable {
                     break;
                 }
             }
-            if (playerOption == ACTIVATE_SORCERER_COMMAND) {
+            if (playerOption == PlayerCommand.ACTIVATE_SORCERER_COMMAND) {
                 activateSorceress();
                 game.printPlayerDice(dieRolled);
             }
@@ -136,7 +134,7 @@ public class Player implements Serializable {
                 // drops it from 3 to 2 skulls
                 return;
             }
-            if (playerOption == END_PLAYER_ROUND) {
+            if (playerOption == PlayerCommand.END_PLAYER_ROUND) {
                 hasRoundPlayed = true;
                 exit = false;
                 System.out.println("END TURN COMMAND");
@@ -171,12 +169,12 @@ public class Player implements Serializable {
 
     private void menuOption() {
         System.out.println("\n\n\n");
-        System.out.println(RE_ROLL_COMMAND + " -> Re roll die of choice.... FORMAT 1 2");
-        System.out.println(END_PLAYER_ROUND + " -> End turn!");
+        System.out.println(PlayerCommand.RE_ROLL_COMMAND + " -> Re roll die of choice.... FORMAT 1 2");
+        System.out.println(PlayerCommand.END_PLAYER_ROUND + " -> End turn!");
 
         if (this.fortuneCard instanceof Sorceress) {
             if (!((Sorceress) this.fortuneCard).getHasBeenActivated() && playerHasSkulls()) {
-                System.out.println(ACTIVATE_SORCERER_COMMAND + " -> Activate Sorcerer Card");
+                System.out.println(PlayerCommand.ACTIVATE_SORCERER_COMMAND + " -> Activate Sorcerer Card");
             }
         }
     }
@@ -301,8 +299,7 @@ public class Player implements Serializable {
     public boolean activateSorceress() {
         if (!((Sorceress) this.fortuneCard).getHasBeenActivated() && playerHasSkulls()) {
             setRollAtIndex(dieRolled.indexOf(DieSides.SKULL),
-                    Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.GOLD,
-                            DieSides.SWORD, DieSides.PARROT, DieSides.DIAMOND).get((int) (Math.random() * 6)));
+                    DieSides.DICE_FACES.get((int) (Math.random() * 6)));
             ((Sorceress) this.fortuneCard).activate();
             return true;
         }

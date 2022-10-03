@@ -4,7 +4,6 @@ import static java.util.Map.entry;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,9 +31,6 @@ public class GameLogic implements Serializable {
     private final int DIAMOND_AND_GOLD_MULTIPLIER = 100;
     private boolean hasPlayerDied = false;
     private boolean hasWonAtSea = false;
-
-    private ArrayList<String> diceFaces = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.GOLD,
-            DieSides.SWORD, DieSides.PARROT, DieSides.DIAMOND));
 
     public int scoreTurn(ArrayList<String> dice, FortuneCard card) {
         resetDiceSideMap();
@@ -154,8 +150,8 @@ public class GameLogic implements Serializable {
     }
 
     public ArrayList<String> rollDiePair(int index_1, int index_2, ArrayList<String> dice) {
-        dice.set(index_1 - 1, diceFaces.get((int) (Math.random() * 6)));
-        dice.set(index_2 - 1, diceFaces.get((int) (Math.random() * 6)));
+        dice.set(index_1 - 1, DieSides.DICE_FACES.get((int) (Math.random() * 6)));
+        dice.set(index_2 - 1, DieSides.DICE_FACES.get((int) (Math.random() * 6)));
         return dice;
     }
 }

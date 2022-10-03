@@ -422,7 +422,5 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.SKULL,
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
                 player.getRoll());
-
-        assertEquals(5400, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 }
