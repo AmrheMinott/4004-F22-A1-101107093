@@ -11,6 +11,7 @@ import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.DiamondCard;
 import fortune_cards.GoldCard;
+import fortune_cards.Sorceress;
 import player.Player;
 
 public class PiratesCustomerAcceptanceTests {

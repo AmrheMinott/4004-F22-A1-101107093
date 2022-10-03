@@ -8,7 +8,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import constants.DieSides;
-import pirates_logic.Sorceress;
+import fortune_cards.Sorceress;
 
 public class PlayerTest {
 
