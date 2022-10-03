@@ -14,6 +14,7 @@ import constants.DieSides;
 import constants.GameStatus;
 import constants.ServerConstants;
 import fortune_cards.FortuneCard;
+import fortune_cards.Sorceress;
 import game_server.PirateStatus;
 import pirates_logic.GameLogic;
 
@@ -25,6 +26,7 @@ public class Player implements Serializable {
     private int currentScore = 0;
     private final int END_PLAYER_ROUND = 2;
     private final int RE_ROLL_COMMAND = 1;
+    private final int ACTIVATE_SORCERER_COMMAND = 3;
 
     private FortuneCard fortuneCard = new FortuneCard();
     private Client clientConnection;
@@ -76,6 +78,8 @@ public class Player implements Serializable {
         System.out.println("Start of " + this.playerName + " Turn. Roll All 8 dice.");
         game.rollAllEightDie(dieRolled);
 
+        // handle edge case where the player rolled 3 skulls but activates Sorceress and
+        // drops it from 3 to 2 skulls
         if (hasPlayerDied()) {
             return;
         }
@@ -98,14 +102,19 @@ public class Player implements Serializable {
                 while (true) {
                     game.printPlayerDice(dieRolled);
 
-                    System.out.println("Select the die you wish to re-roll: Format -> 1,2...");
-                    String[] die = (playerInput.next()).replaceAll("\\s", "").split(",");
+                    System.out.println("Select the die you wish to re-roll: Format -> 1 2...");
+                    String selectedDies = playerInput.nextLine();
+
+                    String[] die = selectedDies.split(" ");
+                    if (die.length != 2)
+                        continue;
+
                     int index_1 = Integer.valueOf(die[0]) - 1;
                     int index_2 = Integer.valueOf(die[1]) - 1;
                     try {
                         if (dieRolled.get(index_1) == DieSides.SKULL
                                 || dieRolled.get(index_2) == DieSides.SKULL) {
-                            System.out.println("You selected a Skull and Skulls can not be re rolled.");
+                            System.out.println("You selected a Skull, and Skulls can not be re rolled.");
                             continue;
                         }
                     } catch (NumberFormatException e) {
@@ -118,7 +127,13 @@ public class Player implements Serializable {
                     break;
                 }
             }
+            if (playerOption == ACTIVATE_SORCERER_COMMAND) {
+                activateSorceress();
+                game.printPlayerDice(dieRolled);
+            }
             if (hasPlayerDied()) {
+                // handle edge case where the player rolled 3 skulls but activates Sorceress and
+                // drops it from 3 to 2 skulls
                 return;
             }
             if (playerOption == END_PLAYER_ROUND) {
@@ -156,8 +171,14 @@ public class Player implements Serializable {
 
     private void menuOption() {
         System.out.println("\n\n\n");
-        System.out.println(RE_ROLL_COMMAND + " -> Re roll die of choice.... FORMAT 1,2");
+        System.out.println(RE_ROLL_COMMAND + " -> Re roll die of choice.... FORMAT 1 2");
         System.out.println(END_PLAYER_ROUND + " -> End turn!");
+
+        if (this.fortuneCard instanceof Sorceress) {
+            if (!((Sorceress) this.fortuneCard).getHasBeenActivated() && playerHasSkulls()) {
+                System.out.println(ACTIVATE_SORCERER_COMMAND + " -> Activate Sorcerer Card");
+            }
+        }
     }
 
     private class Client {
@@ -224,7 +245,7 @@ public class Player implements Serializable {
          * going forward.
          * 
          * @return int - the value of the status from the Server
-         * @throws ClassNotFoundException 
+         * @throws ClassNotFoundException
          */
         public PirateStatus receiveRoundStatus() throws ClassNotFoundException {
             try {
@@ -275,6 +296,21 @@ public class Player implements Serializable {
 
     public FortuneCard getFortuneCard() {
         return this.fortuneCard;
+    }
+
+    public boolean activateSorceress() {
+        if (!((Sorceress) this.fortuneCard).getHasBeenActivated() && playerHasSkulls()) {
+            setRollAtIndex(dieRolled.indexOf(DieSides.SKULL),
+                    Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.GOLD,
+                            DieSides.SWORD, DieSides.PARROT, DieSides.DIAMOND).get((int) (Math.random() * 6)));
+            ((Sorceress) this.fortuneCard).activate();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean playerHasSkulls() {
+        return dieRolled.contains(DieSides.SKULL);
     }
 
 }

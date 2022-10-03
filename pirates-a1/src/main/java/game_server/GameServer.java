@@ -19,6 +19,7 @@ import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattleTypeOne;
 import fortune_cards.SeaBattleTypeThree;
 import fortune_cards.SeaBattleTypeTwo;
+import fortune_cards.Sorceress;
 import pirates_logic.GameLogic;
 import player.Player;
 
@@ -47,6 +48,7 @@ public class GameServer implements Runnable {
             deck.add(new MonkeyBusiness());
             deck.add(new DiamondCard());
             deck.add(new GoldCard());
+            deck.add(new Sorceress());
         }
         for (int i = 0; i < 2; i++) {
             deck.add(new SeaBattleTypeOne());
