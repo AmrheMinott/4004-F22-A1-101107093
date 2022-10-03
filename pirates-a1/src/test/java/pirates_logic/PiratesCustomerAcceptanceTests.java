@@ -404,6 +404,21 @@ public class PiratesCustomerAcceptanceTests {
     }
 
     @Test
+    public void row65() {
+        player.setFortuneCard(diamond);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.GOLD, DieSides.GOLD,
+                DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD)));
+        assertEquals(Arrays.asList(DieSides.GOLD, DieSides.GOLD,
+                DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
+                player.getRoll());
+
+        assertEquals(5400, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+    }
+
+    @Test
     public void row77() {
         player.setFortuneCard(sorceress);
         player.setRoll(dieRolled);
