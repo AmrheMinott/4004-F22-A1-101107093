@@ -309,6 +309,15 @@ public class GameLogicTest {
         assertEquals(gameLogic.scoreTurn(dice, seaBattle), -seaBattle.getAdditionalPoints());
     }
 
+    @Test
+    public void givenPlayerLostAtSea_andSeaBattleCardTypeOne() {
+        SeaBattleTypeOne seaBattle = new SeaBattleTypeOne();
+
+        ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
+                DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL));
+        assertEquals(gameLogic.scoreTurn(dice, seaBattle), -seaBattle.getAdditionalPoints());
+    }
+
     /*
      * Chest Testing
      */
