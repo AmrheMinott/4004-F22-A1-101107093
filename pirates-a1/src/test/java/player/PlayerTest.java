@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import constants.DieSides;
+import fortune_cards.Chest;
 import fortune_cards.SeaBattleTypeOne;
 import fortune_cards.Sorceress;
 
@@ -18,8 +19,10 @@ public class PlayerTest {
 
     private Player player = new Player("PLAYER_TEST_CLASS", 1234567890);
 
-    private Sorceress sorceress = new Sorceress();
+    private Chest chest = new Chest();
+
     private SeaBattleTypeOne seaBattleTypeOne = new SeaBattleTypeOne();
+    private Sorceress sorceress = new Sorceress();
 
     @Test
     public void givenPlayerRolledSomeSkull_assertThatSorceressWasActivated() {
@@ -33,7 +36,7 @@ public class PlayerTest {
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
                 player.getRoll());
 
-        assertEquals(true, ((Sorceress)player.getFortuneCard()).activateSorceress(player.getRoll()));
+        assertEquals(true, ((Sorceress) player.getFortuneCard()).activateSorceress(player.getRoll()));
     }
 
     @Test
@@ -48,7 +51,7 @@ public class PlayerTest {
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
                 player.getRoll());
 
-        assertEquals(false, ((Sorceress)player.getFortuneCard()).activateSorceress(player.getRoll()));
+        assertEquals(false, ((Sorceress) player.getFortuneCard()).activateSorceress(player.getRoll()));
     }
 
     @Test
@@ -72,5 +75,25 @@ public class PlayerTest {
 
         player.setScore(-((SeaBattleTypeOne) player.getFortuneCard()).getAdditionalPoints());
         assertEquals(0, player.getScore());
+    }
+
+    @Test
+    public void givenPlayerPlaceItems_assertThereIsContent() {
+
+        player.setFortuneCard(chest);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.PARROT, DieSides.PARROT,
+                DieSides.PARROT, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.GOLD)));
+        assertEquals(Arrays.asList(DieSides.PARROT, DieSides.PARROT,
+                DieSides.PARROT, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.GOLD),
+                player.getRoll());
+
+        assertEquals(0, ((Chest) player.getFortuneCard()).getChestContent().size());
+
+        player.addItemAtIndexToChest(8);
+        player.addItemAtIndexToChest(7);
+        player.addItemAtIndexToChest(6);
+
+        assertEquals(3, ((Chest) player.getFortuneCard()).getChestContent().size());
     }
 }
