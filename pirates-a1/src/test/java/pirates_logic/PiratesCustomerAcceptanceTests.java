@@ -870,7 +870,7 @@ public class PiratesCustomerAcceptanceTests {
 
     @Test
     public void row114() {
-        player.setFortuneCard(monkeyBusiness);
+        player.setFortuneCard(seaBattleTypeOne);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
 
