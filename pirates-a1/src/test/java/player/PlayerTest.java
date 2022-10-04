@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import constants.DieSides;
+import fortune_cards.SeaBattleTypeOne;
 import fortune_cards.Sorceress;
 
 public class PlayerTest {
@@ -18,6 +19,7 @@ public class PlayerTest {
     private Player player = new Player("PLAYER_TEST_CLASS", 1234567890);
 
     private Sorceress sorceress = new Sorceress();
+    private SeaBattleTypeOne seaBattleTypeOne = new SeaBattleTypeOne();
 
     @Test
     public void givenPlayerRolledSomeSkull_assertThatSorceressWasActivated() {
@@ -47,5 +49,13 @@ public class PlayerTest {
                 player.getRoll());
 
         assertEquals(false, player.activateSorceress());
+    }
+
+    @Test
+    public void givenSeaBattleCard_assertThatTheNumberOfRequiredCardIsCorrect() {
+
+        player.setFortuneCard(seaBattleTypeOne);
+
+        assertEquals(2, ((SeaBattleTypeOne) player.getFortuneCard()).getRequiredNumberOfSwords());
     }
 }
