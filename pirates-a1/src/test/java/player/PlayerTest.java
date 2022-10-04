@@ -33,7 +33,7 @@ public class PlayerTest {
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
                 player.getRoll());
 
-        assertEquals(true, player.activateSorceress());
+        assertEquals(true, ((Sorceress)player.getFortuneCard()).activateSorceress(player.getRoll()));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class PlayerTest {
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
                 player.getRoll());
 
-        assertEquals(false, player.activateSorceress());
+        assertEquals(false, ((Sorceress)player.getFortuneCard()).activateSorceress(player.getRoll()));
     }
 
     @Test

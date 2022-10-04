@@ -663,7 +663,7 @@ public class PiratesCustomerAcceptanceTests {
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
                 player.getRoll());
 
-        player.activateSorceress();
+        sorceress.activateSorceress(player.getRoll());
 
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL,
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD)));

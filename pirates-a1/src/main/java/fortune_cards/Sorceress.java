@@ -1,5 +1,9 @@
 package fortune_cards;
 
+import java.util.ArrayList;
+
+import constants.DieSides;
+
 public class Sorceress extends FortuneCard {
 
     private boolean hasBeenActivated = false;
@@ -10,5 +14,15 @@ public class Sorceress extends FortuneCard {
 
     public boolean getHasBeenActivated() {
         return this.hasBeenActivated;
+    }
+
+    public boolean activateSorceress(ArrayList<String> dieRolled) {
+        if (!this.getHasBeenActivated() && dieRolled.contains(DieSides.SKULL)) {
+            dieRolled.set(dieRolled.indexOf(DieSides.SKULL),
+                    DieSides.DICE_FACES.get((int) (Math.random() * 6)));
+            this.activate();
+            return true;
+        }
+        return false;
     }
 }

@@ -79,13 +79,11 @@ public class Player implements Serializable {
 
         // Has player died on first Roll Or gone to Island of the Dead.
 
-        boolean exit = true;
         // this is where the main game play will be conducted by the player
-        while (exit) {
+        while (true) {
             menuOption();
             int playerOption = 0;
             if (!playerInput.hasNextLine()) {
-                System.out.println("UMMMM");
                 break;
             }
             playerOption = Integer.parseInt(playerInput.nextLine());
@@ -119,7 +117,7 @@ public class Player implements Serializable {
                 }
             }
             if (playerOption == PlayerCommand.ACTIVATE_SORCERER_COMMAND) {
-                activateSorceress();
+                ((Sorceress) this.fortuneCard).activateSorceress(this.dieRolled);
                 game.printPlayerDice(dieRolled);
             }
             if (hasPlayerDied()) {
@@ -129,18 +127,13 @@ public class Player implements Serializable {
             }
             if (playerOption == PlayerCommand.END_PLAYER_ROUND) {
                 hasRoundPlayed = true;
-                exit = false;
-                System.out.println("END TURN COMMAND");
-                currentScore += game.scoreTurn(dieRolled, fortuneCard);
+                System.out.println(this.playerName + " has ended their turn.");
+                incrementScore(game.scoreTurn(dieRolled, fortuneCard));
                 return;
             }
         }
 
         playerInput.close();
-    }
-
-    public Player getPlayer() {
-        return this;
     }
 
     public void killClient() {
@@ -180,19 +173,6 @@ public class Player implements Serializable {
         Socket socket;
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
-
-        public Client() {
-            try {
-                socket = new Socket("localhost", ServerConstants.GAME_SERVER_PORT_NUMBER);
-                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectInputStream = new ObjectInputStream(socket.getInputStream());
-
-                sendPlayer();
-
-            } catch (IOException ex) {
-                System.out.println("Client failed to open");
-            }
-        }
 
         public Client(int portId) {
             try {
@@ -267,14 +247,8 @@ public class Player implements Serializable {
         return dieRolled.contains(DieSides.SKULL);
     }
 
-    public boolean activateSorceress() {
-        if (!((Sorceress) this.fortuneCard).getHasBeenActivated() && playerHasSkulls()) {
-            setRollAtIndex(dieRolled.indexOf(DieSides.SKULL),
-                    DieSides.DICE_FACES.get((int) (Math.random() * 6)));
-            ((Sorceress) this.fortuneCard).activate();
-            return true;
-        }
-        return false;
+    private void incrementScore(int score) {
+        this.currentScore = (this.currentScore + score) < 0 ? 0 : this.currentScore + score;
     }
 
     public static void main(String args[]) throws ClassNotFoundException {
@@ -311,13 +285,15 @@ public class Player implements Serializable {
     }
 
     public void setScore(int score) {
-        if (score < 0)
-            score = 0;
-        this.currentScore = score;
+        this.currentScore = (score < 0) ? 0 : score;
     }
 
     public String getName() {
         return this.playerName;
+    }
+
+    public Player getPlayer() {
+        return this;
     }
 
 }
