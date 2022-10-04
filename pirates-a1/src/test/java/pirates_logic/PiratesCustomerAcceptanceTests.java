@@ -983,4 +983,35 @@ public class PiratesCustomerAcceptanceTests {
 
         assertEquals(800, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
+
+    @Test
+    public void row123() {
+        player.setFortuneCard(seaBattleTypeTwo);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SWORD, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SWORD, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD),
+                player.getRoll());
+
+        gameLogic.rollDiePair(4, 5, dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD),
+                player.getRoll());
+
+        gameLogic.rollDiePair(6, 7, dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL, DieSides.SWORD)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL, DieSides.SWORD),
+                player.getRoll());
+
+        assertEquals(-seaBattleTypeTwo.getAdditionalPoints(), gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+    }
 }
