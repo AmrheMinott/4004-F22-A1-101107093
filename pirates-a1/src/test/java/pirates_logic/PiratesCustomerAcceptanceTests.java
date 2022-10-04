@@ -643,12 +643,12 @@ public class PiratesCustomerAcceptanceTests {
         gameLogic.rollDiePair(7, 8, dieRolled);
 
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
-                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.GOLD, DieSides.GOLD)));
+                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.PARROT, DieSides.GOLD)));
         assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
-                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.GOLD, DieSides.GOLD),
+                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.PARROT, DieSides.GOLD),
                 player.getRoll());
 
-        assertEquals(800, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+        assertEquals(600, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
     @Test
@@ -671,6 +671,8 @@ public class PiratesCustomerAcceptanceTests {
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
                 player.getRoll());
     }
+
+    
 
     @Test
     public void row82() {
