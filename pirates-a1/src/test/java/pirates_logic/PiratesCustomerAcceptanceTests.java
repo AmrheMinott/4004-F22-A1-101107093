@@ -928,7 +928,6 @@ public class PiratesCustomerAcceptanceTests {
 
         player.setScore(-seaBattleTypeThree.getAdditionalPoints());
 
-        assertEquals(0,
-                player.getScore());
+        assertEquals(0, player.getScore());
     }
 }
