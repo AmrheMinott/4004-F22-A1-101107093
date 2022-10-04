@@ -882,7 +882,8 @@ public class PiratesCustomerAcceptanceTests {
                 DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL),
                 player.getRoll());
 
-        assertEquals(-300, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+        assertEquals(-seaBattleTypeOne.getAdditionalPoints(),
+                gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
     @Test
@@ -905,7 +906,7 @@ public class PiratesCustomerAcceptanceTests {
                 DieSides.PARROT, DieSides.PARROT, DieSides.SWORD, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL),
                 player.getRoll());
 
-        assertEquals(-seaBattleTypeOne.getAdditionalPoints(),
+        assertEquals(-seaBattleTypeTwo.getAdditionalPoints(),
                 gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 }
