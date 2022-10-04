@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import constants.DieSides;
 import fortune_cards.Captain;
+import fortune_cards.Chest;
 import fortune_cards.DiamondCard;
 import fortune_cards.GoldCard;
 import fortune_cards.MonkeyBusiness;
@@ -34,6 +35,8 @@ public class PiratesCustomerAcceptanceTests {
     private SeaBattleTypeOne seaBattleTypeOne = new SeaBattleTypeOne();
     private SeaBattleTypeTwo seaBattleTypeTwo = new SeaBattleTypeTwo();
     private SeaBattleTypeThree seaBattleTypeThree = new SeaBattleTypeThree();
+
+    private Chest chest = new Chest();
 
     @Test
     public void row45() {
@@ -825,6 +828,47 @@ public class PiratesCustomerAcceptanceTests {
                 player.getRoll());
 
         assertEquals(2000, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+    }
+
+    @Test
+    public void row90() {
+        player.setFortuneCard(chest);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.PARROT, DieSides.PARROT,
+                DieSides.PARROT, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.GOLD)));
+        assertEquals(Arrays.asList(DieSides.PARROT, DieSides.PARROT,
+                DieSides.PARROT, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.GOLD),
+                player.getRoll());
+
+        chest.addDiceToChest(DieSides.DIAMOND);
+        chest.addDiceToChest(DieSides.DIAMOND);
+        chest.addDiceToChest(DieSides.GOLD);
+
+        gameLogic.rollDiePair(1, 2, dieRolled);
+
+        player.setRoll(new ArrayList<>(
+                Arrays.asList(DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT)));
+        assertEquals(Arrays.asList(DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT), player.getRoll());
+
+        assertEquals(DieSides.DIAMOND, chest.takeOut(0));
+        assertEquals(DieSides.DIAMOND, chest.takeOut(0));
+        assertEquals(DieSides.GOLD, chest.takeOut(0));
+
+        chest.addDiceToChest(DieSides.PARROT);
+        chest.addDiceToChest(DieSides.PARROT);
+        chest.addDiceToChest(DieSides.PARROT);
+        chest.addDiceToChest(DieSides.PARROT);
+        chest.addDiceToChest(DieSides.PARROT);
+
+        gameLogic.rollDiePair(1, 2, dieRolled);
+        gameLogic.rollDiePair(1, 3, dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.PARROT, DieSides.SKULL, DieSides.GOLD)));
+        assertEquals(Arrays.asList(DieSides.PARROT, DieSides.SKULL, DieSides.GOLD), player.getRoll());
+
+        assertEquals(1100, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
     @Test
