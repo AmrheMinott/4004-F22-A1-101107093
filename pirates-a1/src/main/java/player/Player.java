@@ -40,10 +40,6 @@ public class Player implements Serializable {
         this.clientConnection = new Client(portId);
     }
 
-    public void setScore(int score) {
-        this.currentScore = score;
-    }
-
     public void startGame() throws ClassNotFoundException {
         while (true) {
             PirateStatus status = clientConnection.receiveRoundStatus();
@@ -65,10 +61,6 @@ public class Player implements Serializable {
             }
 
         }
-    }
-
-    public String getName() {
-        return this.playerName;
     }
 
     @SuppressWarnings("resource")
@@ -269,7 +261,20 @@ public class Player implements Serializable {
                 e.printStackTrace();
             }
         }
+    }
 
+    private boolean playerHasSkulls() {
+        return dieRolled.contains(DieSides.SKULL);
+    }
+
+    public boolean activateSorceress() {
+        if (!((Sorceress) this.fortuneCard).getHasBeenActivated() && playerHasSkulls()) {
+            setRollAtIndex(dieRolled.indexOf(DieSides.SKULL),
+                    DieSides.DICE_FACES.get((int) (Math.random() * 6)));
+            ((Sorceress) this.fortuneCard).activate();
+            return true;
+        }
+        return false;
     }
 
     public static void main(String args[]) throws ClassNotFoundException {
@@ -301,18 +306,18 @@ public class Player implements Serializable {
         return this.fortuneCard;
     }
 
-    public boolean activateSorceress() {
-        if (!((Sorceress) this.fortuneCard).getHasBeenActivated() && playerHasSkulls()) {
-            setRollAtIndex(dieRolled.indexOf(DieSides.SKULL),
-                    DieSides.DICE_FACES.get((int) (Math.random() * 6)));
-            ((Sorceress) this.fortuneCard).activate();
-            return true;
-        }
-        return false;
+    public Integer getScore() {
+        return this.currentScore;
     }
 
-    private boolean playerHasSkulls() {
-        return dieRolled.contains(DieSides.SKULL);
+    public void setScore(int score) {
+        if (score < 0)
+            score = 0;
+        this.currentScore = score;
+    }
+
+    public String getName() {
+        return this.playerName;
     }
 
 }
