@@ -1012,6 +1012,22 @@ public class PiratesCustomerAcceptanceTests {
                 DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL, DieSides.SWORD),
                 player.getRoll());
 
-        assertEquals(-seaBattleTypeTwo.getAdditionalPoints(), gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+        assertEquals(-seaBattleTypeTwo.getAdditionalPoints(),
+                gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+    }
+
+    @Test
+    public void row124() {
+        player.setFortuneCard(seaBattleTypeThree);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SWORD,
+                DieSides.SWORD, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.SWORD)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SWORD,
+                DieSides.SWORD, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.SWORD),
+                player.getRoll());
+
+        assertEquals(1300, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 }
