@@ -11,6 +11,7 @@ import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.DiamondCard;
 import fortune_cards.GoldCard;
+import fortune_cards.MonkeyBusiness;
 import fortune_cards.Sorceress;
 import player.Player;
 
@@ -24,6 +25,7 @@ public class PiratesCustomerAcceptanceTests {
     private GoldCard coin = new GoldCard();
     private DiamondCard diamond = new DiamondCard();
     private Captain captain = new Captain();
+    private MonkeyBusiness monkeyBusiness = new MonkeyBusiness();
 
     private Sorceress sorceress = new Sorceress();
 
@@ -531,4 +533,20 @@ public class PiratesCustomerAcceptanceTests {
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
                 player.getRoll());
     }
+
+    @Test
+    public void row82() {
+        player.setFortuneCard(monkeyBusiness);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.MONKEY,
+                DieSides.MONKEY, DieSides.MONKEY, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.MONKEY,
+                DieSides.MONKEY, DieSides.MONKEY, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD),
+                player.getRoll());
+
+        assertEquals(1100, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+    }
+    
 }
