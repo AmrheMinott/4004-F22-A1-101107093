@@ -58,4 +58,19 @@ public class PlayerTest {
 
         assertEquals(2, ((SeaBattleTypeOne) player.getFortuneCard()).getRequiredNumberOfSwords());
     }
+
+    @Test
+    public void givenPlayerLostAtSea_assertScoreIsNotLessThanZero() {
+
+        player.setFortuneCard(seaBattleTypeOne);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.GOLD, DieSides.GOLD,
+                DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD)));
+        assertEquals(Arrays.asList(DieSides.GOLD, DieSides.GOLD,
+                DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD),
+                player.getRoll());
+
+        player.setScore(-((SeaBattleTypeOne) player.getFortuneCard()).getAdditionalPoints());
+        assertEquals(0, player.getScore());
+    }
 }
