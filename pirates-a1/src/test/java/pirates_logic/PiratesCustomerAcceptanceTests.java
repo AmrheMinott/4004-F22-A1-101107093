@@ -13,6 +13,7 @@ import fortune_cards.DiamondCard;
 import fortune_cards.GoldCard;
 import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattleTypeOne;
+import fortune_cards.SeaBattleTypeThree;
 import fortune_cards.SeaBattleTypeTwo;
 import fortune_cards.Sorceress;
 import player.Player;
@@ -32,6 +33,7 @@ public class PiratesCustomerAcceptanceTests {
     private Sorceress sorceress = new Sorceress();
     private SeaBattleTypeOne seaBattleTypeOne = new SeaBattleTypeOne();
     private SeaBattleTypeTwo seaBattleTypeTwo = new SeaBattleTypeTwo();
+    private SeaBattleTypeThree seaBattleTypeThree = new SeaBattleTypeThree();
 
     @Test
     public void row45() {
@@ -907,6 +909,22 @@ public class PiratesCustomerAcceptanceTests {
                 player.getRoll());
 
         assertEquals(-seaBattleTypeTwo.getAdditionalPoints(),
+                gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+    }
+
+    @Test
+    public void row116() {
+        player.setFortuneCard(seaBattleTypeThree);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.PARROT, DieSides.PARROT,
+                DieSides.PARROT, DieSides.PARROT, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL)));
+        assertEquals(Arrays.asList(DieSides.PARROT, DieSides.PARROT,
+                DieSides.PARROT, DieSides.PARROT, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL),
+                player.getRoll());
+
+        assertEquals(-seaBattleTypeThree.getAdditionalPoints(),
                 gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 }
