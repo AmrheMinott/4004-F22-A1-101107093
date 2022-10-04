@@ -606,6 +606,44 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(500, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
     
+    @Test
+    public void row72() {
+        player.setFortuneCard(coin);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SWORD,
+                DieSides.PARROT, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.GOLD, DieSides.SWORD)));
+        assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.SWORD,
+                DieSides.PARROT, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.GOLD, DieSides.SWORD),
+                player.getRoll());
+
+        gameLogic.rollDiePair(2, 3, dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
+                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.GOLD, DieSides.SWORD)));
+        assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
+                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.GOLD, DieSides.SWORD),
+                player.getRoll());
+
+        gameLogic.rollDiePair(7, 8, dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
+                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.PARROT, DieSides.PARROT)));
+        assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
+                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.PARROT, DieSides.PARROT),
+                player.getRoll());
+        
+        gameLogic.rollDiePair(7, 8, dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
+                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.GOLD, DieSides.GOLD)));
+        assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
+                DieSides.GOLD, DieSides.MONKEY, DieSides.SKULL, DieSides.MONKEY, DieSides.GOLD, DieSides.GOLD),
+                player.getRoll());
+
+        assertEquals(800, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+    }
 
     @Test
     public void row77() {
