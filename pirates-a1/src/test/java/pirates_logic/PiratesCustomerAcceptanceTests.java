@@ -913,7 +913,7 @@ public class PiratesCustomerAcceptanceTests {
     }
 
     @Test
-    public void row116() {
+    public void row117() {
         player.setFortuneCard(seaBattleTypeThree);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
@@ -947,7 +947,7 @@ public class PiratesCustomerAcceptanceTests {
     }
 
     @Test
-    public void row119() {
+    public void row120() {
         player.setFortuneCard(seaBattleTypeOne);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
