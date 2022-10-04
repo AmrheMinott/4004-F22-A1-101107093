@@ -15,6 +15,7 @@ import constants.GameStatus;
 import constants.PlayerCommand;
 import constants.ServerConstants;
 import fortune_cards.FortuneCard;
+import fortune_cards.SeaBattle;
 import fortune_cards.Sorceress;
 import game_server.PirateStatus;
 import pirates_logic.GameLogic;
@@ -169,6 +170,10 @@ public class Player implements Serializable {
 
     private void menuOption() {
         System.out.println("\n\n\n");
+        if (this.fortuneCard instanceof SeaBattle) {
+            System.out.println(this.fortuneCard);
+        }
+        System.out.println("\n");
         System.out.println(PlayerCommand.RE_ROLL_COMMAND + " -> Re roll die of choice.... FORMAT 1 2");
         System.out.println(PlayerCommand.END_PLAYER_ROUND + " -> End turn!");
 
