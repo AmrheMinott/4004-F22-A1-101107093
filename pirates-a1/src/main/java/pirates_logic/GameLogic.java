@@ -46,14 +46,18 @@ public class GameLogic implements Serializable {
         populateDiceSideMap(dice);
 
         if (diceSideMap.get(DieSides.SKULL) >= MAX_NUMBER_OF_SKULLS) {
+            hasPlayerDied = true;
+
             if (card instanceof Chest) {
                 resetDiceSideMap();
                 populateDiceSideMap(((Chest) card).getChestContent());
                 ((Chest) card).emptyChest();
+
+            } else if (diceSideMap.get(DieSides.SKULL) >= MAX_NUMBER_OF_SKULLS && card instanceof SeaBattle) {
+                return -((SeaBattle) card).getAdditionalPoints();
             } else {
                 return 0;
             }
-            hasPlayerDied = true;
         }
 
         if (card instanceof Chest) {
