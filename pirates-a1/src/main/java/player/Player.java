@@ -7,13 +7,13 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 
 import constants.DieSides;
 import constants.GameStatus;
 import constants.PlayerCommand;
 import constants.ServerConstants;
+import fortune_cards.Chest;
 import fortune_cards.FortuneCard;
 import fortune_cards.SeaBattle;
 import fortune_cards.Sorceress;
@@ -24,8 +24,8 @@ public class Player implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String playerName = "";
-    private boolean hasRoundPlayed = false;
     private int currentScore = 0;
+    private int playerOption = -99;
 
     private FortuneCard fortuneCard = new FortuneCard();
     private Client clientConnection;
@@ -50,13 +50,11 @@ public class Player implements Serializable {
             }
 
             if (status.getMessage() == GameStatus.WAITING) {
-                System.out.println("HERE EWAITING");
             }
 
             if (status.getMessage() == GameStatus.PLAY) {
-                System.out.println("STATUS " + status + " hasRoundPlayed " + hasRoundPlayed);
+                System.out.println("STATUS " + status);
                 playRound();
-                System.out.println("HELLO");
                 clientConnection.sendScores();
             }
 
@@ -67,6 +65,8 @@ public class Player implements Serializable {
     public void playRound() {
         Scanner playerInput = new Scanner(System.in);
         System.out.println("Start of " + this.playerName + " Turn. Roll All 8 dice.");
+        this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE,
+                DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE)));
         game.rollAllEightDie(dieRolled);
 
         // handle edge case where the player rolled 3 skulls but activates Sorceress and
@@ -82,43 +82,23 @@ public class Player implements Serializable {
         // this is where the main game play will be conducted by the player
         while (true) {
             menuOption();
-            int playerOption = 0;
+            playerOption = 0;
             if (!playerInput.hasNextLine()) {
                 break;
             }
             playerOption = Integer.parseInt(playerInput.nextLine());
             if (playerOption == PlayerCommand.RE_ROLL_COMMAND) {
-                while (true) {
-                    game.printPlayerDice(dieRolled);
-
-                    System.out.println("Select the die you wish to re-roll: Format -> 1 2...");
-                    String selectedDies = playerInput.nextLine();
-
-                    String[] die = selectedDies.split(" ");
-                    if (die.length != 2)
-                        continue;
-
-                    int index_1 = Integer.valueOf(die[0]) - 1;
-                    int index_2 = Integer.valueOf(die[1]) - 1;
-                    try {
-                        if (dieRolled.get(index_1) == DieSides.SKULL
-                                || dieRolled.get(index_2) == DieSides.SKULL) {
-                            System.out.println("You selected a Skull, and Skulls can not be re rolled.");
-                            continue;
-                        }
-                    } catch (NumberFormatException e) {
-                        continue;
-                    }
-
-                    game.rollDiePair(index_1 + 1, index_2 + 1, dieRolled);
-                    System.out.println("New Roll");
-                    game.printPlayerDice(dieRolled);
-                    break;
-                }
+                playerReroll(playerInput);
             }
             if (playerOption == PlayerCommand.ACTIVATE_SORCERER_COMMAND) {
                 ((Sorceress) this.fortuneCard).activateSorceress(this.dieRolled);
                 game.printPlayerDice(dieRolled);
+            }
+            if (playerOption == PlayerCommand.ADD_TO_CHEST_COMMAND) {
+                addToChest(playerInput);
+            }
+            if (playerOption == PlayerCommand.REMOVE_FROM_CHEST_COMMAND) {
+                removeFromChest(playerInput);
             }
             if (hasPlayerDied()) {
                 // handle edge case where the player rolled 3 skulls but activates Sorceress and
@@ -126,7 +106,6 @@ public class Player implements Serializable {
                 return;
             }
             if (playerOption == PlayerCommand.END_PLAYER_ROUND) {
-                hasRoundPlayed = true;
                 System.out.println(this.playerName + " has ended their turn.");
                 incrementScore(game.scoreTurn(dieRolled, fortuneCard));
                 return;
@@ -134,6 +113,60 @@ public class Player implements Serializable {
         }
 
         playerInput.close();
+    }
+
+    private void playerReroll(Scanner playerInput) {
+        while (true) {
+            game.printPlayerDice(dieRolled);
+
+            System.out.println("Select the die you wish to re-roll: Format -> 1 2...");
+            String selectedDies = playerInput.nextLine();
+
+            String[] die = selectedDies.split(" ");
+            if (die.length != 2)
+                continue;
+
+            int index_1 = Integer.valueOf(die[0]) - 1;
+            int index_2 = Integer.valueOf(die[1]) - 1;
+            try {
+                if (dieRolled.get(index_1) == DieSides.SKULL
+                        || dieRolled.get(index_2) == DieSides.SKULL) {
+                    System.out.println("You selected a Skull, and Skulls can not be re rolled.");
+                    continue;
+                }
+            } catch (NumberFormatException e) {
+                continue;
+            }
+
+            game.rollDiePair(index_1 + 1, index_2 + 1, dieRolled);
+            System.out.println("New Roll");
+            game.printPlayerDice(dieRolled);
+            break;
+        }
+    }
+
+    private void removeFromChest(Scanner playerInput) {
+        if (((Chest) this.fortuneCard).getChestContent().size() > 0) {
+            System.out.println("Chest contents");
+            game.printPlayerDice(((Chest) this.fortuneCard).getChestContent());
+            System.out.println("Specify the index you wish to remove -> 1...");
+            playerOption = Integer.parseInt(playerInput.nextLine());
+            this.dieRolled.add(((Chest) this.fortuneCard).takeOut(playerOption - 1));
+            playerOption = -999;
+            game.printPlayerDice(dieRolled);
+        }
+    }
+
+    private void addToChest(Scanner playerInput) {
+        if (this.dieRolled.size() > 0) {
+            game.printPlayerDice(this.dieRolled);
+            System.out.println("Specify the index you wish to add -> 1...");
+            playerOption = Integer.parseInt(playerInput.nextLine());
+            addItemAtIndexToChest(playerOption);
+            playerOption = -999;
+            game.printPlayerDice(dieRolled);
+        }
+
     }
 
     public void killClient() {
@@ -166,6 +199,13 @@ public class Player implements Serializable {
             if (!((Sorceress) this.fortuneCard).getHasBeenActivated() && playerHasSkulls()) {
                 System.out.println(PlayerCommand.ACTIVATE_SORCERER_COMMAND + " -> Activate Sorcerer Card");
             }
+        }
+
+        if (this.fortuneCard instanceof Chest) {
+            System.out.println("Chest contents");
+            game.printPlayerDice(((Chest) this.fortuneCard).getChestContent());
+            System.out.println(PlayerCommand.ADD_TO_CHEST_COMMAND + " -> Add to Chest Card");
+            System.out.println(PlayerCommand.REMOVE_FROM_CHEST_COMMAND + " -> Remove from Chest Card");
         }
     }
 
@@ -261,7 +301,7 @@ public class Player implements Serializable {
     }
 
     public void setRoll(ArrayList<String> dieRolled) {
-        Collections.copy(this.dieRolled, dieRolled);
+        this.dieRolled = dieRolled;
     }
 
     public ArrayList<String> getRoll() {
@@ -294,6 +334,11 @@ public class Player implements Serializable {
 
     public Player getPlayer() {
         return this;
+    }
+
+    public void addItemAtIndexToChest(int index) {
+        ((Chest) this.fortuneCard).addDiceToChest(this.dieRolled.get(index - 1));
+        this.dieRolled.remove(index - 1);
     }
 
 }
