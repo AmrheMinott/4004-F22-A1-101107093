@@ -17,7 +17,7 @@ public class PlayerTest {
     private ArrayList<String> dieRolled = new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE,
             DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE));
 
-    private Player player = new Player("PLAYER_TEST_CLASS", 1234567890);
+    private Player player = new Player("PLAYER_TEST_CLASS");
 
     private Chest chest = new Chest();
 
@@ -90,9 +90,36 @@ public class PlayerTest {
 
         assertEquals(0, ((Chest) player.getFortuneCard()).getChestContent().size());
 
-        player.addItemAtIndexToChest(8);
-        player.addItemAtIndexToChest(7);
-        player.addItemAtIndexToChest(6);
+        assertEquals(true, player.addItemAtIndexToChest(8));
+        assertEquals(true, player.addItemAtIndexToChest(7));
+        assertEquals(true, player.addItemAtIndexToChest(6));
+
+        assertEquals(3, ((Chest) player.getFortuneCard()).getChestContent().size());
+    }
+
+    @Test
+    public void givenPlayerPlaceItemsInChest_whenIndexIsOOB_assertFalse() {
+
+        player.setFortuneCard(chest);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.PARROT, DieSides.PARROT,
+                DieSides.PARROT, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.GOLD)));
+        assertEquals(Arrays.asList(DieSides.PARROT, DieSides.PARROT,
+                DieSides.PARROT, DieSides.SWORD, DieSides.SWORD, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.GOLD),
+                player.getRoll());
+
+        assertEquals(0, ((Chest) player.getFortuneCard()).getChestContent().size());
+
+        assertEquals(true, player.addItemAtIndexToChest(8));
+        assertEquals(true, player.addItemAtIndexToChest(7));
+        assertEquals(true, player.addItemAtIndexToChest(6));
+
+        assertEquals(false, player.addItemAtIndexToChest(6));
+        assertEquals(false, player.addItemAtIndexToChest(7));
+        assertEquals(false, player.addItemAtIndexToChest(8));
+
+        assertEquals(false, player.addItemAtIndexToChest(-8));
+        assertEquals(false, player.addItemAtIndexToChest(0));
 
         assertEquals(3, ((Chest) player.getFortuneCard()).getChestContent().size());
     }
