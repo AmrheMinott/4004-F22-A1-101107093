@@ -16,6 +16,7 @@ import constants.ServerConstants;
 import fortune_cards.Chest;
 import fortune_cards.FortuneCard;
 import fortune_cards.SeaBattle;
+import fortune_cards.SkullTypeOne;
 import fortune_cards.SkullTypeTwo;
 import fortune_cards.Sorceress;
 import game_server.PirateStatus;
@@ -76,6 +77,9 @@ public class Player implements Serializable {
 		if (this.fortuneCard instanceof SkullTypeTwo) {
 			this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
 					DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.SKULL, DieSides.SKULL)));
+		} else if (this.fortuneCard instanceof SkullTypeOne) {
+			this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
+					DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.SKULL)));
 		} else {
 			this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
 					DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE)));
