@@ -40,6 +40,10 @@ public class Player implements Serializable {
         this.clientConnection = new Client(portId);
     }
 
+    public Player(String playerName) {
+        this.playerName = playerName;
+    }
+
     public void startGame() throws ClassNotFoundException {
         while (true) {
             PirateStatus status = clientConnection.receiveRoundStatus();
@@ -64,7 +68,7 @@ public class Player implements Serializable {
     @SuppressWarnings("resource")
     public void playRound() {
         Scanner playerInput = new Scanner(System.in);
-        System.out.println("Start of " + this.playerName + " Turn. Roll All 8 dice.");
+        System.out.println("Start of " + this.playerName + " turn. Roll All 8 dice.");
         this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE,
                 DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE)));
         game.rollAllEightDie(dieRolled);
@@ -87,24 +91,31 @@ public class Player implements Serializable {
                 break;
             }
             playerOption = Integer.parseInt(playerInput.nextLine());
-            if (playerOption == PlayerCommand.RE_ROLL_COMMAND) {
-                playerReroll(playerInput);
-            }
-            if (playerOption == PlayerCommand.ACTIVATE_SORCERER_COMMAND) {
-                ((Sorceress) this.fortuneCard).activateSorceress(this.dieRolled);
-                game.printPlayerDice(dieRolled);
-            }
-            if (playerOption == PlayerCommand.ADD_TO_CHEST_COMMAND) {
-                addToChest(playerInput);
-            }
-            if (playerOption == PlayerCommand.REMOVE_FROM_CHEST_COMMAND) {
-                removeFromChest(playerInput);
+            switch (playerOption) {
+                case PlayerCommand.RE_ROLL_COMMAND:
+                    playerReroll(playerInput);
+                    break;
+                case PlayerCommand.ACTIVATE_SORCERER_COMMAND:
+                    ((Sorceress) this.fortuneCard).activateSorceress(this.dieRolled);
+                    game.printPlayerDice(dieRolled);
+                    break;
+                case PlayerCommand.ADD_TO_CHEST_COMMAND:
+                    addToChest(playerInput);
+                    break;
+                case PlayerCommand.REMOVE_FROM_CHEST_COMMAND:
+                    removeFromChest(playerInput);
+                    break;
+                case PlayerCommand.END_PLAYER_ROUND:
+                    break;
+                default:
+                    System.out.println("INVALID OPTION GIVEN\n\n");
             }
             if (hasPlayerDied()) {
                 // handle edge case where the player rolled 3 skulls but activates Sorceress and
                 // drops it from 3 to 2 skulls
                 return;
             }
+
             if (playerOption == PlayerCommand.END_PLAYER_ROUND) {
                 System.out.println(this.playerName + " has ended their turn.");
                 incrementScore(game.scoreTurn(dieRolled, fortuneCard));
@@ -139,7 +150,7 @@ public class Player implements Serializable {
             }
 
             game.rollDiePair(index_1 + 1, index_2 + 1, dieRolled);
-            System.out.println("New Roll");
+            System.out.println("After reroll your new die hand is");
             game.printPlayerDice(dieRolled);
             break;
         }
@@ -151,7 +162,9 @@ public class Player implements Serializable {
             game.printPlayerDice(((Chest) this.fortuneCard).getChestContent());
             System.out.println("Specify the index you wish to remove -> 1...");
             playerOption = Integer.parseInt(playerInput.nextLine());
-            this.dieRolled.add(((Chest) this.fortuneCard).takeOut(playerOption - 1));
+            if (playerOption > 0 && playerOption < ((Chest) this.fortuneCard).getChestContent().size()) {
+                this.dieRolled.add(((Chest) this.fortuneCard).takeOut(playerOption - 1));
+            }
             playerOption = -999;
             game.printPlayerDice(dieRolled);
         }
@@ -162,11 +175,14 @@ public class Player implements Serializable {
             game.printPlayerDice(this.dieRolled);
             System.out.println("Specify the index you wish to add -> 1...");
             playerOption = Integer.parseInt(playerInput.nextLine());
-            addItemAtIndexToChest(playerOption);
+
+            if (!addItemAtIndexToChest(playerOption)) {
+                System.out.println("Item not removed as the index is too large or is a SKULL.");
+            }
+
             playerOption = -999;
             game.printPlayerDice(dieRolled);
         }
-
     }
 
     public void killClient() {
@@ -336,9 +352,17 @@ public class Player implements Serializable {
         return this;
     }
 
-    public void addItemAtIndexToChest(int index) {
-        ((Chest) this.fortuneCard).addDiceToChest(this.dieRolled.get(index - 1));
-        this.dieRolled.remove(index - 1);
+    public boolean addItemAtIndexToChest(int index) {
+        if (index - 1 >= this.dieRolled.size() || index <= 0) {
+            return false;
+        }
+        String item = this.dieRolled.get(index - 1);
+        if (item != DieSides.SKULL) {
+            ((Chest) this.fortuneCard).addDiceToChest(item);
+            this.dieRolled.remove(index - 1);
+            return true;
+        }
+        return false;
     }
 
 }
