@@ -6,7 +6,8 @@ import fortune_cards.FortuneCard;
 
 public class PirateStatus implements Serializable {
 
-    private FortuneCard fortuneCard;
+	private static final long serialVersionUID = 8291837245019196617L;
+	private FortuneCard fortuneCard;
     private int message;
 
     public PirateStatus(FortuneCard fortuneCard, int play) {

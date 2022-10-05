@@ -6,7 +6,8 @@ import constants.DieSides;
 
 public class Sorceress extends FortuneCard {
 
-    private boolean hasBeenActivated = false;
+	private static final long serialVersionUID = -1826416321724934438L;
+	private boolean hasBeenActivated = false;
 
     public void activate() {
         this.hasBeenActivated = true;
