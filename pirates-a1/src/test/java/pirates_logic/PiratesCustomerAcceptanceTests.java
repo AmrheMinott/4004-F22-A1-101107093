@@ -37,6 +37,8 @@ public class PiratesCustomerAcceptanceTests {
 	private SeaBattleTypeTwo seaBattleTypeTwo = new SeaBattleTypeTwo();
 	private SeaBattleTypeThree seaBattleTypeThree = new SeaBattleTypeThree();
 
+	private SkullTypeTwo skullTypeTwo = new SkullTypeTwo();
+
 	private Chest chest = new Chest();
 
 	@Test
@@ -946,6 +948,23 @@ public class PiratesCustomerAcceptanceTests {
 
 		assertEquals(1200, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
 	}
+	
+	@Test
+    public void row107() {
+		player.setFortuneCard(skullTypeTwo);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.MONKEY,
+                DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD)));
+        assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
+                DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD),
+                player.getRoll());
+        
+        assertEquals(true, player.getHasPlayerDied());
+
+        assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+    }
 
 	@Test
 	public void row114() {
