@@ -16,6 +16,7 @@ import constants.ServerConstants;
 import fortune_cards.Chest;
 import fortune_cards.FortuneCard;
 import fortune_cards.SeaBattle;
+import fortune_cards.SkullTypeTwo;
 import fortune_cards.Sorceress;
 import game_server.PirateStatus;
 import pirates_logic.GameLogic;
@@ -26,6 +27,7 @@ public class Player implements Serializable {
     private String playerName = "";
     private int currentScore = 0;
     private int playerOption = -99;
+    private boolean isPlayerAlive = true;
 
     private FortuneCard fortuneCard = new FortuneCard();
     private Client clientConnection;
@@ -59,6 +61,7 @@ public class Player implements Serializable {
             if (status.getMessage() == GameStatus.PLAY) {
                 System.out.println("STATUS " + status);
                 playRound();
+                // send round status of island of the dead and such
                 clientConnection.sendScores();
             }
 
@@ -69,8 +72,14 @@ public class Player implements Serializable {
     public void playRound() {
         Scanner playerInput = new Scanner(System.in);
         System.out.println("Start of " + this.playerName + " turn. Roll All 8 dice.");
-        this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE,
-                DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE)));
+        this.isPlayerAlive = true;
+		if (this.fortuneCard instanceof SkullTypeTwo) {
+			this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
+					DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.SKULL, DieSides.SKULL)));
+		} else {
+			this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
+					DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE)));
+		}
         game.rollAllEightDie(dieRolled);
 
         // handle edge case where the player rolled 3 skulls but activates Sorceress and
@@ -196,7 +205,8 @@ public class Player implements Serializable {
                 skullCount++;
             }
         }
-        if (skullCount >= 3) {
+        if (skullCount == 3) {
+        	isPlayerAlive = false;
             return true;
         }
         return false;
@@ -334,6 +344,10 @@ public class Player implements Serializable {
 
     public FortuneCard getFortuneCard() {
         return this.fortuneCard;
+    }
+
+    public boolean getIsPlayerAlive() {
+    	return this.isPlayerAlive;
     }
 
     public Integer getScore() {
