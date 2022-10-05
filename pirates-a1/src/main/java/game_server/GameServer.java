@@ -20,28 +20,34 @@ import fortune_cards.SeaBattleTypeOne;
 import fortune_cards.SeaBattleTypeThree;
 import fortune_cards.SeaBattleTypeTwo;
 import fortune_cards.Sorceress;
-import pirates_logic.GameLogic;
 import player.Player;
 
 public class GameServer implements Runnable {
 
-    ServerSocket serverSocket = null;
+    private ServerSocket serverSocket = null;
     private int TOTAL_NUMBER_OF_PLAYERS = 1;
 
-    private int currentPlayer = 0;
-    private int numPlayers;
-    public boolean isAcceptingConnections;
-    private boolean isRunning = true;
+    private int currentConnectedPlayer = 0;
+    private int numberOfConnectedPlayers;
 
-    ArrayList<Server> playerServer = new ArrayList<Server>();
-    ArrayList<Player> players = new ArrayList<Player>();
-    GameLogic game = new GameLogic();
-    
-    ArrayList<FortuneCard> deck = new ArrayList<FortuneCard>();
+    private ArrayList<Server> playerServer = new ArrayList<Server>();
+    private ArrayList<Player> players = new ArrayList<Player>();
+//    private GameLogic game = new GameLogic();
+
+    private ArrayList<FortuneCard> deck = new ArrayList<FortuneCard>();
 
     public GameServer() {
-        System.out.println("Opening Game Server");
+        shuffleDeck();
+        try {
+            serverSocket = new ServerSocket(ServerConstants.GAME_SERVER_PORT_NUMBER);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.exit(1);
+        }
+    }
 
+    private void shuffleDeck() {
+        deck.clear();
         for (int i = 0; i < 4; i++) {
             deck.add(new Chest());
             deck.add(new Captain());
@@ -56,11 +62,6 @@ public class GameServer implements Runnable {
             deck.add(new SeaBattleTypeThree());
         }
         Collections.shuffle(deck);
-        try {
-            serverSocket = new ServerSocket(ServerConstants.GAME_SERVER_PORT_NUMBER);
-        } catch (IOException ex) {
-            System.out.println("Server Failed to open");
-        }
     }
 
     @Override
@@ -70,7 +71,7 @@ public class GameServer implements Runnable {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        while (isRunning) {
+        while (true) {
 
         }
     }
@@ -78,12 +79,11 @@ public class GameServer implements Runnable {
     synchronized public void acceptConnections() throws ClassNotFoundException {
         try {
             System.out.println("Waiting for players...");
-            while (numPlayers < TOTAL_NUMBER_OF_PLAYERS) {
-                isAcceptingConnections = true;
+            while (numberOfConnectedPlayers < TOTAL_NUMBER_OF_PLAYERS) {
                 Socket s = serverSocket.accept();
-                numPlayers++;
+                numberOfConnectedPlayers++;
 
-                Server server = new Server(s, numPlayers);
+                Server server = new Server(s, numberOfConnectedPlayers);
 
                 // Get the player name
                 Player player = (Player) server.dIn.readObject();
@@ -92,7 +92,7 @@ public class GameServer implements Runnable {
                 players.add(player);
                 playerServer.add(server);
             }
-            System.out.println("Three players have joined the game");
+            System.out.println(TOTAL_NUMBER_OF_PLAYERS + " players have joined the game!");
 
             // Start server threads
             for (int i = 0; i < playerServer.size(); i++) {
@@ -100,31 +100,32 @@ public class GameServer implements Runnable {
                 t.start();
             }
         } catch (IOException ex) {
-            System.out.println("Could not connect 3 players");
+            System.out.println("Could not connect with all " + TOTAL_NUMBER_OF_PLAYERS + " players");
         }
-        isAcceptingConnections = false;
     }
 
     synchronized public void gameLoop() {
         int roundsPlayed = 0;
         int deckIndex = 0;
         while (true) {
-            System.out.println("*****************************************");
             System.out.println("Round number " + roundsPlayed);
-            playerServer.get(currentPlayer).sendRoundStatus(new PirateStatus(deck.get(deckIndex), GameStatus.PLAY));
+            playerServer.get(currentConnectedPlayer)
+                    .sendRoundStatus(new PirateStatus(deck.get(deckIndex), GameStatus.PLAY));
 
-            int score_player = playerServer.get(currentPlayer).receiveScoreFromCurrentPlayer();
+            int score_player = playerServer.get(currentConnectedPlayer).receiveScoreFromCurrentPlayer();
             System.out.println("SERVER: Score = " + score_player);
-            players.get(currentPlayer).setScore(score_player);
-            playerServer.get(currentPlayer).sendRoundStatus(new PirateStatus(null, GameStatus.WAITING));
+            players.get(currentConnectedPlayer).setScore(score_player);
+            playerServer.get(currentConnectedPlayer).sendRoundStatus(new PirateStatus(null, GameStatus.WAITING));
 
             roundsPlayed++;
-            currentPlayer++;
-            deckIndex ++;
-            if (currentPlayer == TOTAL_NUMBER_OF_PLAYERS)
-                currentPlayer = 0;
-            if (deckIndex == deck.size())
+            currentConnectedPlayer++;
+            deckIndex++;
+            if (currentConnectedPlayer == TOTAL_NUMBER_OF_PLAYERS)
+                currentConnectedPlayer = 0;
+            if (deckIndex == deck.size()) {
+                shuffleDeck();
                 deckIndex = 0;
+            }
         }
     }
 
@@ -209,6 +210,11 @@ public class GameServer implements Runnable {
         }
     }
 
+    /**
+     * Returns the deck of cards that the players will be using.
+     * 
+     * @return ArrayList<FortuneCard>
+     */
     public ArrayList<FortuneCard> getDeck() {
         return deck;
     }

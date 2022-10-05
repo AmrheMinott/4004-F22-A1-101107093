@@ -32,6 +32,13 @@ public class GameLogic implements Serializable {
     private boolean hasPlayerDied = false;
     private boolean hasWonAtSea = false;
 
+    /**
+     * Handles scoring of a player die rolled at the end of the turn.
+     * 
+     * @param dice - {@link ArrayList<String>}
+     * @param card - {@link FortuneCard}
+     * @return int - the score that the player deserves for the round.
+     */
     public int scoreTurn(ArrayList<String> dice, FortuneCard card) {
         resetDiceSideMap();
 

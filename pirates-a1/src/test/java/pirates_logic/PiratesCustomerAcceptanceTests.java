@@ -21,7 +21,7 @@ import player.Player;
 
 public class PiratesCustomerAcceptanceTests {
 
-    private Player player = new Player("TEST", 1234567890);
+    private Player player = new Player("ACCEPTANCE_TEST");
     private GameLogic gameLogic = new GameLogic();
     private ArrayList<String> dieRolled = new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE,
             DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE));
