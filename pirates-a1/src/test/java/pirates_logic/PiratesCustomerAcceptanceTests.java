@@ -11,12 +11,12 @@ import constants.DieSides;
 import fortune_cards.Captain;
 import fortune_cards.Chest;
 import fortune_cards.DiamondCard;
-import fortune_cards.FortuneCard;
 import fortune_cards.GoldCard;
 import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattleTypeOne;
 import fortune_cards.SeaBattleTypeThree;
 import fortune_cards.SeaBattleTypeTwo;
+import fortune_cards.SkullTypeTwo;
 import fortune_cards.Sorceress;
 import player.Player;
 
@@ -956,12 +956,10 @@ public class PiratesCustomerAcceptanceTests {
         gameLogic.rollAllEightDie(dieRolled);
 
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.MONKEY,
-                DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD)));
-        assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY,
-                DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD),
+                DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD, DieSides.SKULL, DieSides.SKULL)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.MONKEY,
+                DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD, DieSides.SKULL, DieSides.SKULL),
                 player.getRoll());
-        
-        assertEquals(true, player.getHasPlayerDied());
 
         assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }

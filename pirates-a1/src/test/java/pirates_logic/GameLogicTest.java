@@ -16,6 +16,7 @@ import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattleTypeOne;
 import fortune_cards.SeaBattleTypeThree;
 import fortune_cards.SeaBattleTypeTwo;
+import fortune_cards.SkullTypeTwo;
 
 public class GameLogicTest {
 
