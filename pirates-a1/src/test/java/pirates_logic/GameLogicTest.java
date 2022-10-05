@@ -396,8 +396,17 @@ public class GameLogicTest {
 	public void givenTwoSkullCard_assertViaDeathPlayerGetsZeroScore() {
 		SkullTypeTwo skullTypeTwo = new SkullTypeTwo();
 		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.GOLD, DieSides.GOLD,
-				DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD));
+				DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SKULL, DieSides.SKULL));
 
 		assertEquals(0, gameLogic.scoreTurn(dice, skullTypeTwo));
+	}
+
+	@Test
+	public void givenOneSkullCard_assertViaDeathPlayerGetsZeroScore() {
+		SkullTypeOne skullTypeOne = new SkullTypeOne();
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.GOLD,
+				DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SKULL));
+
+		assertEquals(0, gameLogic.scoreTurn(dice, skullTypeOne));
 	}
 }
