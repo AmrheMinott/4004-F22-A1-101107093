@@ -387,4 +387,16 @@ public class GameLogicTest {
 
         assertEquals(gameLogic.scoreTurn(dice, gold), (EIGHT_OF_A_KIND + (GOLD_SCORE * 9) + BONUS));
     }
+
+    /**
+     * Skull Cards test
+     */
+	@Test
+	public void givenTwoSkullCard_assertViaDeathPlayerGetsZeroScore() {
+		SkullTypeTwo skullTypeTwo = new SkullTypeTwo();
+		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.GOLD, DieSides.GOLD,
+				DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD));
+
+		assertEquals(0, gameLogic.scoreTurn(dice, skullTypeTwo));
+	}
 }
