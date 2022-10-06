@@ -19,6 +19,8 @@ import fortune_cards.MonkeyBusiness;
 import fortune_cards.SeaBattleTypeOne;
 import fortune_cards.SeaBattleTypeThree;
 import fortune_cards.SeaBattleTypeTwo;
+import fortune_cards.SkullTypeOne;
+import fortune_cards.SkullTypeTwo;
 import fortune_cards.Sorceress;
 import player.Player;
 
@@ -60,6 +62,8 @@ public class GameServer implements Runnable {
             deck.add(new SeaBattleTypeOne());
             deck.add(new SeaBattleTypeTwo());
             deck.add(new SeaBattleTypeThree());
+            deck.add(new SkullTypeOne());
+            deck.add(new SkullTypeTwo());
         }
         Collections.shuffle(deck);
     }

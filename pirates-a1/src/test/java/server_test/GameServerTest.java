@@ -11,6 +11,6 @@ public class GameServerTest {
 
     @Test
     public void testShufflingOfDeck() {
-        assertEquals((4 * 6) + (3 * 2), server.getDeck().size());
+        assertEquals((4 * 6) + (5 * 2), server.getDeck().size());
     }
 }
