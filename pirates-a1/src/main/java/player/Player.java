@@ -203,13 +203,16 @@ public class Player implements Serializable {
     }
 
     private boolean hasPlayerDied() {
-        int skullCount = 0;
+		if (this.fortuneCard instanceof Sorceress && !((Sorceress) this.fortuneCard).getHasBeenActivated()) {
+			return false;
+		}
+    	int skullCount = 0;
         for (String dieFace : dieRolled) {
             if (dieFace.equals(DieSides.SKULL)) {
                 skullCount++;
             }
         }
-        if (skullCount == 3) {
+        if (skullCount >= 3) {
         	isPlayerAlive = false;
             return true;
         }
