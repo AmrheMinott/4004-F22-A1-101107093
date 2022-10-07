@@ -225,7 +225,7 @@ public class GameLogicTest {
         assertEquals(gameLogic.scoreTurn(dice, monkeyBusiness), EIGHT_OF_A_KIND + BONUS);
     }
 
-    /*
+    /**
      * Sea Battle Testing
      */
     @Test
@@ -320,7 +320,7 @@ public class GameLogicTest {
         assertEquals(gameLogic.scoreTurn(dice, seaBattle), -seaBattle.getAdditionalPoints());
     }
 
-    /*
+    /**
      * Chest Testing
      */
     @Test
@@ -360,7 +360,7 @@ public class GameLogicTest {
         assertEquals(chest.getChestContent().size(), 2);
     }
 
-    /*
+    /**
      * Diamond / Gold coin Card Bonus Test
      */
     @Test
@@ -410,4 +410,34 @@ public class GameLogicTest {
 
 		assertEquals(0, gameLogic.scoreTurn(dice, skullTypeOne));
 	}
+	
+    /**
+     * Island of the Dead Calculations
+     */
+    @Test
+    public void givenTwoSkullCard_assertDeductionsOfFourSkulls() {
+        ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.GOLD,
+                DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SKULL,
+                DieSides.SKULL));
+
+        assertEquals(-400, gameLogic.scoreIslandOfTheDeadDeduction(dice));
+    }
+
+    @Test
+    public void givenTwoSkullCard_assertDeductionsOfMidSkulls() {
+        ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                DieSides.GOLD, DieSides.GOLD, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL));
+
+        assertEquals(-1000, gameLogic.scoreIslandOfTheDeadDeduction(dice));
+    }
+
+    @Test
+    public void givenTwoSkullCard_assertDeductionsOfAllSkulls() {
+        ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL));
+
+        assertEquals(-1000, gameLogic.scoreIslandOfTheDeadDeduction(dice));
+    }
 }
