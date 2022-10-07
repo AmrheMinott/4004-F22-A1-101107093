@@ -24,6 +24,8 @@ import player.Player;
 public class PiratesCustomerAcceptanceTests {
 
 	private Player player = new Player("ACCEPTANCE_TEST");
+	private Player player_2 = new Player("ACCEPTANCE_TEST_2");
+
 	private GameLogic gameLogic = new GameLogic();
 	private ArrayList<String> dieRolled = new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE,
 			DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE));
@@ -980,6 +982,26 @@ public class PiratesCustomerAcceptanceTests {
 
         assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
+
+	@Test
+	public void row109() {
+	   player.setScore(1000);
+	   player_2.setScore(1000);
+	   player.setFortuneCard(skullTypeTwo);
+	   player.setRoll(dieRolled);
+	   gameLogic.rollAllEightDie(dieRolled);
+
+	   player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD, DieSides.SKULL, DieSides.SKULL)));
+	   assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+               DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD, DieSides.SKULL, DieSides.SKULL),
+               player.getRoll());
+
+	   player_2.incrementScore(gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll()));
+	   assertEquals(0, gameLogic.scoreTurn(dieRolled, player.getFortuneCard()));
+	   assertEquals(300, player_2.getScore());
+	   assertEquals(-700, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll()));
+	}
 
 	@Test
 	public void row114() {
