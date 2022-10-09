@@ -168,7 +168,7 @@ public class GameLogicTest {
         assertEquals(gameLogic.scoreTurn(dice, captain), ((EIGHT_OF_A_KIND + BONUS) * 2));
     }
 
-    /*
+    /**
      * Monkey Business Card
      */
     @Test
@@ -252,7 +252,8 @@ public class GameLogicTest {
 
         ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.SKULL, DieSides.PARROT,
                 DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.SWORD, DieSides.PARROT));
-        assertEquals(gameLogic.scoreTurn(dice, seaBattle), seaBattle.getAdditionalPoints() + THREE_OF_A_KIND + THREE_OF_A_KIND);
+        assertEquals(gameLogic.scoreTurn(dice, seaBattle),
+                seaBattle.getAdditionalPoints() + THREE_OF_A_KIND + THREE_OF_A_KIND);
     }
 
     @Test
@@ -261,7 +262,8 @@ public class GameLogicTest {
 
         ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
                 DieSides.SWORD, DieSides.SWORD, DieSides.PARROT, DieSides.GOLD, DieSides.PARROT));
-        assertEquals(gameLogic.scoreTurn(dice, seaBattle), (GOLD_SCORE + THREE_OF_A_KIND + seaBattle.getAdditionalPoints()));
+        assertEquals(gameLogic.scoreTurn(dice, seaBattle),
+                (GOLD_SCORE + THREE_OF_A_KIND + seaBattle.getAdditionalPoints()));
     }
 
     @Test
@@ -279,7 +281,8 @@ public class GameLogicTest {
 
         ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
                 DieSides.SWORD, DieSides.SWORD, DieSides.MONKEY, DieSides.GOLD, DieSides.GOLD));
-        assertEquals(gameLogic.scoreTurn(dice, seaBattle), (FOUR_OF_A_KIND + (GOLD_SCORE * 2) + BONUS + seaBattle.getAdditionalPoints()));
+        assertEquals(gameLogic.scoreTurn(dice, seaBattle),
+                (FOUR_OF_A_KIND + (GOLD_SCORE * 2) + BONUS + seaBattle.getAdditionalPoints()));
     }
 
     @Test
@@ -378,7 +381,8 @@ public class GameLogicTest {
         ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
                 DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.GOLD, DieSides.SWORD));
 
-        assertEquals(gameLogic.scoreTurn(dice, diamond), (FOUR_OF_A_KIND + GOLD_SCORE + THREE_OF_A_KIND + DIAMOND_SCORE + BONUS));
+        assertEquals(gameLogic.scoreTurn(dice, diamond),
+                (FOUR_OF_A_KIND + GOLD_SCORE + THREE_OF_A_KIND + DIAMOND_SCORE + BONUS));
     }
 
     @Test
@@ -393,24 +397,25 @@ public class GameLogicTest {
     /**
      * Skull Cards test
      */
-	@Test
-	public void givenTwoSkullCard_assertViaDeathPlayerGetsZeroScore() {
-		SkullTypeTwo skullTypeTwo = new SkullTypeTwo();
-		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.GOLD, DieSides.GOLD,
-				DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SKULL, DieSides.SKULL));
+    @Test
+    public void givenTwoSkullCard_assertViaDeathPlayerGetsZeroScore() {
+        SkullTypeTwo skullTypeTwo = new SkullTypeTwo();
+        ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.GOLD, DieSides.GOLD,
+                DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SKULL,
+                DieSides.SKULL));
 
-		assertEquals(0, gameLogic.scoreTurn(dice, skullTypeTwo));
-	}
+        assertEquals(0, gameLogic.scoreTurn(dice, skullTypeTwo));
+    }
 
-	@Test
-	public void givenOneSkullCard_assertViaDeathPlayerGetsZeroScore() {
-		SkullTypeOne skullTypeOne = new SkullTypeOne();
-		ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.GOLD,
-				DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SKULL));
+    @Test
+    public void givenOneSkullCard_assertViaDeathPlayerGetsZeroScore() {
+        SkullTypeOne skullTypeOne = new SkullTypeOne();
+        ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.GOLD,
+                DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SKULL));
 
-		assertEquals(0, gameLogic.scoreTurn(dice, skullTypeOne));
-	}
-	
+        assertEquals(0, gameLogic.scoreTurn(dice, skullTypeOne));
+    }
+
     /**
      * Island of the Dead Calculations
      */

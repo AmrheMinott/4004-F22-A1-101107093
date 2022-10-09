@@ -54,14 +54,14 @@ public class Player implements Serializable {
             PirateStatus status = clientConnection.receiveRoundStatus();
             this.fortuneCard = status.getFortuneCard();
             System.out.println("Status" + status);
-            if (status.getMessage() == GameStatus.STOP) {
+            if (status.getMessageCode() == GameStatus.STOP) {
                 break;
             }
 
-            if (status.getMessage() == GameStatus.WAITING) {
+            if (status.getMessageCode() == GameStatus.WAITING) {
             }
 
-            if (status.getMessage() == GameStatus.PLAY) {
+            if (status.getMessageCode() == GameStatus.PLAY) {
                 System.out.println("STATUS " + status);
                 playRound();
                 if (islandOfTheDeadMode) {
@@ -73,7 +73,6 @@ public class Player implements Serializable {
                 }
                 islandOfTheDeadMode = false;
             }
-
         }
     }
 
@@ -83,7 +82,7 @@ public class Player implements Serializable {
         System.out.println("Start of " + this.playerName + " turn. Roll All 8 dice.");
         this.isPlayerAlive = true;
         if (this.fortuneCard instanceof SkullTypeTwo) {
-            this.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.NONE, DieSides.NONE,
+            this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
                     DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.SKULL, DieSides.SKULL)));
         } else if (this.fortuneCard instanceof SkullTypeOne) {
             this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
@@ -112,7 +111,13 @@ public class Player implements Serializable {
             if (!playerInput.hasNextLine()) {
                 break;
             }
-            playerOption = Integer.parseInt(playerInput.nextLine());
+
+            try {
+                playerOption = Integer.parseInt(playerInput.nextLine());
+            } catch (NumberFormatException e) {
+                continue;
+            }
+
             switch (playerOption) {
                 case PlayerCommand.RE_ROLL_COMMAND:
                     playerReroll(playerInput, false);
@@ -168,12 +173,16 @@ public class Player implements Serializable {
             int index_1 = Integer.valueOf(die[0]) - 1;
             int index_2 = Integer.valueOf(die[1]) - 1;
             try {
-                if (dieRolled.get(index_1) == DieSides.SKULL
-                        || dieRolled.get(index_2) == DieSides.SKULL) {
+                if (dieRolled.get(index_1).equals(DieSides.SKULL)
+                        || dieRolled.get(index_2).equals(DieSides.SKULL)) {
                     System.out.println("You selected a Skull, and Skulls can not be re rolled.");
                     continue;
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("Incorrect Format!");
+                continue;
+            } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                System.out.println("Index out of bounds!");
                 continue;
             }
 

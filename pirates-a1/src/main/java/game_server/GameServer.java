@@ -117,7 +117,7 @@ public class GameServer implements Runnable {
 
             PirateStatus status = playerServer.get(currentConnectedPlayer).receiveScoreFromCurrentPlayer();
             int score_player = status.getScore();
-            int message_code = status.getMessage();
+            int message_code = status.getMessageCode();
             int deductions = status.getScoreDeduction();
             System.out.println("SERVER: Score = " + score_player + " DEDUCTIONS: " + deductions);
             if (message_code == GameStatus.ISLAND_OF_THE_DEAD)
@@ -212,7 +212,6 @@ public class GameServer implements Runnable {
          */
         public PirateStatus receiveScoreFromCurrentPlayer() {
             try {
-
                 return (PirateStatus) dIn.readObject();
             } catch (Exception e) {
                 System.out.println("Score sheet not received");
