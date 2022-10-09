@@ -9,10 +9,14 @@ public class PirateStatus implements Serializable {
 	private static final long serialVersionUID = 8291837245019196617L;
 	private FortuneCard fortuneCard;
     private int message;
+    private int scoreDeduction = 0;
+    private int score = 0;
 
-    public PirateStatus(FortuneCard fortuneCard, int play) {
+    public PirateStatus(FortuneCard fortuneCard, int message, int scoreDeduction, int score) {
         this.fortuneCard = fortuneCard;
-        this.message = play;
+        this.message = message;
+        this.scoreDeduction = scoreDeduction;
+        this.score = score;
     }
 
     public FortuneCard getFortuneCard() {
@@ -21,5 +25,13 @@ public class PirateStatus implements Serializable {
 
     public int getMessage() {
         return this.message;
+    }
+
+    public int getScoreDeduction() {
+        return scoreDeduction;
+    }
+    
+    public int getScore() {
+        return score;
     }
 }

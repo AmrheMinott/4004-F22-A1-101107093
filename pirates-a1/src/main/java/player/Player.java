@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 import constants.DieSides;
@@ -29,6 +30,7 @@ public class Player implements Serializable {
     private int currentScore = 0;
     private int playerOption = -99;
     private boolean isPlayerAlive = true;
+    private boolean islandOfTheDeadMode = false;
 
     private FortuneCard fortuneCard = new FortuneCard();
     private Client clientConnection;
@@ -62,8 +64,14 @@ public class Player implements Serializable {
             if (status.getMessage() == GameStatus.PLAY) {
                 System.out.println("STATUS " + status);
                 playRound();
-                // send round status of island of the dead and such
-                clientConnection.sendScores();
+                if (islandOfTheDeadMode) {
+                    clientConnection.sendScores(new PirateStatus(this.fortuneCard, GameStatus.ISLAND_OF_THE_DEAD,
+                            game.scoreIslandOfTheDeadDeduction(this.dieRolled), this.currentScore));
+                } else {
+                    clientConnection
+                            .sendScores(new PirateStatus(this.fortuneCard, GameStatus.NONE, 0, this.currentScore));
+                }
+                islandOfTheDeadMode = false;
             }
 
         }
@@ -74,29 +82,30 @@ public class Player implements Serializable {
         Scanner playerInput = new Scanner(System.in);
         System.out.println("Start of " + this.playerName + " turn. Roll All 8 dice.");
         this.isPlayerAlive = true;
-		if (this.fortuneCard instanceof SkullTypeTwo) {
-			this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
-					DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.SKULL, DieSides.SKULL)));
-		} else if (this.fortuneCard instanceof SkullTypeOne) {
-			this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
-					DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.SKULL)));
-		} else {
-			this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
-					DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE)));
-		}
+        if (this.fortuneCard instanceof SkullTypeTwo) {
+            this.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.NONE, DieSides.NONE,
+                    DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.SKULL, DieSides.SKULL)));
+        } else if (this.fortuneCard instanceof SkullTypeOne) {
+            this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
+                    DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.SKULL)));
+        } else {
+            this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
+                    DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE)));
+        }
         game.rollAllEightDie(dieRolled);
 
-        // handle edge case where the player rolled 3 skulls but activates Sorceress and
-        // drops it from 3 to 2 skulls
+        if (shouldGoToIslandOfDead()) {
+            islandOfTheDeadMode = true;
+            System.out.println("Welcome to the land of the dead!");
+            playerReroll(playerInput, true);
+            return;
+        }
+
         if (hasPlayerDied()) {
             return;
         }
 
         game.printPlayerDice(dieRolled);
-
-        // Has player died on first Roll Or gone to Island of the Dead.
-
-        // this is where the main game play will be conducted by the player
         while (true) {
             menuOption();
             playerOption = 0;
@@ -106,7 +115,7 @@ public class Player implements Serializable {
             playerOption = Integer.parseInt(playerInput.nextLine());
             switch (playerOption) {
                 case PlayerCommand.RE_ROLL_COMMAND:
-                    playerReroll(playerInput);
+                    playerReroll(playerInput, false);
                     break;
                 case PlayerCommand.ACTIVATE_SORCERER_COMMAND:
                     ((Sorceress) this.fortuneCard).activateSorceress(this.dieRolled);
@@ -124,8 +133,6 @@ public class Player implements Serializable {
                     System.out.println("INVALID OPTION GIVEN\n\n");
             }
             if (hasPlayerDied()) {
-                // handle edge case where the player rolled 3 skulls but activates Sorceress and
-                // drops it from 3 to 2 skulls
                 return;
             }
 
@@ -139,12 +146,20 @@ public class Player implements Serializable {
         playerInput.close();
     }
 
-    private void playerReroll(Scanner playerInput) {
+    private boolean shouldGoToIslandOfDead() {
+        return Collections.frequency(this.dieRolled, DieSides.SKULL) >= 4;
+    }
+
+    private void playerReroll(Scanner playerInput, boolean landOfTheDead) {
         while (true) {
             game.printPlayerDice(dieRolled);
 
             System.out.println("Select the die you wish to re-roll: Format -> 1 2...");
             String selectedDies = playerInput.nextLine();
+
+            if (((this.dieRolled.size() - Collections.frequency(dieRolled, DieSides.SKULL)) < 2) && landOfTheDead) {
+                break;
+            }
 
             String[] die = selectedDies.split(" ");
             if (die.length != 2)
@@ -165,6 +180,10 @@ public class Player implements Serializable {
             game.rollDiePair(index_1 + 1, index_2 + 1, dieRolled);
             System.out.println("After reroll your new die hand is");
             game.printPlayerDice(dieRolled);
+            if (!this.dieRolled.get(index_2).equals(DieSides.SKULL)
+                    && !this.dieRolled.get(index_1).equals(DieSides.SKULL) && landOfTheDead) {
+                break;
+            }
             break;
         }
     }
@@ -203,17 +222,17 @@ public class Player implements Serializable {
     }
 
     private boolean hasPlayerDied() {
-		if (this.fortuneCard instanceof Sorceress && !((Sorceress) this.fortuneCard).getHasBeenActivated()) {
-			return false;
-		}
-    	int skullCount = 0;
+        if (this.fortuneCard instanceof Sorceress && !((Sorceress) this.fortuneCard).getHasBeenActivated()) {
+            return false;
+        }
+        int skullCount = 0;
         for (String dieFace : dieRolled) {
             if (dieFace.equals(DieSides.SKULL)) {
                 skullCount++;
             }
         }
         if (skullCount >= 3) {
-        	isPlayerAlive = false;
+            isPlayerAlive = false;
             return true;
         }
         return false;
@@ -274,12 +293,12 @@ public class Player implements Serializable {
         }
 
         /**
-         * Sending current player score to server.
+         * Sending current player status to server.
          */
-        public void sendScores() {
+        public void sendScores(PirateStatus pirateStatus) {
             try {
 
-                objectOutputStream.writeInt(currentScore);
+                objectOutputStream.writeObject(pirateStatus);
                 objectOutputStream.flush();
 
             } catch (IOException e) {
@@ -320,7 +339,7 @@ public class Player implements Serializable {
         return dieRolled.contains(DieSides.SKULL);
     }
 
-    private void incrementScore(int score) {
+    public void incrementScore(int score) {
         this.currentScore = (this.currentScore + score) < 0 ? 0 : this.currentScore + score;
     }
 
@@ -354,7 +373,7 @@ public class Player implements Serializable {
     }
 
     public boolean getIsPlayerAlive() {
-    	return this.isPlayerAlive;
+        return this.isPlayerAlive;
     }
 
     public Integer getScore() {

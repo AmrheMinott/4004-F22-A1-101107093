@@ -89,7 +89,6 @@ public class GameServer implements Runnable {
 
                 Server server = new Server(s, numberOfConnectedPlayers);
 
-                // Get the player name
                 Player player = (Player) server.dIn.readObject();
                 System.out.println("Player " + server.playerId + " ~ " + player.getName() + " ~ has joined");
 
@@ -114,12 +113,16 @@ public class GameServer implements Runnable {
         while (true) {
             System.out.println("Round number " + roundsPlayed);
             playerServer.get(currentConnectedPlayer)
-                    .sendRoundStatus(new PirateStatus(deck.get(deckIndex), GameStatus.PLAY));
+                    .sendRoundStatus(new PirateStatus(deck.get(deckIndex), GameStatus.PLAY, 0, 0));
 
-            int score_player = playerServer.get(currentConnectedPlayer).receiveScoreFromCurrentPlayer();
-            System.out.println("SERVER: Score = " + score_player);
-            players.get(currentConnectedPlayer).setScore(score_player);
-            playerServer.get(currentConnectedPlayer).sendRoundStatus(new PirateStatus(null, GameStatus.WAITING));
+            PirateStatus status = playerServer.get(currentConnectedPlayer).receiveScoreFromCurrentPlayer();
+            int score_player = status.getScore();
+            int message_code = status.getMessage();
+            int deductions = status.getScoreDeduction();
+            System.out.println("SERVER: Score = " + score_player + " DEDUCTIONS: " + deductions);
+            if (message_code == GameStatus.ISLAND_OF_THE_DEAD)
+                updateOtherPlayerScoresAfterIslandOfTheDead(deductions);
+            playerServer.get(currentConnectedPlayer).sendRoundStatus(new PirateStatus(null, GameStatus.WAITING, 0, 0));
 
             roundsPlayed++;
             currentConnectedPlayer++;
@@ -129,6 +132,16 @@ public class GameServer implements Runnable {
             if (deckIndex == deck.size()) {
                 shuffleDeck();
                 deckIndex = 0;
+            }
+        }
+    }
+
+    private void updateOtherPlayerScoresAfterIslandOfTheDead(int deductions) {
+        if (TOTAL_NUMBER_OF_PLAYERS != 1) {
+            for (int i = 0; i < TOTAL_NUMBER_OF_PLAYERS; i ++) {
+                if (i != currentConnectedPlayer) {
+                    players.get(i).incrementScore(deductions);
+                }
             }
         }
     }
@@ -179,7 +192,7 @@ public class GameServer implements Runnable {
         /**
          * Communicates to the current playing player if they are able to play.
          * 
-         * @param status - int value representing the status for the player.
+         * @param status - PirateStatus value representing the status for the player.
          */
         public void sendRoundStatus(PirateStatus status) {
             try {
@@ -192,20 +205,20 @@ public class GameServer implements Runnable {
         }
 
         /**
-         * Receives from the score value from the current player.
+         * Receives from the status from the current player.
          * 
-         * @return int - the value of the score that the player calculated and sent back
+         * @return PirateStatus - the status of the player and sent back
          *         to the server.
          */
-        public int receiveScoreFromCurrentPlayer() {
+        public PirateStatus receiveScoreFromCurrentPlayer() {
             try {
 
-                return dIn.readInt();
+                return (PirateStatus) dIn.readObject();
             } catch (Exception e) {
                 System.out.println("Score sheet not received");
                 e.printStackTrace();
             }
-            return 0;
+            return null;
         }
 
         public void terminate() throws IOException {

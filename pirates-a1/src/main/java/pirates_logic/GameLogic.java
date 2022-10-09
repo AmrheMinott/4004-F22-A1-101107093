@@ -4,6 +4,7 @@ import static java.util.Map.entry;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -166,5 +167,9 @@ public class GameLogic implements Serializable {
         dice.set(index_1 - 1, DieSides.DICE_FACES.get((int) (Math.random() * 6)));
         dice.set(index_2 - 1, DieSides.DICE_FACES.get((int) (Math.random() * 6)));
         return dice;
+    }
+
+    public int scoreIslandOfTheDeadDeduction(ArrayList<String> roll) {
+        return -(Collections.frequency(roll, DieSides.SKULL) * 100);
     }
 }
