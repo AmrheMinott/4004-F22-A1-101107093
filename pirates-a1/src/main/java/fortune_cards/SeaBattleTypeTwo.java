@@ -16,7 +16,7 @@ public class SeaBattleTypeTwo extends SeaBattle {
 
     @Override
     public String toString() {
-        return "Sea Battle Type Two Card - Potential points: " + getAdditionalPoints() + "and needed Swords to win: "
+        return "Sea Battle Type Two Card - Potential points: " + getAdditionalPoints() + " and needed Swords to win: "
                 + getRequiredNumberOfSwords();
     }
 }

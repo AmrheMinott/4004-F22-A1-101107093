@@ -27,7 +27,7 @@ import player.Player;
 public class GameServer implements Runnable {
 
     private ServerSocket serverSocket = null;
-    private int TOTAL_NUMBER_OF_PLAYERS = 1;
+    private int TOTAL_NUMBER_OF_PLAYERS = 2;
 
     private int currentConnectedPlayer = 0;
     private int numberOfConnectedPlayers;
@@ -87,10 +87,10 @@ public class GameServer implements Runnable {
                 Socket s = serverSocket.accept();
                 numberOfConnectedPlayers++;
 
-                Server server = new Server(s, numberOfConnectedPlayers);
+                Server server = new Server(s);
 
                 Player player = (Player) server.dIn.readObject();
-                System.out.println("Player " + server.playerId + " ~ " + player.getName() + " ~ has joined");
+                System.out.println("Player ~ " + player.getName() + " ~ has joined");
 
                 players.add(player);
                 playerServer.add(server);
@@ -110,19 +110,26 @@ public class GameServer implements Runnable {
     synchronized public void gameLoop() {
         int roundsPlayed = 0;
         int deckIndex = 0;
+        PirateStatus status = new PirateStatus(deck.get(deckIndex), GameStatus.PLAY, 0, 0);
         while (true) {
             System.out.println("Round number " + roundsPlayed);
-            playerServer.get(currentConnectedPlayer)
-                    .sendRoundStatus(new PirateStatus(deck.get(deckIndex), GameStatus.PLAY, 0, 0));
+            status.setFortuneCard(deck.get(deckIndex));
+            status.setMessageCode(GameStatus.PLAY);
+            status.setScore(0);
+            status.setScoreDeduction(0);
+            playerServer.get(currentConnectedPlayer).sendRoundStatus(status);
 
-            PirateStatus status = playerServer.get(currentConnectedPlayer).receiveScoreFromCurrentPlayer();
-            int score_player = status.getScore();
-            int message_code = status.getMessageCode();
-            int deductions = status.getScoreDeduction();
-            System.out.println("SERVER: Score = " + score_player + " DEDUCTIONS: " + deductions);
-            if (message_code == GameStatus.ISLAND_OF_THE_DEAD)
-                updateOtherPlayerScoresAfterIslandOfTheDead(deductions);
-            playerServer.get(currentConnectedPlayer).sendRoundStatus(new PirateStatus(null, GameStatus.WAITING, 0, 0));
+            status = playerServer.get(currentConnectedPlayer).receiveScoreFromCurrentPlayer();
+
+            System.out.println("SERVER: " + players.get(currentConnectedPlayer) + " " + status);
+            if (status.getMessageCode() == GameStatus.ISLAND_OF_THE_DEAD)
+                updateOtherPlayerScoresAfterIslandOfTheDead(status.getScoreDeduction());
+            status.setFortuneCard(null);
+            status.setMessageCode(GameStatus.WAITING);
+            status.setScore(0);
+            status.setScoreDeduction(0);
+
+            playerServer.get(currentConnectedPlayer).sendRoundStatus(status);
 
             roundsPlayed++;
             currentConnectedPlayer++;
@@ -162,12 +169,10 @@ public class GameServer implements Runnable {
         private Socket socket;
         private ObjectInputStream dIn;
         private ObjectOutputStream dOut;
-        private int playerId;
         private boolean isRunning = true;
 
-        public Server(Socket s, int playerid) {
+        public Server(Socket s) {
             socket = s;
-            playerId = playerid;
             try {
                 dOut = new ObjectOutputStream(socket.getOutputStream());
                 dIn = new ObjectInputStream(socket.getInputStream());

@@ -53,7 +53,6 @@ public class Player implements Serializable {
         while (true) {
             PirateStatus status = clientConnection.receiveRoundStatus();
             this.fortuneCard = status.getFortuneCard();
-            System.out.println("Status" + status);
             if (status.getMessageCode() == GameStatus.STOP) {
                 break;
             }
@@ -62,14 +61,22 @@ public class Player implements Serializable {
             }
 
             if (status.getMessageCode() == GameStatus.PLAY) {
-                System.out.println("STATUS " + status);
+                System.out.println(status);
                 playRound();
                 if (islandOfTheDeadMode) {
-                    clientConnection.sendScores(new PirateStatus(this.fortuneCard, GameStatus.ISLAND_OF_THE_DEAD,
-                            game.scoreIslandOfTheDeadDeduction(this.dieRolled), this.currentScore));
+                    status.setFortuneCard(this.fortuneCard);
+                    status.setMessageCode(GameStatus.ISLAND_OF_THE_DEAD);
+                    status.setScore(this.currentScore);
+                    status.setScoreDeduction(game.scoreIslandOfTheDeadDeduction(this.dieRolled));
+                    status.setPlayerScores(playerName, currentScore);
+                    clientConnection.sendScores(status);
                 } else {
-                    clientConnection
-                            .sendScores(new PirateStatus(this.fortuneCard, GameStatus.NONE, 0, this.currentScore));
+                    status.setFortuneCard(this.fortuneCard);
+                    status.setMessageCode(GameStatus.NONE);
+                    status.setScore(this.currentScore);
+                    status.setScoreDeduction(0);
+                    status.setPlayerScores(playerName, currentScore);
+                    clientConnection.sendScores(status);
                 }
                 islandOfTheDeadMode = false;
             }
@@ -79,7 +86,8 @@ public class Player implements Serializable {
     @SuppressWarnings("resource")
     public void playRound() {
         Scanner playerInput = new Scanner(System.in);
-        System.out.println("Start of " + this.playerName + " turn. Roll All 8 dice.");
+        System.out.println("Start of " + this.playerName + " turn with FC Card "
+                + this.fortuneCard.getClass().getSimpleName() + ". Roll All 8 dice.");
         this.isPlayerAlive = true;
         if (this.fortuneCard instanceof SkullTypeTwo) {
             this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
@@ -123,8 +131,7 @@ public class Player implements Serializable {
                     playerReroll(playerInput, false);
                     break;
                 case PlayerCommand.ACTIVATE_SORCERER_COMMAND:
-                    ((Sorceress) this.fortuneCard).activateSorceress(this.dieRolled);
-                    game.printPlayerDice(dieRolled);
+                    sorceressActivation();
                     break;
                 case PlayerCommand.ADD_TO_CHEST_COMMAND:
                     addToChest(playerInput);
@@ -198,7 +205,7 @@ public class Player implements Serializable {
     }
 
     private void removeFromChest(Scanner playerInput) {
-        if (((Chest) this.fortuneCard).getChestContent().size() > 0) {
+        if (this.fortuneCard instanceof Chest && ((Chest) this.fortuneCard).getChestContent().size() > 0) {
             System.out.println("Chest contents");
             game.printPlayerDice(((Chest) this.fortuneCard).getChestContent());
             System.out.println("Specify the index you wish to remove -> 1...");
@@ -212,7 +219,7 @@ public class Player implements Serializable {
     }
 
     private void addToChest(Scanner playerInput) {
-        if (this.dieRolled.size() > 0) {
+        if (this.fortuneCard instanceof Chest && this.dieRolled.size() > 0) {
             game.printPlayerDice(this.dieRolled);
             System.out.println("Specify the index you wish to add -> 1...");
             playerOption = Integer.parseInt(playerInput.nextLine());
@@ -224,6 +231,13 @@ public class Player implements Serializable {
             playerOption = -999;
             game.printPlayerDice(dieRolled);
         }
+    }
+
+    private void sorceressActivation() {
+        if (!(this.fortuneCard instanceof Sorceress))
+            return;
+        ((Sorceress) this.fortuneCard).activateSorceress(this.dieRolled);
+        game.printPlayerDice(dieRolled);
     }
 
     public void killClient() {
@@ -325,7 +339,6 @@ public class Player implements Serializable {
          */
         public PirateStatus receiveRoundStatus() throws ClassNotFoundException {
             try {
-                // dIn.readObject();
                 return (PirateStatus) objectInputStream.readObject();
 
             } catch (IOException e) {
@@ -412,6 +425,11 @@ public class Player implements Serializable {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public String toString() {
+        return "Name: " + this.playerName;
     }
 
 }

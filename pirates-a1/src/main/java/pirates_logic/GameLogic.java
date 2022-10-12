@@ -62,6 +62,7 @@ public class GameLogic implements Serializable {
                 ((Chest) card).emptyChest();
 
             } else if (diceSideMap.get(DieSides.SKULL) >= MAX_NUMBER_OF_SKULLS && card instanceof SeaBattle) {
+                System.out.println("Player lost at sea worth " + ((SeaBattle) card).getAdditionalPoints());
                 return -((SeaBattle) card).getAdditionalPoints();
             } else {
                 return 0;
@@ -149,7 +150,7 @@ public class GameLogic implements Serializable {
 
     public void printPlayerDice(ArrayList<String> dice) {
         for (int i = 0; i < dice.size(); i++) {
-            if (i == 4)
+            if (i % 4 == 0 && i != 0)
                 System.out.println();
             System.out.print(i + 1 + "-> " + dice.get(i) + "\t ");
         }
