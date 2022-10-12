@@ -69,6 +69,8 @@ public class Player implements Serializable {
                     status.setScore(this.currentScore);
                     status.setScoreDeduction(game.scoreIslandOfTheDeadDeduction(this.dieRolled));
                     status.setPlayerScores(playerName, currentScore);
+                    islandOfTheDeadMode = false;
+
                     clientConnection.sendScores(status);
                 } else {
                     status.setFortuneCard(this.fortuneCard);
@@ -103,8 +105,9 @@ public class Player implements Serializable {
 
         if (shouldGoToIslandOfDead()) {
             islandOfTheDeadMode = true;
-            System.out.println("Welcome to the land of the dead!");
+            System.out.println("Welcome to the land of the dead! " + this);
             playerReroll(playerInput, true);
+            System.out.println("End of turn after island of the dead! for -> " + this);
             return;
         }
 
@@ -200,6 +203,8 @@ public class Player implements Serializable {
             if (!this.dieRolled.get(index_2).equals(DieSides.SKULL)
                     && !this.dieRolled.get(index_1).equals(DieSides.SKULL) && landOfTheDead) {
                 break;
+            } else if (landOfTheDead) {
+                continue;
             }
             break;
         }
