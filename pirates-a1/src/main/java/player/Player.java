@@ -132,6 +132,7 @@ public class Player implements Serializable {
                     break;
                 case PlayerCommand.ACTIVATE_SORCERER_COMMAND:
                     sorceressActivation();
+                    game.printPlayerDice(dieRolled);
                     break;
                 case PlayerCommand.ADD_TO_CHEST_COMMAND:
                     addToChest(playerInput);
@@ -233,11 +234,10 @@ public class Player implements Serializable {
         }
     }
 
-    private void sorceressActivation() {
+    public void sorceressActivation() {
         if (!(this.fortuneCard instanceof Sorceress))
             return;
         ((Sorceress) this.fortuneCard).activateSorceress(this.dieRolled);
-        game.printPlayerDice(dieRolled);
     }
 
     public void killClient() {

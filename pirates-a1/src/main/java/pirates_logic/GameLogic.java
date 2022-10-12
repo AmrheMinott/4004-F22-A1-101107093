@@ -55,6 +55,7 @@ public class GameLogic implements Serializable {
 
         if (diceSideMap.get(DieSides.SKULL) >= MAX_NUMBER_OF_SKULLS) {
             hasPlayerDied = true;
+            System.out.println("Player died!");
 
             if (card instanceof Chest) {
                 resetDiceSideMap();
