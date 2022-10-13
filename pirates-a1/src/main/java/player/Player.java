@@ -76,6 +76,7 @@ public class Player implements Serializable {
                     status.setMessageCode(GameStatus.ISLAND_OF_THE_DEAD);
                     status.setScore(this.currentScore);
                     status.setScoreDeduction(game.scoreIslandOfTheDeadDeduction(this.dieRolled));
+                    status.setPlayerScores(playerName, currentScore);
                     islandOfTheDeadMode = false;
 
                     clientConnection.sendEndOfRoundStatus(status);
@@ -84,6 +85,7 @@ public class Player implements Serializable {
                     status.setMessageCode(GameStatus.NONE);
                     status.setScore(this.currentScore);
                     status.setScoreDeduction(0);
+                    status.setPlayerScores(playerName, currentScore);
 
                     clientConnection.sendEndOfRoundStatus(status);
                 }
@@ -160,7 +162,8 @@ public class Player implements Serializable {
             }
 
             if (playerOption == PlayerCommand.END_PLAYER_ROUND) {
-                System.out.println(this.playerName + " has ended their turn. Earned " + game.scoreTurn(dieRolled, fortuneCard) + " points.");
+                System.out.println(this.playerName + " has ended their turn. Earned "
+                        + game.scoreTurn(dieRolled, fortuneCard) + " points.");
                 incrementScore(game.scoreTurn(dieRolled, fortuneCard));
                 return;
             }

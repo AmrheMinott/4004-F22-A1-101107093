@@ -119,7 +119,7 @@ public class GameServer implements Runnable {
             status.setFortuneCard(deck.get(deckIndex));
             printPlayersScore();
             status.setMessageCode(GameStatus.PLAY);
-            status.setScore(playerScores.get(players.get(currentConnectedPlayer).getName()));
+            status.setScore(0);
             status.setScoreDeduction(0);
 
             playerServer.get(currentConnectedPlayer).sendRoundStatus(status);
