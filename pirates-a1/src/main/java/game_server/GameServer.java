@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -120,7 +119,7 @@ public class GameServer implements Runnable {
             status.setFortuneCard(deck.get(deckIndex));
             printPlayersScore();
             status.setMessageCode(GameStatus.PLAY);
-            status.setScore(0);
+            status.setScore(playerScores.get(players.get(currentConnectedPlayer).getName()));
             status.setScoreDeduction(0);
 
             playerServer.get(currentConnectedPlayer).sendRoundStatus(status);
@@ -147,7 +146,7 @@ public class GameServer implements Runnable {
 
             status.setFortuneCard(null);
             status.setMessageCode(GameStatus.WAITING);
-            status.setScore(0);
+            status.setScore(playerScores.get(players.get(currentConnectedPlayer).getName()));
             status.setScoreDeduction(0);
 
             playerServer.get(currentConnectedPlayer).sendRoundStatus(status);
@@ -233,7 +232,7 @@ public class GameServer implements Runnable {
             try {
                 objectOutputStream.writeObject(status);
                 objectOutputStream.flush();
-//                dOut.reset();
+                objectOutputStream.reset();
             } catch (Exception e) {
                 System.out.println("SERVER: Player Status not sent.");
                 e.printStackTrace();

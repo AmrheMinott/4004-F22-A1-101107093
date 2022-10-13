@@ -96,7 +96,7 @@ public class Player implements Serializable {
     public void playRound() {
         Scanner playerInput = new Scanner(System.in);
         System.out.println("\n\n\n\n Start of " + this.playerName + " turn with FC Card "
-                + this.fortuneCard.getClass().getSimpleName() + ". Roll All 8 dice.");
+                + this.fortuneCard.getClass().getSimpleName() + ". Score: " + this.currentScore + ". Roll All 8 dice.");
         this.isPlayerAlive = true;
         if (this.fortuneCard instanceof SkullTypeTwo) {
             this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
@@ -160,7 +160,7 @@ public class Player implements Serializable {
             }
 
             if (playerOption == PlayerCommand.END_PLAYER_ROUND) {
-                System.out.println(this.playerName + " has ended their turn.");
+                System.out.println(this.playerName + " has ended their turn. Earned " + game.scoreTurn(dieRolled, fortuneCard) + " points.");
                 incrementScore(game.scoreTurn(dieRolled, fortuneCard));
                 return;
             }
@@ -336,6 +336,7 @@ public class Player implements Serializable {
 
                 objectOutputStream.writeObject(pirateStatus);
                 objectOutputStream.flush();
+                objectOutputStream.reset();
 
             } catch (IOException e) {
                 System.out.println("End of round status not sent!");
