@@ -978,6 +978,42 @@ public class PiratesCustomerAcceptanceTests {
 
     // test for 110 and 111
 
+    @Test
+    public void row110() {
+        player.setScore(1000);
+        player_2.setScore(1500);
+        player.setFortuneCard(captain);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY),
+                player.getRoll());
+
+        gameLogic.rollDiePair(6, 7, dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.GOLD, DieSides.MONKEY)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.GOLD, DieSides.MONKEY),
+                player.getRoll());
+        
+        gameLogic.rollDiePair(7, 8, dieRolled);
+        
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY),
+                player.getRoll());
+
+        player_2.incrementScore(gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll(), captain));
+        assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+        assertEquals(100, player_2.getScore());
+        assertEquals(-1400, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll()));
+    }
+
     /**
      * PART 2: Miscellaneous Fortune Cards and Full Chest bonus (SINGLE PLAYER
      * SCORING)
