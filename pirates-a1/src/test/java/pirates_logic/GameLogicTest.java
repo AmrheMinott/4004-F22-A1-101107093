@@ -425,7 +425,7 @@ public class GameLogicTest {
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SKULL,
                 DieSides.SKULL));
 
-        assertEquals(-400, gameLogic.scoreIslandOfTheDeadDeduction(dice));
+        assertEquals(-400, gameLogic.scoreIslandOfTheDeadDeduction(dice, null));
     }
 
     @Test
@@ -434,7 +434,7 @@ public class GameLogicTest {
                 DieSides.GOLD, DieSides.GOLD, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
                 DieSides.SKULL));
 
-        assertEquals(-800, gameLogic.scoreIslandOfTheDeadDeduction(dice));
+        assertEquals(-800, gameLogic.scoreIslandOfTheDeadDeduction(dice, null));
     }
 
     @Test
@@ -443,7 +443,7 @@ public class GameLogicTest {
                 DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
                 DieSides.SKULL));
 
-        assertEquals(-1000, gameLogic.scoreIslandOfTheDeadDeduction(dice));
+        assertEquals(-1000, gameLogic.scoreIslandOfTheDeadDeduction(dice, null));
     }
 
     @Test

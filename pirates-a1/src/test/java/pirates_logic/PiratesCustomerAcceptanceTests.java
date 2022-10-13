@@ -970,10 +970,10 @@ public class PiratesCustomerAcceptanceTests {
                 DieSides.SKULL, DieSides.SKULL),
                 player.getRoll());
 
-        player_2.incrementScore(gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll()));
+        player_2.incrementScore(gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll(), null));
         assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
         assertEquals(300, player_2.getScore());
-        assertEquals(-700, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll()));
+        assertEquals(-700, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll(), null));
     }
 
     // test for 110 and 111
@@ -1011,7 +1011,7 @@ public class PiratesCustomerAcceptanceTests {
         player_2.incrementScore(gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll(), captain));
         assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
         assertEquals(100, player_2.getScore());
-        assertEquals(-1400, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll()));
+        assertEquals(-1400, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll(), captain));
     }
 
     /**
