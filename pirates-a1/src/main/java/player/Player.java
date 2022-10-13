@@ -57,7 +57,15 @@ public class Player implements Serializable {
                 break;
             }
 
-            if (status.getMessageCode() == GameStatus.WAITING) {
+            if (status.getMessageCode() == GameStatus.DEDUCT_COMMAND) {
+                if (status.getScoreDeduction() < 0) {
+                    System.out.println(
+                            "\n\n While waiting you have lost some points sadly of " + status.getScoreDeduction());
+                    incrementScore(status.getScoreDeduction());
+                    status.setScoreDeduction(0);
+                    clientConnection.sendDeductStatus(status);
+                    System.out.println("AFTER " + this);
+                }
             }
 
             if (status.getMessageCode() == GameStatus.PLAY) {
@@ -68,17 +76,16 @@ public class Player implements Serializable {
                     status.setMessageCode(GameStatus.ISLAND_OF_THE_DEAD);
                     status.setScore(this.currentScore);
                     status.setScoreDeduction(game.scoreIslandOfTheDeadDeduction(this.dieRolled));
-                    status.setPlayerScores(playerName, currentScore);
                     islandOfTheDeadMode = false;
 
-                    clientConnection.sendScores(status);
+                    clientConnection.sendEndOfRoundStatus(status);
                 } else {
                     status.setFortuneCard(this.fortuneCard);
                     status.setMessageCode(GameStatus.NONE);
                     status.setScore(this.currentScore);
                     status.setScoreDeduction(0);
-                    status.setPlayerScores(playerName, currentScore);
-                    clientConnection.sendScores(status);
+
+                    clientConnection.sendEndOfRoundStatus(status);
                 }
                 islandOfTheDeadMode = false;
             }
@@ -88,7 +95,7 @@ public class Player implements Serializable {
     @SuppressWarnings("resource")
     public void playRound() {
         Scanner playerInput = new Scanner(System.in);
-        System.out.println("Start of " + this.playerName + " turn with FC Card "
+        System.out.println("\n\n\n\n Start of " + this.playerName + " turn with FC Card "
                 + this.fortuneCard.getClass().getSimpleName() + ". Roll All 8 dice.");
         this.isPlayerAlive = true;
         if (this.fortuneCard instanceof SkullTypeTwo) {
@@ -170,12 +177,12 @@ public class Player implements Serializable {
         while (true) {
             game.printPlayerDice(dieRolled);
 
-            System.out.println("Select the die you wish to re-roll: Format -> 1 2...");
-            String selectedDies = playerInput.nextLine();
-
             if (((this.dieRolled.size() - Collections.frequency(dieRolled, DieSides.SKULL)) < 2) && landOfTheDead) {
                 break;
             }
+
+            System.out.println("Select the die you wish to re-roll: Format -> 1 2...");
+            String selectedDies = playerInput.nextLine();
 
             String[] die = selectedDies.split(" ");
             if (die.length != 2)
@@ -267,7 +274,7 @@ public class Player implements Serializable {
     }
 
     private void menuOption() {
-        System.out.println("\n\n\n");
+        System.out.println("\n");
         if (this.fortuneCard instanceof SeaBattle) {
             System.out.println(this.fortuneCard);
         }
@@ -297,8 +304,9 @@ public class Player implements Serializable {
         public Client(int portId) {
             try {
                 socket = new Socket("localhost", ServerConstants.GAME_SERVER_PORT_NUMBER);
-                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectInputStream = new ObjectInputStream(socket.getInputStream());
+
+                objectOutputStream = new ObjectOutputStream((socket.getOutputStream()));
+                objectInputStream = new ObjectInputStream((socket.getInputStream()));
 
                 sendPlayer();
 
@@ -323,14 +331,27 @@ public class Player implements Serializable {
         /**
          * Sending current player status to server.
          */
-        public void sendScores(PirateStatus pirateStatus) {
+        public void sendEndOfRoundStatus(PirateStatus pirateStatus) {
             try {
 
                 objectOutputStream.writeObject(pirateStatus);
                 objectOutputStream.flush();
 
             } catch (IOException e) {
-                System.out.println("Score sheet not received");
+                System.out.println("End of round status not sent!");
+                e.printStackTrace();
+            }
+        }
+
+        public void sendDeductStatus(PirateStatus pirateStatus) {
+            try {
+
+                objectOutputStream.writeObject(pirateStatus);
+                objectOutputStream.flush();
+                objectOutputStream.reset();
+
+            } catch (IOException e) {
+                System.out.println("Deducut status not sent!");
                 e.printStackTrace();
             }
         }
@@ -431,10 +452,10 @@ public class Player implements Serializable {
         }
         return false;
     }
-    
+
     @Override
     public String toString() {
-        return "Name: " + this.playerName;
+        return "Name: " + this.playerName + " Score " + this.currentScore;
     }
 
 }

@@ -5,8 +5,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import constants.GameStatus;
 import constants.ServerConstants;
@@ -34,7 +36,9 @@ public class GameServer implements Runnable {
 
     private ArrayList<Server> playerServer = new ArrayList<Server>();
     private ArrayList<Player> players = new ArrayList<Player>();
-//    private GameLogic game = new GameLogic();
+
+    private HashMap<String, Integer> playerScores = new HashMap<String, Integer>();
+    private HashMap<String, Integer> playerDeductions = new HashMap<String, Integer>();
 
     private ArrayList<FortuneCard> deck = new ArrayList<FortuneCard>();
 
@@ -89,7 +93,7 @@ public class GameServer implements Runnable {
 
                 Server server = new Server(s);
 
-                Player player = (Player) server.dIn.readObject();
+                Player player = (Player) server.objectInputStream.readObject();
                 System.out.println("Player ~ " + player.getName() + " ~ has joined");
 
                 players.add(player);
@@ -108,22 +112,39 @@ public class GameServer implements Runnable {
     }
 
     synchronized public void gameLoop() {
-        int roundsPlayed = 0;
+        int roundsPlayed = 1;
         int deckIndex = 0;
         PirateStatus status = new PirateStatus(deck.get(deckIndex), GameStatus.PLAY, 0, 0);
         while (true) {
             System.out.println("Round number " + roundsPlayed);
             status.setFortuneCard(deck.get(deckIndex));
+            printPlayersScore();
             status.setMessageCode(GameStatus.PLAY);
             status.setScore(0);
             status.setScoreDeduction(0);
+
             playerServer.get(currentConnectedPlayer).sendRoundStatus(status);
 
-            status = playerServer.get(currentConnectedPlayer).receiveScoreFromCurrentPlayer();
+            status = playerServer.get(currentConnectedPlayer).receiveStatusFromCurrentPlayer();
+
+            playerScores.put(players.get(currentConnectedPlayer).getName(), status.getScore());
 
             System.out.println("SERVER: " + players.get(currentConnectedPlayer) + " " + status);
-            if (status.getMessageCode() == GameStatus.ISLAND_OF_THE_DEAD)
-                updateOtherPlayerScoresAfterIslandOfTheDead(status.getScoreDeduction());
+            if (status.getMessageCode() == GameStatus.ISLAND_OF_THE_DEAD) {
+                for (int i = 0; i < TOTAL_NUMBER_OF_PLAYERS; i++) {
+                    System.out.println(players.get(i).getName() + status.getScoreDeduction());
+                    if (i != currentConnectedPlayer) {
+                        updatePlayerDeductions(status, i);
+                        status.setScoreDeduction(playerDeductions.get(players.get(i).getName()));
+                        status.setMessageCode(GameStatus.DEDUCT_COMMAND);
+                        playerServer.get(i).sendDeductStatus(status);
+                        playerDeductions.put(players.get(i).getName(), 0);
+                        status = playerServer.get(i).receiveDeductStatus();
+                    }
+
+                }
+            }
+
             status.setFortuneCard(null);
             status.setMessageCode(GameStatus.WAITING);
             status.setScore(0);
@@ -143,13 +164,22 @@ public class GameServer implements Runnable {
         }
     }
 
-    private void updateOtherPlayerScoresAfterIslandOfTheDead(int deductions) {
-        if (TOTAL_NUMBER_OF_PLAYERS != 1) {
-            for (int i = 0; i < TOTAL_NUMBER_OF_PLAYERS; i ++) {
-                if (i != currentConnectedPlayer) {
-                    players.get(i).incrementScore(deductions);
-                }
-            }
+    private void printPlayersScore() {
+        String scoreString = "";
+
+        for (String name : playerScores.keySet()) {
+            scoreString += (name + ": " + playerScores.get(name) + " ");
+        }
+        scoreString = (playerScores.keySet().size() == 0 ? "No Scores Yet." : scoreString);
+        System.out.println("Players Scores: " + scoreString);
+    }
+
+    private void updatePlayerDeductions(PirateStatus status, int playerIndex) {
+        if (playerDeductions.containsKey(players.get(playerIndex).getName())) {
+            playerDeductions.put(players.get(playerIndex).getName(),
+                    (playerDeductions.get(players.get(playerIndex).getName()) + status.getScoreDeduction()));
+        } else {
+            playerDeductions.put(players.get(playerIndex).getName(), status.getScoreDeduction());
         }
     }
 
@@ -167,15 +197,15 @@ public class GameServer implements Runnable {
 
     public class Server implements Runnable {
         private Socket socket;
-        private ObjectInputStream dIn;
-        private ObjectOutputStream dOut;
+        private ObjectInputStream objectInputStream;
+        private ObjectOutputStream objectOutputStream;
         private boolean isRunning = true;
 
         public Server(Socket s) {
             socket = s;
             try {
-                dOut = new ObjectOutputStream(socket.getOutputStream());
-                dIn = new ObjectInputStream(socket.getInputStream());
+                objectOutputStream = new ObjectOutputStream((socket.getOutputStream()));
+                objectInputStream = new ObjectInputStream((socket.getInputStream()));
             } catch (IOException ex) {
                 System.out.println("Server Connection failed");
             }
@@ -201,8 +231,20 @@ public class GameServer implements Runnable {
          */
         public void sendRoundStatus(PirateStatus status) {
             try {
-                dOut.writeObject(status);
-                dOut.flush();
+                objectOutputStream.writeObject(status);
+                objectOutputStream.flush();
+//                dOut.reset();
+            } catch (Exception e) {
+                System.out.println("SERVER: Player Status not sent.");
+                e.printStackTrace();
+            }
+        }
+
+        public void sendDeductStatus(PirateStatus status) {
+            try {
+                objectOutputStream.writeObject(status);
+                objectOutputStream.flush();
+                objectOutputStream.reset();
             } catch (Exception e) {
                 System.out.println("SERVER: Player Status not sent.");
                 e.printStackTrace();
@@ -215,11 +257,21 @@ public class GameServer implements Runnable {
          * @return PirateStatus - the status of the player and sent back
          *         to the server.
          */
-        public PirateStatus receiveScoreFromCurrentPlayer() {
+        public PirateStatus receiveStatusFromCurrentPlayer() {
             try {
-                return (PirateStatus) dIn.readObject();
+                return (PirateStatus) objectInputStream.readObject();
             } catch (Exception e) {
-                System.out.println("Score sheet not received");
+                System.out.println("SERVER: Player status not received!");
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        public PirateStatus receiveDeductStatus() {
+            try {
+                return (PirateStatus) objectInputStream.readObject();
+            } catch (Exception e) {
+                System.out.println("SERVER: Deduct status not received!");
                 e.printStackTrace();
             }
             return null;
