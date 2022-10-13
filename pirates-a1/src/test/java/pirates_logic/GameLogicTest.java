@@ -445,4 +445,15 @@ public class GameLogicTest {
 
         assertEquals(-1000, gameLogic.scoreIslandOfTheDeadDeduction(dice));
     }
+
+    @Test
+    public void givenFCCaptian_assertDeductionsIsDoubled() {
+        Captain captain = new Captain();
+
+        ArrayList<String> dice = new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL));
+
+        assertEquals(-2000, gameLogic.scoreIslandOfTheDeadDeduction(dice, captain));
+    }
 }
