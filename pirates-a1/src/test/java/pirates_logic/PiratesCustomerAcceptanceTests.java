@@ -999,9 +999,9 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
                 DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.GOLD, DieSides.MONKEY),
                 player.getRoll());
-        
+
         gameLogic.rollDiePair(7, 8, dieRolled);
-        
+
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
                 DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY)));
         assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
@@ -1012,6 +1012,40 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
         assertEquals(100, player_2.getScore());
         assertEquals(-1400, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll(), captain));
+    }
+
+    @Test
+    public void row111() {
+        player.setScore(1000);
+        player_2.setScore(1500);
+        player.setFortuneCard(skullTypeTwo);
+        player.setRoll(dieRolled);
+        gameLogic.rollAllEightDie(dieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
+                DieSides.SKULL, DieSides.SKULL)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
+                DieSides.SKULL, DieSides.SKULL),
+                player.getRoll());
+
+        gameLogic.rollDiePair(4, 5, dieRolled);
+        gameLogic.rollDiePair(6, 7, dieRolled);
+        player.setRollAtIndex(4, DieSides.GOLD);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD,
+                DieSides.SKULL, DieSides.SKULL)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL,
+                DieSides.SKULL, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.GOLD,
+                DieSides.SKULL, DieSides.SKULL),
+                player.getRoll());
+
+        player_2.incrementScore(gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll(), skullTypeTwo));
+        assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+        assertEquals(1000, player_2.getScore());
+        assertEquals(-500, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll(), skullTypeTwo));
     }
 
     /**
