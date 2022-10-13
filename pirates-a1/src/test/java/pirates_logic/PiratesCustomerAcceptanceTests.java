@@ -45,6 +45,9 @@ public class PiratesCustomerAcceptanceTests {
 
     private Chest chest = new Chest();
 
+    /**
+     * PART 1: getting first 40 marks (SINGLE PLAYER SCORING)
+     */
     @Test
     public void row45() {
         player.setFortuneCard(coin);
@@ -215,10 +218,12 @@ public class PiratesCustomerAcceptanceTests {
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
 
-        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.MONKEY,
-                DieSides.PARROT, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL)));
-        assertEquals(player.getRoll(), Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.MONKEY,
-                DieSides.PARROT, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL));
+        player.setRoll(
+                new ArrayList<>(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.MONKEY,
+                        DieSides.PARROT, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL)));
+        assertEquals(player.getRoll(),
+                Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.DIAMOND, DieSides.MONKEY,
+                        DieSides.PARROT, DieSides.SWORD, DieSides.SKULL, DieSides.SKULL));
 
         assertEquals(500, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
@@ -236,20 +241,6 @@ public class PiratesCustomerAcceptanceTests {
 
         assertEquals(700, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
-
-//    @Test
-//    public void row57() {
-//        player.setFortuneCard(diamond);
-//        player.setRoll(dieRolled);
-//        gameLogic.rollAllEightDie(dieRolled);
-//
-//        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SWORD,
-//                DieSides.PARROT, DieSides.SWORD, DieSides.GOLD, DieSides.SKULL)));
-//        assertEquals(Arrays.asList(DieSides.GOLD, DieSides.GOLD, DieSides.GOLD, DieSides.SWORD, DieSides.PARROT,
-//                DieSides.SWORD, DieSides.GOLD, DieSides.SKULL), player.getRoll());
-//
-//        assertEquals(700, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
-//    }
 
     @Test
     public void row57() {
@@ -594,14 +585,20 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(600, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
+    /**
+     * PART 2: Miscellaneous Fortune Cards and Full Chest bonus (SINGLE PLAYER
+     * SCORING)
+     * Sorceress (5 points)
+     */
     @Test
     public void row77() {
         player.setFortuneCard(sorceress);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
 
-        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.SWORD, DieSides.MONKEY,
-                DieSides.GOLD, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT)));
+        player.setRoll(
+                new ArrayList<>(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.SWORD, DieSides.MONKEY,
+                        DieSides.GOLD, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT)));
         assertEquals(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.SWORD, DieSides.MONKEY,
                 DieSides.GOLD, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT), player.getRoll());
 
@@ -635,7 +632,7 @@ public class PiratesCustomerAcceptanceTests {
                 DieSides.PARROT, DieSides.PARROT, DieSides.SWORD, DieSides.SWORD)));
         assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
                 DieSides.PARROT, DieSides.PARROT, DieSides.SWORD, DieSides.SWORD), player.getRoll());
-        
+
         player.sorceressActivation();
 
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.PARROT, DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
@@ -683,6 +680,11 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(2000, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
+    /**
+     * PART 2: Miscellaneous Fortune Cards and Full Chest bonus (SINGLE PLAYER
+     * SCORING)
+     * Monkey Business (5 points)
+     */
     @Test
     public void row82() {
         player.setFortuneCard(monkeyBusiness);
@@ -732,6 +734,11 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(0, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
+    /**
+     * PART 2: Miscellaneous Fortune Cards and Full Chest bonus (SINGLE PLAYER
+     * SCORING)
+     * Treasure Chest (8 marks)
+     */
     @Test
     public void row90() {
         player.setFortuneCard(chest);
@@ -774,7 +781,7 @@ public class PiratesCustomerAcceptanceTests {
     }
 
     @Test
-    public void row95() {
+    public void row94() {
         player.setFortuneCard(chest);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
@@ -806,6 +813,11 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(600, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
+    /**
+     * PART 2: Miscellaneous Fortune Cards and Full Chest bonus (SINGLE PLAYER
+     * SCORING)
+     * Full Chest (10 marks)
+     */
     @Test
     public void row97() {
         player.setFortuneCard(coin);
@@ -849,7 +861,7 @@ public class PiratesCustomerAcceptanceTests {
     }
 
     @Test
-    public void row103() {
+    public void row102() {
         player.setFortuneCard(seaBattleTypeOne);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
@@ -870,31 +882,10 @@ public class PiratesCustomerAcceptanceTests {
     }
 
     @Test
-    public void row104() {
+    public void row103() {
         player.setFortuneCard(monkeyBusiness);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
-
-        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
-                DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD)));
-        assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD,
-                DieSides.PARROT, DieSides.PARROT, DieSides.GOLD), player.getRoll());
-
-        gameLogic.rollDiePair(1, 2, dieRolled);
-
-        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.MONKEY,
-                DieSides.MONKEY, DieSides.SWORD, DieSides.GOLD, DieSides.SWORD, DieSides.GOLD)));
-        assertEquals(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD,
-                DieSides.GOLD, DieSides.SWORD, DieSides.GOLD), player.getRoll());
-
-        gameLogic.rollDiePair(5, 6, dieRolled);
-
-        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.MONKEY,
-                DieSides.MONKEY, DieSides.PARROT, DieSides.GOLD, DieSides.SWORD, DieSides.GOLD)));
-        assertEquals(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.MONKEY, DieSides.MONKEY,
-                DieSides.PARROT, DieSides.GOLD, DieSides.SWORD, DieSides.GOLD), player.getRoll());
-
-        gameLogic.rollDiePair(5, 7, dieRolled);
 
         player.setRoll(new ArrayList<>(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.MONKEY,
                 DieSides.MONKEY, DieSides.PARROT, DieSides.GOLD, DieSides.DIAMOND, DieSides.GOLD)));
@@ -904,17 +895,22 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(1200, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
 
+    /**
+     * PART 2: Miscellaneous Fortune Cards and Full Chest bonus (SINGLE PLAYER
+     * SCORING)
+     * Skulls Island and Skull Fortune Cards (10 marks)
+     */
     @Test
-    public void row107() {
+    public void row106() {
         player.setFortuneCard(skullTypeTwo);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
 
-        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.MONKEY,
-                DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD,
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SWORD,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
                 DieSides.SKULL, DieSides.SKULL)));
-        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.MONKEY,
-                DieSides.MONKEY, DieSides.MONKEY, DieSides.SWORD, DieSides.PARROT, DieSides.PARROT, DieSides.GOLD,
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SWORD,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
                 DieSides.SKULL, DieSides.SKULL),
                 player.getRoll());
 
@@ -922,7 +918,7 @@ public class PiratesCustomerAcceptanceTests {
     }
 
     @Test
-    public void row108() {
+    public void row107() {
         player.setFortuneCard(skullTypeOne);
         player.setRoll(dieRolled);
         gameLogic.rollAllEightDie(dieRolled);
@@ -980,6 +976,14 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(-700, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll()));
     }
 
+    // test for 110 and 111
+
+    /**
+     * PART 2: Miscellaneous Fortune Cards and Full Chest bonus (SINGLE PLAYER
+     * SCORING)
+     * Sea Battles (12 marks): your UI must report how much is the deduction if any.
+     * No negative scores are allowed (Player score can not be negative).
+     */
     @Test
     public void row114() {
         player.setFortuneCard(seaBattleTypeOne);
@@ -1155,4 +1159,8 @@ public class PiratesCustomerAcceptanceTests {
 
         assertEquals(1300, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
     }
+
+    /**
+     * PART 3: multi-player scenarios
+     */
 }
