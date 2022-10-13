@@ -171,7 +171,10 @@ public class GameLogic implements Serializable {
         return dice;
     }
 
-    public int scoreIslandOfTheDeadDeduction(ArrayList<String> roll) {
+    public int scoreIslandOfTheDeadDeduction(ArrayList<String> roll, FortuneCard card) {
+        if (card instanceof Captain) {
+            return -((Collections.frequency(roll, DieSides.SKULL) * 100) * 2);
+        }
         return -(Collections.frequency(roll, DieSides.SKULL) * 100);
     }
 }

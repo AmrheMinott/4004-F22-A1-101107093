@@ -75,7 +75,7 @@ public class Player implements Serializable {
                     status.setFortuneCard(this.fortuneCard);
                     status.setMessageCode(GameStatus.ISLAND_OF_THE_DEAD);
                     status.setScore(this.currentScore);
-                    status.setScoreDeduction(game.scoreIslandOfTheDeadDeduction(this.dieRolled));
+                    status.setScoreDeduction(game.scoreIslandOfTheDeadDeduction(this.dieRolled, this.fortuneCard));
                     status.setPlayerScores(playerName, currentScore);
                     islandOfTheDeadMode = false;
 
