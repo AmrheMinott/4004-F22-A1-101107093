@@ -42,6 +42,14 @@ public class GameLogicTest {
         }
     };
 
+    private HashMap<String, Integer> scoreMapWithTwoWinnersOneIsHigher = new HashMap<String, Integer>() {
+        {
+            put("Player 1", 4000);
+            put("Player 2", 3000);
+            put("Player 3", 1000);
+        }
+    };
+
     /**
      * Captain Card testing
      */
@@ -470,6 +478,13 @@ public class GameLogicTest {
     public void givenPlayerOne_hasExactly3000_assertThatPlayerOneIsWinner() {
 
         assertEquals("Player 1", gameLogic.determineWinner(scoreMapWithOnlyOneWinner));
+
+    }
+
+    @Test
+    public void givenTwoPlayers_haveOver3000_assertTheHighestScoreIsWinner() {
+
+        assertEquals("Player 1", gameLogic.determineWinner(scoreMapWithTwoWinnersOneIsHigher));
 
     }
 }
