@@ -111,9 +111,11 @@ public class Player implements Serializable {
                     DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE)));
         }
         game.rollAllEightDie(dieRolled);
+        game.printPlayerDice(dieRolled);
 
         if (shouldGoToIslandOfDead()) {
             islandOfTheDeadMode = true;
+            System.out.println();
             System.out.println("Welcome to the land of the dead! " + this);
             playerReroll(playerInput, true);
             System.out.println("End of turn after island of the dead! for -> " + this);
@@ -124,7 +126,6 @@ public class Player implements Serializable {
             return;
         }
 
-        game.printPlayerDice(dieRolled);
         while (true) {
             menuOption();
             playerOption = 0;
@@ -228,6 +229,8 @@ public class Player implements Serializable {
             playerOption = Integer.parseInt(playerInput.nextLine());
             if (playerOption > 0 && playerOption < ((Chest) this.fortuneCard).getChestContent().size()) {
                 this.dieRolled.add(((Chest) this.fortuneCard).takeOut(playerOption - 1));
+            } else {
+                System.out.println("Index out of bound for removing from chest!");
             }
             playerOption = -999;
             game.printPlayerDice(dieRolled);
@@ -263,14 +266,10 @@ public class Player implements Serializable {
         if (this.fortuneCard instanceof Sorceress && !((Sorceress) this.fortuneCard).getHasBeenActivated()) {
             return false;
         }
-        int skullCount = 0;
-        for (String dieFace : dieRolled) {
-            if (dieFace.equals(DieSides.SKULL)) {
-                skullCount++;
-            }
-        }
-        if (skullCount >= 3) {
+
+        if (Collections.frequency(this.dieRolled, DieSides.SKULL) >= 3) {
             isPlayerAlive = false;
+            System.out.println(this.playerName + " has died and is ending their turn now!");
             return true;
         }
         return false;
@@ -364,7 +363,6 @@ public class Player implements Serializable {
          * Receive round status from the server indicating how the player should perform
          * going forward.
          * 
-         * @return int - the value of the status from the Server
          * @throws ClassNotFoundException
          */
         public PirateStatus receiveRoundStatus() throws ClassNotFoundException {
@@ -444,16 +442,19 @@ public class Player implements Serializable {
         return this;
     }
 
-    public boolean addItemAtIndexToChest(int index) {
-        if (index - 1 >= this.dieRolled.size() || index <= 0) {
+    public boolean addItemAtIndexToChest(int playerIndex) {
+        if (playerIndex - 1 >= this.dieRolled.size() || playerIndex <= 0) {
+            System.out.println("Index out of bounds for adding to chest.");
             return false;
         }
-        String item = this.dieRolled.get(index - 1);
+        String item = this.dieRolled.get(playerIndex - 1);
         if (item != DieSides.SKULL) {
             ((Chest) this.fortuneCard).addDiceToChest(item);
-            this.dieRolled.remove(index - 1);
+            System.out.println("Added to chest " + item);
+            this.dieRolled.remove(playerIndex - 1);
             return true;
         }
+        System.out.println("Skulls can not be added to chest.");
         return false;
     }
 

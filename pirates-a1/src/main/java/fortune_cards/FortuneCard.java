@@ -4,10 +4,6 @@ import java.io.Serializable;
 
 public class FortuneCard implements Serializable {
 
-	private static final long serialVersionUID = -1970296612724698657L;
-	private String name;
+    private static final long serialVersionUID = -1970296612724698657L;
 
-	public String getName() {
-		return this.name;
-	}
 }

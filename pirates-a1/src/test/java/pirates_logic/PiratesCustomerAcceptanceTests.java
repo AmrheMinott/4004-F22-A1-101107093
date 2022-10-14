@@ -750,9 +750,9 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(Arrays.asList(DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.SWORD, DieSides.SWORD,
                 DieSides.DIAMOND, DieSides.DIAMOND, DieSides.GOLD), player.getRoll());
 
-        chest.addDiceToChest(DieSides.DIAMOND);
-        chest.addDiceToChest(DieSides.DIAMOND);
-        chest.addDiceToChest(DieSides.GOLD);
+        player.addItemAtIndexToChest(8);
+        player.addItemAtIndexToChest(7);
+        player.addItemAtIndexToChest(6);
 
         gameLogic.rollDiePair(1, 2, dieRolled);
 
@@ -761,15 +761,15 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(Arrays.asList(DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT),
                 player.getRoll());
 
-        assertEquals(DieSides.DIAMOND, chest.takeOut(0));
-        assertEquals(DieSides.DIAMOND, chest.takeOut(0));
         assertEquals(DieSides.GOLD, chest.takeOut(0));
+        assertEquals(DieSides.DIAMOND, chest.takeOut(0));
+        assertEquals(DieSides.DIAMOND, chest.takeOut(0));
 
-        chest.addDiceToChest(DieSides.PARROT);
-        chest.addDiceToChest(DieSides.PARROT);
-        chest.addDiceToChest(DieSides.PARROT);
-        chest.addDiceToChest(DieSides.PARROT);
-        chest.addDiceToChest(DieSides.PARROT);
+        player.addItemAtIndexToChest(5);
+        player.addItemAtIndexToChest(4);
+        player.addItemAtIndexToChest(3);
+        player.addItemAtIndexToChest(2);
+        player.addItemAtIndexToChest(1);
 
         gameLogic.rollDiePair(1, 2, dieRolled);
         gameLogic.rollDiePair(1, 3, dieRolled);
@@ -791,9 +791,9 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(Arrays.asList(DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.SKULL, DieSides.SKULL,
                 DieSides.GOLD, DieSides.GOLD, DieSides.GOLD), player.getRoll());
 
-        chest.addDiceToChest(DieSides.GOLD);
-        chest.addDiceToChest(DieSides.GOLD);
-        chest.addDiceToChest(DieSides.GOLD);
+        player.addItemAtIndexToChest(8);
+        player.addItemAtIndexToChest(7);
+        player.addItemAtIndexToChest(6);
 
         gameLogic.rollDiePair(1, 2, dieRolled);
         gameLogic.rollDiePair(3, 4, dieRolled);
@@ -803,7 +803,7 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(Arrays.asList(DieSides.DIAMOND, DieSides.DIAMOND, DieSides.GOLD, DieSides.SKULL, DieSides.SKULL),
                 player.getRoll());
 
-        chest.addDiceToChest(DieSides.GOLD);
+        player.addItemAtIndexToChest(3);
 
         gameLogic.rollDiePair(1, 2, dieRolled);
 
@@ -975,8 +975,6 @@ public class PiratesCustomerAcceptanceTests {
         assertEquals(300, player_2.getScore());
         assertEquals(-700, gameLogic.scoreIslandOfTheDeadDeduction(player.getRoll(), null));
     }
-
-    // test for 110 and 111
 
     @Test
     public void row110() {
