@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 
 import constants.DieSides;
 import fortune_cards.Captain;
@@ -176,5 +178,27 @@ public class GameLogic implements Serializable {
             return -((Collections.frequency(roll, DieSides.SKULL) * 100) * 2);
         }
         return -(Collections.frequency(roll, DieSides.SKULL) * 100);
+    }
+
+    public String determineWinner(HashMap<String, Integer> scoreMap) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for (String name : scoreMap.keySet()) {
+            if (scoreMap.get(name) >= 3000) {
+                list.add(scoreMap.get(name));
+            }
+        }
+        if (list.size() == 1) {
+            return getKeyByValue(scoreMap, list.get(0));
+        }
+        return null;
+    }
+
+    private static String getKeyByValue(Map<String, Integer> map, Integer value) {
+        for (Entry<String, Integer> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }
