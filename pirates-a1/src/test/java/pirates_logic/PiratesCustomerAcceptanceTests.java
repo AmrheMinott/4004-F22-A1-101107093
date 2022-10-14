@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +26,17 @@ public class PiratesCustomerAcceptanceTests {
 
     private Player player = new Player("ACCEPTANCE_TEST");
     private Player player_2 = new Player("ACCEPTANCE_TEST_2");
+    private Player player_3 = new Player("ACCEPTANCE_TEST_3");
 
     private GameLogic gameLogic = new GameLogic();
     private ArrayList<String> dieRolled = new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE,
             DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE));
+    private ArrayList<String> playerTwoDieRolled = new ArrayList<>(
+            Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE,
+                    DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE));
+    private ArrayList<String> playerThreeDieRolled = new ArrayList<>(
+            Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE,
+                    DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE));
 
     private GoldCard coin = new GoldCard();
     private DiamondCard diamond = new DiamondCard();
@@ -1231,4 +1239,47 @@ public class PiratesCustomerAcceptanceTests {
     /**
      * PART 3: multi-player scenarios
      */
+    @Test
+    public void row132() {
+        HashMap<String, Integer> playerScores = new HashMap<String, Integer>();
+        player.setFortuneCard(captain);
+        player_2.setFortuneCard(skullTypeOne);
+        player_3.setFortuneCard(coin);
+
+        player.setRoll(dieRolled);
+        player_2.setRoll(playerTwoDieRolled);
+        player_3.setRoll(playerThreeDieRolled);
+
+        gameLogic.rollAllEightDie(dieRolled);
+        gameLogic.rollAllEightDie(playerTwoDieRolled);
+        gameLogic.rollAllEightDie(playerThreeDieRolled);
+
+        player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD), player.getRoll());
+        player.setScore(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+        assertEquals(4000, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+
+        player_2.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
+                DieSides.SWORD, DieSides.SWORD, DieSides.SWORD), player_2.getRoll());
+        player_2.setScore(gameLogic.scoreTurn(player_2.getRoll(), player_2.getFortuneCard()));
+        assertEquals(2000, gameLogic.scoreTurn(player_2.getRoll(), player_2.getFortuneCard()));
+
+        player_3.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY,
+                DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY)));
+        assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY, DieSides.MONKEY,
+                DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY), player_3.getRoll());
+        player_3.setScore(gameLogic.scoreTurn(player_3.getRoll(), player_3.getFortuneCard()));
+        assertEquals(0, gameLogic.scoreTurn(player_3.getRoll(), player_3.getFortuneCard()));
+
+        playerScores.put(player.getName(), player.getScore());
+        playerScores.put(player_2.getName(), player_2.getScore());
+        playerScores.put(player_3.getName(), player_3.getScore());
+
+        assertEquals(player.getName(), gameLogic.determineWinner(playerScores));
+
+    }
 }
