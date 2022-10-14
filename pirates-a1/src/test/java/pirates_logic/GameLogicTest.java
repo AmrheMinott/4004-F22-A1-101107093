@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,14 @@ public class GameLogicTest {
     private int EIGHT_OF_A_KIND = 4000;
 
     private int BONUS = 500;
+
+    private HashMap<String, Integer> scoreMapWithOnlyOneWinner = new HashMap<String, Integer>() {
+        {
+            put("Player 1", 3000);
+            put("Player 2", 2000);
+            put("Player 3", 1000);
+        }
+    };
 
     /**
      * Captain Card testing
@@ -455,5 +464,12 @@ public class GameLogicTest {
                 DieSides.SKULL));
 
         assertEquals(-2000, gameLogic.scoreIslandOfTheDeadDeduction(dice, captain));
+    }
+
+    @Test
+    public void givenPlayerOne_hasExactly3000_assertThatPlayerOneIsWinner() {
+
+        assertEquals("Player 1", gameLogic.determineWinner(scoreMapWithOnlyOneWinner));
+
     }
 }
