@@ -30,7 +30,7 @@ import player.Player;
 public class GameServer implements Runnable {
 
     private ServerSocket serverSocket = null;
-    private int TOTAL_NUMBER_OF_PLAYERS = 2;
+    private int TOTAL_NUMBER_OF_PLAYERS = 3;
 
     private int currentConnectedPlayer = 0;
     private int deckIndex = 0;
@@ -134,7 +134,7 @@ public class GameServer implements Runnable {
 
             printPlayersScore();
 
-            System.out.println("SERVER: " + players.get(currentConnectedPlayer) + " " + status);
+            System.out.println("SERVER: " + players.get(currentConnectedPlayer) + "\n" + status);
             if (status.getMessageCode() == GameStatus.ISLAND_OF_THE_DEAD) {
                 for (int i = 0; i < TOTAL_NUMBER_OF_PLAYERS; i++) {
                     if (i != currentConnectedPlayer) {
