@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import constants.GameStatus;
 import constants.ServerConstants;
@@ -23,6 +24,7 @@ import fortune_cards.SeaBattleTypeTwo;
 import fortune_cards.SkullTypeOne;
 import fortune_cards.SkullTypeTwo;
 import fortune_cards.Sorceress;
+import pirates_logic.GameLogic;
 import player.Player;
 
 public class GameServer implements Runnable {
@@ -40,6 +42,7 @@ public class GameServer implements Runnable {
     private HashMap<String, Integer> playerDeductions = new HashMap<String, Integer>();
 
     private ArrayList<FortuneCard> deck = new ArrayList<FortuneCard>();
+    private GameLogic gameLogic = new GameLogic();
 
     public GameServer() {
         shuffleDeck();
@@ -112,6 +115,7 @@ public class GameServer implements Runnable {
 
     synchronized public void gameLoop() {
         int roundsPlayed = 1;
+        int roundsLeft = -1;
         int deckIndex = 0;
         PirateStatus status = new PirateStatus(deck.get(deckIndex), GameStatus.PLAY, 0, 0);
         while (true) {
@@ -140,10 +144,30 @@ public class GameServer implements Runnable {
                         playerDeductions.put(players.get(i).getName(), 0);
                         status = playerServer.get(i).receiveDeductStatus();
                     }
-
                 }
             }
 
+            if (anyPotentialWinners()) {
+                if (roundsLeft < 0) {
+                    roundsLeft = TOTAL_NUMBER_OF_PLAYERS;
+                }
+                roundsLeft --;
+                if (roundsLeft == 0) {
+                    String playerWinner = gameLogic.determineWinner(playerScores);
+                    for (int i = 0; i < TOTAL_NUMBER_OF_PLAYERS; i++) {
+                        status.setMessageCode(GameStatus.STOP);
+                        status.setWinMessage(playerWinner + " won with a score of " + playerScores.get(playerWinner));
+                        playerServer.get(i).sendRoundStatus(status);
+                        status = playerServer.get(i).receiveStatusFromCurrentPlayer();
+                    }
+                    
+                    System.out.println("Winner -> " + playerWinner);
+                    break;
+                }
+            } else {
+                roundsLeft = -1;
+            }
+            
             status.setFortuneCard(null);
             status.setMessageCode(GameStatus.WAITING);
             status.setScore(playerScores.get(players.get(currentConnectedPlayer).getName()));
@@ -161,6 +185,24 @@ public class GameServer implements Runnable {
                 deckIndex = 0;
             }
         }
+        
+        for (Server s : playerServer) {
+            try {
+                s.terminate();
+            } catch (IOException e) {
+                System.out.println("Server could not close!");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private boolean anyPotentialWinners() {
+        for (Entry<String, Integer> entry : playerScores.entrySet()) {
+            if (entry.getValue() >= ServerConstants.MAX_SCORE) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void printPlayersScore() {

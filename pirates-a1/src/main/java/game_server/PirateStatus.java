@@ -12,6 +12,7 @@ public class PirateStatus implements Serializable {
     private int messageCode = 0;
     private int scoreDeduction = 0;
     private int score = 0;
+    private String winMessage = "";
 
     private HashMap<String, Integer> playerScores = new HashMap<String, Integer>();
 
@@ -52,6 +53,14 @@ public class PirateStatus implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void setWinMessage(String string) {
+        winMessage = string;
+    }
+
+    public String getWinMessage() {
+        return winMessage;
     }
 
     public void setPlayerScores(String playerName, int score) {

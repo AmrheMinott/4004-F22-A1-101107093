@@ -54,6 +54,9 @@ public class Player implements Serializable {
             PirateStatus status = clientConnection.receiveRoundStatus();
             this.fortuneCard = status.getFortuneCard();
             if (status.getMessageCode() == GameStatus.STOP) {
+                System.out.println(status.getWinMessage());
+                clientConnection.sendEndOfRoundStatus(status);
+                killClient();
                 break;
             }
 

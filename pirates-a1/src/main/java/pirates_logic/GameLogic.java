@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 import constants.DieSides;
+import constants.ServerConstants;
 import fortune_cards.Captain;
 import fortune_cards.Chest;
 import fortune_cards.DiamondCard;
@@ -183,12 +184,12 @@ public class GameLogic implements Serializable {
     public String determineWinner(HashMap<String, Integer> scoreMap) {
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (String name : scoreMap.keySet()) {
-            if (scoreMap.get(name) >= 3000) {
+            if (scoreMap.get(name) >= ServerConstants.MAX_SCORE) {
                 list.add(scoreMap.get(name));
             }
         }
-        if (list.size() == 1) {
-            return getKeyByValue(scoreMap, list.get(0));
+        if (list.size() >= 1) {
+            return getKeyByValue(scoreMap, Collections.max(list));
         }
         return null;
     }
