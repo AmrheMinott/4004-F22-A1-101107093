@@ -1,0 +1,20 @@
+Name: ACCEPTANCE_TEST_1 Score 0 Fortune Card: Captain
+Name: ACCEPTANCE_TEST_2 Score 0 Fortune Card: SkullTypeOne
+Name: ACCEPTANCE_TEST_3 Score 0 Fortune Card: GoldCard
+Players initial rolls.
+Player 1 -> [-, -, -, -, -, -, -, -]
+Player 2 -> [-, -, -, -, -, -, -, -]
+Player 3 -> [-, -, -, -, -, -, -, -]
+Players simulated rolls.
+Player 1 -> [Monkey, Diamond, Monkey, Sword, Skull, Monkey, Parrot, Diamond]
+Player 2 -> [Skull, Monkey, Skull, Diamond, Parrot, Skull, Skull, Parrot]
+Player 3 -> [Sword, Monkey, Sword, Sword, Sword, Monkey, Skull, Parrot]
+Players rolls set.
+Player 1 -> [Skull, Sword, Sword, Sword, Sword, Sword, Sword, Sword]
+Player 2 -> [Skull, Sword, Sword, Sword, Sword, Sword, Sword, Sword]
+Player 3 -> [Skull, Skull, Skull, Monkey, Monkey, Monkey, Monkey, Monkey]
+Player 1 roll score 4000
+Player 2 roll score 2000
+Player died!
+Player 3 roll score 0
+Winner -> ACCEPTANCE_TEST_1
