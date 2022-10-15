@@ -66,7 +66,9 @@ public class Player implements Serializable {
                             "\n\n While waiting you have lost some points sadly of " + status.getScoreDeduction());
                     incrementScore(status.getScoreDeduction());
                     status.setScoreDeduction(0);
-                    clientConnection.sendDeductStatus(status);
+                    status.setScore(this.currentScore);
+                    status.setPlayerScores(playerName, currentScore);
+                    clientConnection.sendEndOfRoundStatus(status);
                     System.out.println("AFTER " + this);
                 }
             }
@@ -326,8 +328,8 @@ public class Player implements Serializable {
             try {
                 socket = new Socket("localhost", ServerConstants.GAME_SERVER_PORT_NUMBER);
 
-                objectOutputStream = new ObjectOutputStream((socket.getOutputStream()));
-                objectInputStream = new ObjectInputStream((socket.getInputStream()));
+                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                objectInputStream = new ObjectInputStream(socket.getInputStream());
 
                 sendPlayer();
 
@@ -361,19 +363,6 @@ public class Player implements Serializable {
 
             } catch (IOException e) {
                 System.out.println("End of round status not sent!");
-                e.printStackTrace();
-            }
-        }
-
-        public void sendDeductStatus(PirateStatus pirateStatus) {
-            try {
-
-                objectOutputStream.writeObject(pirateStatus);
-                objectOutputStream.flush();
-                objectOutputStream.reset();
-
-            } catch (IOException e) {
-                System.out.println("Deducut status not sent!");
                 e.printStackTrace();
             }
         }
@@ -463,7 +452,8 @@ public class Player implements Serializable {
 
     @Override
     public String toString() {
-        return "Name: " + this.playerName + " Score " + this.currentScore;
+        return "Name: " + this.playerName + " Score " + this.currentScore + " Fortune Card: "
+                + this.fortuneCard.getClass().getSimpleName();
     }
 
 }
