@@ -255,6 +255,22 @@ public class Player implements Serializable {
         }
     }
 
+    public boolean addItemAtIndexToChest(int playerIndex) {
+        if (playerIndex - 1 >= this.dieRolled.size() || playerIndex <= 0) {
+            System.out.println("Index out of bounds for adding to chest.");
+            return false;
+        }
+        String item = this.dieRolled.get(playerIndex - 1);
+        if (item != DieSides.SKULL) {
+            ((Chest) this.fortuneCard).addDiceToChest(item);
+            System.out.println("Added to chest " + item);
+            this.dieRolled.remove(playerIndex - 1);
+            return true;
+        }
+        System.out.println("Skulls can not be added to chest.");
+        return false;
+    }
+
     public void sorceressActivation() {
         if (!(this.fortuneCard instanceof Sorceress))
             return;
@@ -443,22 +459,6 @@ public class Player implements Serializable {
 
     public Player getPlayer() {
         return this;
-    }
-
-    public boolean addItemAtIndexToChest(int playerIndex) {
-        if (playerIndex - 1 >= this.dieRolled.size() || playerIndex <= 0) {
-            System.out.println("Index out of bounds for adding to chest.");
-            return false;
-        }
-        String item = this.dieRolled.get(playerIndex - 1);
-        if (item != DieSides.SKULL) {
-            ((Chest) this.fortuneCard).addDiceToChest(item);
-            System.out.println("Added to chest " + item);
-            this.dieRolled.remove(playerIndex - 1);
-            return true;
-        }
-        System.out.println("Skulls can not be added to chest.");
-        return false;
     }
 
     @Override

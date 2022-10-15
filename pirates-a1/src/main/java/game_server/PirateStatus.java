@@ -77,11 +77,9 @@ public class PirateStatus implements Serializable {
         scoreString = (playerScores.keySet().size() == 0 ? "No Scores Yet." : scoreString);
         if (this.fortuneCard != null) {
             return "Fortune Card: " + this.fortuneCard.getClass().getSimpleName() + " Message Code: " + this.messageCode
-                    + " Score: " + this.score + " Deductions: " + this.scoreDeduction + "\nPlayer Scores: "
-                    + scoreString;
+                    + " Deductions: " + this.scoreDeduction + "\nPlayer Scores: " + scoreString;
         }
-        return "Message Code: " + this.messageCode
-                + " Score: " + this.score + " Deductions: " + this.scoreDeduction + "\nPlayer Scores: "
+        return "Message Code: " + this.messageCode + " Deductions: " + this.scoreDeduction + "\nPlayer Scores: "
                 + scoreString;
     }
 }
