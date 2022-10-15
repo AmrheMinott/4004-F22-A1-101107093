@@ -45,6 +45,7 @@ public class GameLogic implements Serializable {
      */
     public int scoreTurn(ArrayList<String> dice, FortuneCard card) {
         resetDiceSideMap();
+        hasPlayerDied = false;
 
         if (card instanceof DiamondCard) {
             dice.add(DieSides.DIAMOND);
