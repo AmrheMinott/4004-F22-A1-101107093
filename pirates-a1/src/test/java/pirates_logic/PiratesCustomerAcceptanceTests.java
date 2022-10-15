@@ -1775,5 +1775,162 @@ public class PiratesCustomerAcceptanceTests {
 
             System.out.println("Winner -> " + gameLogic.determineWinner(playerScores));
         }
+        
+        @Test
+        public void row140() throws FileNotFoundException {
+            PrintStream fileStream = new PrintStream("row140.txt");
+            System.setOut(fileStream);
+            
+            int score_1 = 0;
+            int score_2 = 0;
+            int score_3 = 3;
+            
+            HashMap<String, Integer> playerScores = new HashMap<String, Integer>();
+            player.setFortuneCard(captain);
+            player_2.setFortuneCard(coin);
+            player_3.setFortuneCard(captain);
+
+            System.out.println(player);
+            System.out.println(player_2);
+            System.out.println(player_3);
+
+            player.setRoll(dieRolled);
+            player_2.setRoll(playerTwoDieRolled);
+            player_3.setRoll(playerThreeDieRolled);
+
+            System.out.println("Players initial rolls.");
+            System.out.println("Player 1 -> " + player.getRoll());
+            System.out.println("Player 2 -> " + player_2.getRoll());
+            System.out.println("Player 3 -> " + player_3.getRoll());
+
+            gameLogic.rollAllEightDie(dieRolled);
+            gameLogic.rollAllEightDie(playerTwoDieRolled);
+            gameLogic.rollAllEightDie(playerThreeDieRolled);
+
+            System.out.println("Players simulated rolls.");
+            System.out.println("Player 1 -> " + player.getRoll());
+            System.out.println("Player 2 -> " + player_2.getRoll());
+            System.out.println("Player 3 -> " + player_3.getRoll());
+
+            player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SWORD, DieSides.SWORD,
+                    DieSides.SWORD,
+                    DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD)));
+            assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD,
+                    DieSides.SWORD,
+                    DieSides.SWORD, DieSides.SWORD, DieSides.SWORD), player.getRoll());
+
+            player_2.setRoll(
+                    new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                            DieSides.MONKEY,
+                            DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+                            DieSides.MONKEY)));
+            assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY,
+                    DieSides.MONKEY,
+                    DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY), player_2.getRoll());
+
+            player_3.setRoll(
+                    new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                            DieSides.SKULL,
+                            DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
+                            DieSides.PARROT)));
+            assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                    DieSides.SKULL,
+                    DieSides.SKULL, DieSides.PARROT, DieSides.PARROT), player_3.getRoll());
+
+            System.out.println("Players rolls set.");
+            System.out.println("Player 1 -> " + player.getRoll());
+            System.out.println("Player 2 -> " + player_2.getRoll());
+            System.out.println("Player 3 -> " + player_3.getRoll());
+
+            player.setScore(gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+            System.out.println("Player 1 roll score "
+                    + gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+            assertEquals(4000, gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard()));
+
+            score_2 = gameLogic.scoreTurn(player_2.getRoll(), player_2.getFortuneCard());
+            player_2.incrementScore(score_2);
+            System.out.println("Player 2 roll score " + score_2);
+            assertEquals(0, player_2.getScore());
+
+            score_3 = gameLogic.scoreTurn(player_3.getRoll(), player_3.getFortuneCard());
+            int score_deductions_3 = gameLogic.scoreIslandOfTheDeadDeduction(player_3.getRoll(),
+                    player_3.getFortuneCard());
+
+            player_3.incrementScore(score_3);
+            System.out.println("Player 3 deductions " + score_deductions_3);
+            System.out.println("Player 3 roll score " + score_3);
+            assertEquals(0, player_3.getScore());
+
+            player.incrementScore(score_deductions_3);
+            assertEquals(2800, player.getScore());
+            System.out.println("Player 1 score after deductions " + player.getScore());
+
+            player.setFortuneCard(coin);
+            player_2.setFortuneCard(captain);
+            player_3.setFortuneCard(skullTypeOne);
+
+            gameLogic.rollAllEightDie(player.getRoll());
+            gameLogic.rollAllEightDie(player_2.getRoll());
+            gameLogic.rollAllEightDie(player_3.getRoll());
+
+            System.out.println("Players simulated rolls.");
+            System.out.println("Player 1 -> " + player.getRoll());
+            System.out.println("Player 2 -> " + player_2.getRoll());
+            System.out.println("Player 3 -> " + player_3.getRoll());
+
+            player.setRoll(new ArrayList<>(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+                    DieSides.MONKEY,
+                    DieSides.PARROT, DieSides.PARROT, DieSides.PARROT, DieSides.PARROT)));
+            assertEquals(Arrays.asList(DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+                    DieSides.PARROT,
+                    DieSides.PARROT, DieSides.PARROT, DieSides.PARROT), player.getRoll());
+
+            player_2.setRoll(
+                    new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                            DieSides.MONKEY,
+                            DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+                            DieSides.MONKEY)));
+            assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY,
+                    DieSides.MONKEY,
+                    DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY), player_2.getRoll());
+
+            player_3.setRoll(
+                    new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY,
+                            DieSides.MONKEY,
+                            DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY,
+                            DieSides.MONKEY, DieSides.SKULL)));
+            assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.MONKEY, DieSides.MONKEY,
+                    DieSides.MONKEY,
+                    DieSides.MONKEY, DieSides.MONKEY, DieSides.MONKEY, DieSides.SKULL), player_3.getRoll());
+
+            System.out.println("Players rolls set.");
+            System.out.println("Player 1 -> " + player.getRoll());
+            System.out.println("Player 2 -> " + player_2.getRoll());
+            System.out.println("Player 3 -> " + player_3.getRoll());
+
+            score_1 = gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard());
+            player.incrementScore(score_1);
+            System.out.println("Player 1 roll score " + score_1);
+            assertEquals(3800, player.getScore());
+
+            score_2 = gameLogic.scoreTurn(player_2.getRoll(), player_2.getFortuneCard());
+            player_2.incrementScore(score_2);
+            System.out.println("Player 2 roll score " + score_2);
+            assertEquals(0, player_2.getScore());
+
+            score_3 = gameLogic.scoreTurn(player_3.getRoll(), player_3.getFortuneCard());
+
+            player_3.incrementScore(score_3);
+            System.out.println("Player 3 roll score " + score_3);
+            assertEquals(0, player_3.getScore());
+
+            playerScores.put(player.getName(), player.getScore());
+            playerScores.put(player_2.getName(), player_2.getScore());
+            playerScores.put(player_3.getName(), player_3.getScore());
+
+            assertEquals(player.getName(), gameLogic.determineWinner(playerScores));
+
+            System.out.println("Winner -> " + gameLogic.determineWinner(playerScores));
+        }
     }
 }
