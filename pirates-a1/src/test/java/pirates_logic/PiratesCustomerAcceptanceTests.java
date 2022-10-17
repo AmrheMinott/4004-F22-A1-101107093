@@ -1775,16 +1775,16 @@ public class PiratesCustomerAcceptanceTests {
 
             System.out.println("Winner -> " + gameLogic.determineWinner(playerScores));
         }
-        
+
         @Test
         public void row140() throws FileNotFoundException {
             PrintStream fileStream = new PrintStream("row140.txt");
             System.setOut(fileStream);
-            
+
             int score_1 = 0;
             int score_2 = 0;
             int score_3 = 3;
-            
+
             HashMap<String, Integer> playerScores = new HashMap<String, Integer>();
             player.setFortuneCard(captain);
             player_2.setFortuneCard(coin);
@@ -1932,8 +1932,7 @@ public class PiratesCustomerAcceptanceTests {
 
             System.out.println("Winner -> " + gameLogic.determineWinner(playerScores));
         }
-        
-        
+
         @Test
         public void row145() throws FileNotFoundException {
             PrintStream fileStream = new PrintStream("row145.txt");
@@ -2047,8 +2046,7 @@ public class PiratesCustomerAcceptanceTests {
 
             System.out.println("Winner -> " + gameLogic.determineWinner(playerScores));
         }
-        
-        
+
         @Test
         public void row150() throws FileNotFoundException {
             PrintStream fileStream = new PrintStream("row150.txt");
