@@ -1,0 +1,19 @@
+Name: ACCEPTANCE_TEST Score 0 Fortune Card: GoldCard
+Name: ACCEPTANCE_TEST_2 Score 0 Fortune Card: Sorceress
+Players initial rolls.
+Player 1 -> [-, -, -, -, -, -, -, -]
+Player 2 -> [-, -, -, -, -, -, -, -]
+Players simulated rolls.
+Player 1 -> [Monkey, Sword, Sword, Sword, Sword, Skull, Diamond, Monkey]
+Player 2 -> [Gold, Diamond, Diamond, Skull, Monkey, Diamond, Parrot, Monkey]
+Players rolls set.
+Player 1 -> [Skull, Skull, Sword, Sword, Sword, Sword, Sword, Sword]
+Player 2 -> [Skull, Skull, Skull, Skull, Skull, Skull, Skull, Gold]
+Player 1 roll score 1100
+Sorceress has been activated
+Player 2 -> [Skull, Skull, Skull, Skull, Skull, Skull, Parrot, Gold]
+Player 2 after reroll die 7 and 8 -> [Skull, Skull, Skull, Skull, Skull, Skull, Skull, Skull]
+Player 1 deductions from player 2-800
+Player 1 score after deductions 300
+Player died!
+Player 2 roll score 0

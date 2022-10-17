@@ -2047,5 +2047,100 @@ public class PiratesCustomerAcceptanceTests {
 
             System.out.println("Winner -> " + gameLogic.determineWinner(playerScores));
         }
+        
+        
+        @Test
+        public void row150() throws FileNotFoundException {
+            PrintStream fileStream = new PrintStream("row150.txt");
+            System.setOut(fileStream);
+
+            int score_1 = 0;
+            int score_2 = 0;
+
+            player.setFortuneCard(coin);
+            player_2.setFortuneCard(sorceress);
+
+            System.out.println(player);
+            System.out.println(player_2);
+
+            player.setRoll(dieRolled);
+            player_2.setRoll(playerTwoDieRolled);
+
+            System.out.println("Players initial rolls.");
+            System.out.println("Player 1 -> " + player.getRoll());
+            System.out.println("Player 2 -> " + player_2.getRoll());
+
+            gameLogic.rollAllEightDie(dieRolled);
+            gameLogic.rollAllEightDie(playerTwoDieRolled);
+
+            System.out.println("Players simulated rolls.");
+            System.out.println("Player 1 -> " + player.getRoll());
+            System.out.println("Player 2 -> " + player_2.getRoll());
+
+            player.setRoll(new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SWORD,
+                    DieSides.SWORD,
+                    DieSides.SWORD, DieSides.SWORD, DieSides.SWORD, DieSides.SWORD)));
+            assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SWORD, DieSides.SWORD,
+                    DieSides.SWORD,
+                    DieSides.SWORD, DieSides.SWORD, DieSides.SWORD), player.getRoll());
+
+            player_2.setRoll(
+                    new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                            DieSides.SKULL,
+                            DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                            DieSides.GOLD)));
+            assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                    DieSides.SKULL,
+                    DieSides.SKULL, DieSides.SKULL, DieSides.GOLD), player_2.getRoll());
+
+            System.out.println("Players rolls set.");
+            System.out.println("Player 1 -> " + player.getRoll());
+            System.out.println("Player 2 -> " + player_2.getRoll());
+
+            score_1 = gameLogic.scoreTurn(player.getRoll(), player.getFortuneCard());
+            player.incrementScore(score_1);
+            System.out.println("Player 1 roll score " + score_1);
+            assertEquals(1100, score_1);
+
+            player_2.sorceressActivation();
+
+            player_2.setRoll(
+                    new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                            DieSides.SKULL,
+                            DieSides.SKULL, DieSides.SKULL, DieSides.PARROT,
+                            DieSides.GOLD)));
+            assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                    DieSides.SKULL,
+                    DieSides.SKULL, DieSides.PARROT, DieSides.GOLD), player_2.getRoll());
+
+            System.out.println("Player 2 -> " + player_2.getRoll());
+
+            gameLogic.rollDiePair(7, 8, player_2.getRoll());
+
+            player_2.setRoll(
+                    new ArrayList<>(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                            DieSides.SKULL,
+                            DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                            DieSides.SKULL)));
+            assertEquals(Arrays.asList(DieSides.SKULL, DieSides.SKULL, DieSides.SKULL, DieSides.SKULL,
+                    DieSides.SKULL,
+                    DieSides.SKULL, DieSides.SKULL, DieSides.SKULL), player_2.getRoll());
+            System.out.println("Player 2 after reroll die 7 and 8 -> " + player_2.getRoll());
+
+            int score_deductions_2 = gameLogic.scoreIslandOfTheDeadDeduction(player_2.getRoll(),
+                    player_2.getFortuneCard());
+
+            player.incrementScore(score_deductions_2);
+            System.out.println("Player 1 deductions from player 2" + score_deductions_2);
+            assertEquals(300, player.getScore());
+
+            System.out.println("Player 1 score after deductions " + player.getScore());
+
+            score_2 = gameLogic.scoreTurn(player_2.getRoll(), player_2.getFortuneCard());
+            player_2.incrementScore(score_2);
+            System.out.println("Player 2 roll score " + score_2);
+            assertEquals(0, player_2.getScore());
+
+        }
     }
 }
