@@ -1869,6 +1869,10 @@ public class PiratesCustomerAcceptanceTests {
             player_2.setFortuneCard(captain);
             player_3.setFortuneCard(skullTypeOne);
 
+            System.out.println(player);
+            System.out.println(player_2);
+            System.out.println(player_3);
+
             gameLogic.rollAllEightDie(player.getRoll());
             gameLogic.rollAllEightDie(player_2.getRoll());
             gameLogic.rollAllEightDie(player_3.getRoll());
@@ -2017,6 +2021,7 @@ public class PiratesCustomerAcceptanceTests {
             assertEquals(0, player_3.getScore());
 
             player.setFortuneCard(captain);
+            System.out.println(player);
 
             gameLogic.rollAllEightDie(player.getRoll());
 

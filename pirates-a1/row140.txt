@@ -6,9 +6,9 @@ Player 1 -> [-, -, -, -, -, -, -, -]
 Player 2 -> [-, -, -, -, -, -, -, -]
 Player 3 -> [-, -, -, -, -, -, -, -]
 Players simulated rolls.
-Player 1 -> [Monkey, Parrot, Sword, Gold, Monkey, Monkey, Skull, Monkey]
-Player 2 -> [Skull, Sword, Skull, Gold, Sword, Monkey, Parrot, Monkey]
-Player 3 -> [Parrot, Monkey, Parrot, Sword, Monkey, Skull, Monkey, Skull]
+Player 1 -> [Skull, Monkey, Diamond, Sword, Monkey, Skull, Sword, Gold]
+Player 2 -> [Gold, Diamond, Skull, Sword, Gold, Parrot, Gold, Gold]
+Player 3 -> [Parrot, Monkey, Parrot, Monkey, Monkey, Gold, Skull, Monkey]
 Players rolls set.
 Player 1 -> [Skull, Sword, Sword, Sword, Sword, Sword, Sword, Sword]
 Player 2 -> [Skull, Skull, Skull, Monkey, Monkey, Monkey, Monkey, Monkey]
@@ -20,10 +20,13 @@ Player died!
 Player 3 deductions -1200
 Player 3 roll score 0
 Player 1 score after deductions 2800
+Name: ACCEPTANCE_TEST Score 2800 Fortune Card: GoldCard
+Name: ACCEPTANCE_TEST_2 Score 0 Fortune Card: Captain
+Name: ACCEPTANCE_TEST_3 Score 0 Fortune Card: SkullTypeOne
 Players simulated rolls.
-Player 1 -> [Monkey, Gold, Sword, Monkey, Gold, Parrot, Sword, Sword]
-Player 2 -> [Sword, Diamond, Gold, Skull, Parrot, Gold, Parrot, Parrot, Gold]
-Player 3 -> [Sword, Gold, Skull, Sword, Sword, Monkey, Parrot, Gold]
+Player 1 -> [Parrot, Skull, Diamond, Parrot, Monkey, Gold, Skull, Skull]
+Player 2 -> [Gold, Skull, Sword, Gold, Skull, Gold, Monkey, Parrot, Gold]
+Player 3 -> [Monkey, Skull, Skull, Sword, Parrot, Monkey, Parrot, Skull]
 Players rolls set.
 Player 1 -> [Monkey, Monkey, Monkey, Monkey, Parrot, Parrot, Parrot, Parrot]
 Player 2 -> [Skull, Skull, Skull, Monkey, Monkey, Monkey, Monkey, Monkey]

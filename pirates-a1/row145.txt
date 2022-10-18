@@ -6,9 +6,9 @@ Player 1 -> [-, -, -, -, -, -, -, -]
 Player 2 -> [-, -, -, -, -, -, -, -]
 Player 3 -> [-, -, -, -, -, -, -, -]
 Players simulated rolls.
-Player 1 -> [Gold, Skull, Gold, Gold, Sword, Diamond, Diamond, Gold]
-Player 2 -> [Skull, Gold, Sword, Sword, Skull, Gold, Sword, Gold]
-Player 3 -> [Skull, Monkey, Sword, Diamond, Sword, Monkey, Sword, Gold]
+Player 1 -> [Gold, Monkey, Gold, Skull, Sword, Parrot, Parrot, Skull]
+Player 2 -> [Parrot, Sword, Skull, Sword, Parrot, Skull, Parrot, Monkey]
+Player 3 -> [Diamond, Parrot, Parrot, Monkey, Gold, Monkey, Monkey, Parrot]
 Players rolls set.
 Player 1 -> [Skull, Skull, Skull, Monkey, Monkey, Monkey, Monkey, Monkey]
 Player 2 -> [Skull, Sword, Sword, Sword, Sword, Sword, Sword, Sword]
@@ -18,8 +18,9 @@ Player 1 roll score 0
 Player 2 roll score 4000
 Player died!
 Player 3 roll score 0
+Name: ACCEPTANCE_TEST Score 0 Fortune Card: Captain
 Players simulated rolls.
-Player 1 -> [Parrot, Gold, Skull, Gold, Skull, Gold, Skull, Gold]
+Player 1 -> [Parrot, Gold, Gold, Monkey, Gold, Monkey, Monkey, Sword]
 Players rolls set.
 Player 1 -> [Sword, Sword, Sword, Sword, Sword, Sword, Sword, Sword]
 Player 1 roll score 9000
