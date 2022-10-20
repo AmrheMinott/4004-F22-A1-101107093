@@ -2,6 +2,7 @@ package game_server;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import fortune_cards.FortuneCard;
 
@@ -71,9 +72,10 @@ public class PirateStatus implements Serializable {
     public String toString() {
         String scoreString = "";
 
-        for (String name : playerScores.keySet()) {
-            scoreString += (name + ": " + playerScores.get(name) + " ");
+        for (Entry<String, Integer> entry : playerScores.entrySet()) {
+            scoreString += (entry.getKey() + ": " + playerScores.get(entry.getKey()) + " ");
         }
+
         scoreString = (playerScores.keySet().size() == 0 ? "No Scores Yet." : scoreString);
         if (this.fortuneCard != null) {
             return "Fortune Card: " + this.fortuneCard.getClass().getSimpleName() + " Message Code: " + this.messageCode

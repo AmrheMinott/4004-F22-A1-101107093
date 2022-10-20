@@ -197,9 +197,11 @@ public class Player implements Serializable {
             if (die.length != 2)
                 continue;
 
-            int index_1 = Integer.valueOf(die[0]) - 1;
-            int index_2 = Integer.valueOf(die[1]) - 1;
+            int index_1 = 0;
+            int index_2 = 0;
             try {
+                index_1 = Integer.valueOf(die[0]) - 1;
+                index_2 = Integer.valueOf(die[1]) - 1;
                 if (dieRolled.get(index_1).equals(DieSides.SKULL)
                         || dieRolled.get(index_2).equals(DieSides.SKULL)) {
                     System.out.println("You selected a Skull, and Skulls can not be re rolled.");
@@ -320,7 +322,7 @@ public class Player implements Serializable {
     }
 
     private class Client {
-        Socket socket;
+        private Socket socket;
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
 

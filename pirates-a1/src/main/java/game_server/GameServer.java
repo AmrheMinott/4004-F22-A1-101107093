@@ -138,7 +138,7 @@ public class GameServer implements Runnable {
             if (status.getMessageCode() == GameStatus.ISLAND_OF_THE_DEAD) {
                 for (int i = 0; i < TOTAL_NUMBER_OF_PLAYERS; i++) {
                     if (i != currentConnectedPlayer) {
-                        System.out.println(players.get(i).getName() + status.getScoreDeduction());
+                        System.out.println("Server: -> " + players.get(i).getName() + " will lose: " + status.getScoreDeduction());
                         updatePlayerDeductions(status, i);
                         status.setScoreDeduction(playerDeductions.get(players.get(i).getName()));
                         status.setMessageCode(GameStatus.DEDUCT_COMMAND);
@@ -215,9 +215,10 @@ public class GameServer implements Runnable {
     private void printPlayersScore() {
         String scoreString = "";
 
-        for (String name : playerScores.keySet()) {
-            scoreString += (name + ": " + playerScores.get(name) + " ");
+        for (Entry<String, Integer> entry : playerScores.entrySet()) {
+            scoreString += (entry.getKey() + ": " + playerScores.get(entry.getKey()) + " ");
         }
+
         scoreString = (playerScores.keySet().size() == 0 ? "No Scores Yet." : scoreString);
         System.out.println("Players Scores: " + scoreString);
     }
@@ -237,6 +238,9 @@ public class GameServer implements Runnable {
 
             gameServer.acceptConnections();
             gameServer.gameLoop();
+        } catch(NullPointerException e) {
+            System.out.println("Servers are down due to player premature exit from system.");
+            System.exit(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -264,10 +268,8 @@ public class GameServer implements Runnable {
                 }
 
             } catch (Exception ex) {
-                {
-                    System.out.println("Run failed");
-                    ex.printStackTrace();
-                }
+                System.out.println("Run failed");
+                ex.printStackTrace();
             }
         }
 
