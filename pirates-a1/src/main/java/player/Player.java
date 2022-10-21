@@ -65,7 +65,6 @@ public class Player implements Serializable {
                     System.out.println(
                             "\n\n While waiting you have lost some points sadly of " + status.getScoreDeduction());
                     incrementScore(status.getScoreDeduction());
-                    status.setScoreDeduction(0);
                     status.setScore(this.currentScore);
                     status.setPlayerScores(playerName, currentScore);
                     clientConnection.sendEndOfRoundStatus(status);
