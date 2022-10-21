@@ -10,8 +10,9 @@ public class Sorceress extends FortuneCard {
 
     public boolean activateSorceress(ArrayList<String> dieRolled) {
         if (!this.getHasBeenActivated() && dieRolled.contains(DieSides.SKULL)) {
-            dieRolled.set(dieRolled.indexOf(DieSides.SKULL),
-                    DieSides.DICE_FACES.get((int) (Math.random() * 6)));
+            int indexOfSkull = dieRolled.indexOf(DieSides.SKULL);
+            System.out.println("Sorceress selected index " + (indexOfSkull + 1) + " to reroll.");
+            dieRolled.set(indexOfSkull, DieSides.DICE_FACES.get((int) (Math.random() * 6)));
             this.activate();
             return true;
         }
