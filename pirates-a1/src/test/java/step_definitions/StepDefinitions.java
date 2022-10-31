@@ -67,6 +67,25 @@ public class StepDefinitions {
         roll = tempRoll;
     }
 
+    @When("player rolls {int} {string}, {int} {string}, {int} {string} and {int} {string}")
+    public void player_rolls_and(Integer int1, String string, Integer int2, String string2, Integer int3,
+            String string3, Integer int4, String string4) {
+        ArrayList<String> tempRoll = new ArrayList<String>();
+        for (int i = 0; i < int1; i++) {
+            tempRoll.add(string);
+        }
+        for (int i = 0; i < int2; i++) {
+            tempRoll.add(string2);
+        }
+        for (int i = 0; i < int3; i++) {
+            tempRoll.add(string3);
+        }
+        for (int i = 0; i < int4; i++) {
+            tempRoll.add(string4);
+        }
+        roll = tempRoll;
+    }
+
     @Then("player gets {int} {string}")
     public void player_gets(Integer int1, String string) {
         for (int i = 0; i < roll.size(); i++) {
@@ -116,4 +135,8 @@ public class StepDefinitions {
     public void player_scores_after_death(Integer int1) {
         assertEquals(int1, gameLogic.scoreTurn(roll, card));
     }
+    
+    @Then("player scores {int}")
+    public void player_scores(Integer int1) {
+        assertEquals(int1, gameLogic.scoreTurn(roll, card));    }
 }
