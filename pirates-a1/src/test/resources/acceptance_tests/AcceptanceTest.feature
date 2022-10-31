@@ -55,6 +55,11 @@ Feature: Acceptance Tests for Assignment 2
     Then player scores 300
 
   Scenario: Row 55
+    Given Fortune Card as "Coin"
+    When player rolls 3 "Diamond", 2 "Skull", 1 "Monkey", 1 "Sword" and 1 "Parrot"
+    Then player scores 500
+
+  Scenario: Row 56
     Given Fortune Card as "Diamond"
     When player rolls 4 "Gold", 2 "Skull" and 2 "Sword"
     Then player scores 700
