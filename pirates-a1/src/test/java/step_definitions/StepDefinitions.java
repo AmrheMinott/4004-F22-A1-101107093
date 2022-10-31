@@ -4,6 +4,7 @@ import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import fortune_cards.Captain;
@@ -34,14 +35,16 @@ public class StepDefinitions {
     private FortuneCard card = null;
     private GameLogic gameLogic = new GameLogic();
     private Player player = new Player("Cumcumber 1");
+    
+    private ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(player));
 
     @Given("Fortune Card as {string}")
     public void fortune_card_as(String cardString) {
         card = fortuneCardMap.get(cardString);
     }
 
-    @When("player rolls {int} {string} and {int} {string}")
-    public void player_rolls_and(Integer int1, String string, Integer int2, String string2) {
+    @When("player {int} rolls {int} {string} and {int} {string}")
+    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2) {
         ArrayList<String> tempRoll = new ArrayList<String>();
         for (int i = 0; i < int1; i++) {
             tempRoll.add(string);
@@ -49,11 +52,11 @@ public class StepDefinitions {
         for (int i = 0; i < int2; i++) {
             tempRoll.add(string2);
         }
-        player.setRoll(tempRoll);
+        players.get(playerIndex - 1).setRoll(tempRoll);
     }
 
-    @When("player rolls {int} {string}, {int} {string} and {int} {string}")
-    public void player_rolls_and(Integer int1, String string, Integer int2, String string2, Integer int3,
+    @When("player {int} rolls {int} {string}, {int} {string} and {int} {string}")
+    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2, Integer int3,
             String string3) {
         ArrayList<String> tempRoll = new ArrayList<String>();
         for (int i = 0; i < int1; i++) {
@@ -65,11 +68,11 @@ public class StepDefinitions {
         for (int i = 0; i < int3; i++) {
             tempRoll.add(string3);
         }
-        player.setRoll(tempRoll);
+        players.get(playerIndex - 1).setRoll(tempRoll);
     }
 
-    @When("player rolls {int} {string}, {int} {string}, {int} {string} and {int} {string}")
-    public void player_rolls_and(Integer int1, String string, Integer int2, String string2, Integer int3,
+    @When("player {int} rolls {int} {string}, {int} {string}, {int} {string} and {int} {string}")
+    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2, Integer int3,
             String string3, Integer int4, String string4) {
         ArrayList<String> tempRoll = new ArrayList<String>();
         for (int i = 0; i < int1; i++) {
@@ -84,11 +87,11 @@ public class StepDefinitions {
         for (int i = 0; i < int4; i++) {
             tempRoll.add(string4);
         }
-        player.setRoll(tempRoll);
+        players.get(playerIndex - 1).setRoll(tempRoll);
     }
 
-    @When("player rolls {int} {string}, {int} {string}, {int} {string}, {int} {string} and {int} {string}")
-    public void player_rolls_and(Integer int1, String string, Integer int2, String string2, Integer int3,
+    @When("player {int} rolls {int} {string}, {int} {string}, {int} {string}, {int} {string} and {int} {string}")
+    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2, Integer int3,
             String string3, Integer int4, String string4, Integer int5, String string5) {
         ArrayList<String> tempRoll = new ArrayList<String>();
         for (int i = 0; i < int1; i++) {
@@ -106,61 +109,61 @@ public class StepDefinitions {
         for (int i = 0; i < int5; i++) {
             tempRoll.add(string5);
         }
-        player.setRoll(tempRoll);
+        players.get(playerIndex - 1).setRoll(tempRoll);
     }
 
-    @Then("player gets {int} {string}")
-    public void player_gets(Integer int1, String string) {
-        for (int i = 0; i < player.getRoll().size(); i++) {
+    @Then("player {int} gets {int} {string}")
+    public void player_gets(Integer playerIndex, Integer int1, String string) {
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
             if (int1 == 0) {
                 break;
             }
-            if (player.getRoll().get(i).equals("-")) {
-                player.getRoll().set(i, string);
+            if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
+                players.get(playerIndex - 1).getRoll().set(i, string);
                 int1--;
             }
         }
     }
 
-    @When("player reroll {int} {string}")
-    public void player_reroll(Integer int1, String string) {
-        for (int i = 0; i < player.getRoll().size(); i++) {
-            if (player.getRoll().get(i).equals(string)) {
-                player.getRoll().set(i, "-");
+    @When("player {int} reroll {int} {string}")
+    public void player_reroll(Integer playerIndex, Integer int1, String string) {
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
+            if (players.get(playerIndex - 1).getRoll().get(i).equals(string)) {
+                players.get(playerIndex - 1).getRoll().set(i, "-");
             }
         }
     }
 
-    @Then("player gets {int} {string} and {int} {string} after reroll")
-    public void player_gets_and_after_reroll(Integer int1, String string, Integer int2, String string2) {
-        for (int i = 0; i < player.getRoll().size(); i++) {
+    @Then("player {int} gets {int} {string} and {int} {string} after reroll")
+    public void player_gets_and_after_reroll(Integer playerIndex, Integer int1, String string, Integer int2, String string2) {
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
             if (int1 == 0) {
                 break;
             }
-            if (player.getRoll().get(i).equals("-")) {
-                player.getRoll().set(i, string);
+            if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
+                players.get(playerIndex - 1).getRoll().set(i, string);
                 int1--;
             }
         }
 
-        for (int i = 0; i < player.getRoll().size(); i++) {
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
             if (int2 == 0) {
                 break;
             }
-            if (player.getRoll().get(i).equals("-")) {
-                player.getRoll().set(i, string2);
+            if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
+                players.get(playerIndex - 1).getRoll().set(i, string2);
                 int2--;
             }
         }
     }
 
-    @Then("player scores {int} after Death")
-    public void player_scores_after_death(Integer int1) {
-        assertEquals(int1, gameLogic.scoreTurn(player.getRoll(), card));
+    @Then("player {int} scores {int} after Death")
+    public void player_scores_after_death(Integer playerIndex, Integer int1) {
+        assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(), card));
     }
 
-    @Then("player scores {int}")
-    public void player_scores(Integer int1) {
-        assertEquals(int1, gameLogic.scoreTurn(player.getRoll(), card));
+    @Then("player {int} scores {int}")
+    public void player_scores(Integer playerIndex, Integer int1) {
+        assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(), card));
     }
 }
