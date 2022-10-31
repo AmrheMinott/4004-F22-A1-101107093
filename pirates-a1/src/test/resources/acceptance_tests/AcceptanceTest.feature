@@ -75,3 +75,10 @@ Feature: Acceptance Tests for Assignment 2
     And player reroll 2 "Parrot"
     Then player gets 1 "Sword" and 1 "Gold" after reroll
     Then player scores 800
+
+  Scenario: Row 59
+    Given Fortune Card as "Captain"
+    When player rolls 1 "Skull", 2 "Gold", 2 "Parrot" and 3 "Sword"
+    And player reroll 2 "Parrot"
+    Then player gets 1 "Sword" and 1 "Gold" after reroll
+    Then player scores 1200
