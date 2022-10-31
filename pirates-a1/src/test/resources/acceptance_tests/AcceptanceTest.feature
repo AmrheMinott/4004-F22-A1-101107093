@@ -36,3 +36,8 @@ Feature: Acceptance Tests for Assignment 2
     When player reroll 3 "Sword"
     Then player gets 3 "Gold"
     And player scores 4800
+
+  Scenario: Row 52
+    Given Fortune Card as "Captain"
+    When player rolls 2 "Monkey", 2 "Parrot", 2 "Diamond" and 2 "Gold"
+    Then player scores 800
