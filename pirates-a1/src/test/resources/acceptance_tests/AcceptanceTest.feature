@@ -106,3 +106,8 @@ Feature: Acceptance Tests for Assignment 2
     Given Fortune Card as "Coin"
     When player 1 rolls 8 "Gold"
     Then player 1 scores 5400
+
+  Scenario: Row 65
+    Given Fortune Card as "Diamond"
+    When player 1 rolls 8 "Gold"
+    Then player 1 scores 5400
