@@ -41,3 +41,10 @@ Feature: Acceptance Tests for Assignment 2
     Given Fortune Card as "Captain"
     When player rolls 2 "Monkey", 2 "Parrot", 2 "Diamond" and 2 "Gold"
     Then player scores 800
+
+  Scenario: Row 53
+    Given Fortune Card as "Coin"
+    When player rolls 2 "Monkey", 2 "Skull", 2 "Sword" and 2 "Parrot"
+    And player reroll 2 "Parrot"
+    Then player gets 1 "Sword" and 1 "Monkey" after reroll
+    Then player scores 300
