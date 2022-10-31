@@ -92,7 +92,7 @@ public class StepDefinitions {
             if (int1 == 0) {
                 break;
             }
-            if (roll.get(i) == "-") {
+            if (roll.get(i).equals("-")) {
                 roll.set(i, string);
                 int1--;
             }
@@ -114,7 +114,7 @@ public class StepDefinitions {
             if (int1 == 0) {
                 break;
             }
-            if (roll.get(i) == "-") {
+            if (roll.get(i).equals("-")) {
                 roll.set(i, string);
                 int1--;
             }
@@ -124,7 +124,7 @@ public class StepDefinitions {
             if (int2 == 0) {
                 break;
             }
-            if (roll.get(i) == "-") {
+            if (roll.get(i).equals("-")) {
                 roll.set(i, string2);
                 int2--;
             }
