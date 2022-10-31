@@ -111,3 +111,8 @@ Feature: Acceptance Tests for Assignment 2
     Given Fortune Card as "Diamond"
     When player 1 rolls 8 "Gold"
     Then player 1 scores 5400
+
+  Scenario: Row 66
+    Given Fortune Card as "Captain"
+    When player 1 rolls 8 "Sword"
+    Then player 1 scores 9000
