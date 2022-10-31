@@ -68,3 +68,10 @@ Feature: Acceptance Tests for Assignment 2
     Given Fortune Card as "Coin"
     When player rolls 3 "Sword", 4 "Parrot" and 1 "Skull"
     Then player scores 400
+
+  Scenario: Row 58
+    Given Fortune Card as "Coin"
+    When player rolls 1 "Skull", 2 "Gold", 2 "Parrot" and 3 "Sword"
+    And player reroll 2 "Parrot"
+    Then player gets 1 "Sword" and 1 "Gold" after reroll
+    Then player scores 800
