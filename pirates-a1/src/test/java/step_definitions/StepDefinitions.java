@@ -146,6 +146,19 @@ public class StepDefinitions {
         }
     }
 
+    @Then("player {int} gets {int} {string} after reroll")
+    public void player_gets_after_reroll(Integer playerIndex, Integer int1, String string) {
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
+            if (int1 == 0) {
+                break;
+            }
+            if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
+                players.get(playerIndex - 1).getRoll().set(i, string);
+                int1--;
+            }
+        }
+    }
+
     @Then("player {int} gets {int} {string} and {int} {string} after reroll")
     public void player_gets_and_after_reroll(Integer playerIndex, Integer int1, String string, Integer int2,
             String string2) {

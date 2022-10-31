@@ -116,3 +116,10 @@ Feature: Acceptance Tests for Assignment 2
     Given Fortune Card as "Captain"
     When player 1 rolls 8 "Sword"
     Then player 1 scores 9000
+
+  Scenario: Row 67
+    Given Fortune Card as "Coin"
+    When player 1 rolls 6 "Monkey" and 2 "Sword"
+    And player 1 reroll 2 "Sword"
+    Then player 1 gets 2 "Monkey" after reroll
+    Then player 1 scores 4600
