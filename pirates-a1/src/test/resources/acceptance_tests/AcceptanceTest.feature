@@ -130,3 +130,10 @@ Feature: Acceptance Tests for Assignment 2
     And player 1 reroll 2 "Parrot"
     Then player 1 gets 2 "Diamond" after reroll
     And player 1 scores 400
+
+  Scenario: Row 69
+    Given Fortune Card as "Coin"
+    When player 1 rolls 2 "Monkey", 2 "Skull", 2 "Sword", 1 "Diamond" and 1 "Parrot"
+    And player 1 reroll 2 "Monkey"
+    Then player 1 gets 2 "Diamond" after reroll
+    And player 1 scores 500
