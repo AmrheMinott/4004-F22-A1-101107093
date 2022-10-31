@@ -35,12 +35,21 @@ public class StepDefinitions {
     private FortuneCard card = null;
     private GameLogic gameLogic = new GameLogic();
     private Player player = new Player("Cumcumber 1");
-    
+
     private ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(player));
 
     @Given("Fortune Card as {string}")
     public void fortune_card_as(String cardString) {
         card = fortuneCardMap.get(cardString);
+    }
+
+    @When("player {int} rolls {int} {string}")
+    public void player_rolls(Integer playerIndex, Integer int1, String string) {
+        ArrayList<String> tempRoll = new ArrayList<String>();
+        for (int i = 0; i < int1; i++) {
+            tempRoll.add(string);
+        }
+        players.get(playerIndex - 1).setRoll(tempRoll);
     }
 
     @When("player {int} rolls {int} {string} and {int} {string}")
@@ -56,7 +65,8 @@ public class StepDefinitions {
     }
 
     @When("player {int} rolls {int} {string}, {int} {string} and {int} {string}")
-    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2, Integer int3,
+    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2,
+            Integer int3,
             String string3) {
         ArrayList<String> tempRoll = new ArrayList<String>();
         for (int i = 0; i < int1; i++) {
@@ -72,7 +82,8 @@ public class StepDefinitions {
     }
 
     @When("player {int} rolls {int} {string}, {int} {string}, {int} {string} and {int} {string}")
-    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2, Integer int3,
+    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2,
+            Integer int3,
             String string3, Integer int4, String string4) {
         ArrayList<String> tempRoll = new ArrayList<String>();
         for (int i = 0; i < int1; i++) {
@@ -91,7 +102,8 @@ public class StepDefinitions {
     }
 
     @When("player {int} rolls {int} {string}, {int} {string}, {int} {string}, {int} {string} and {int} {string}")
-    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2, Integer int3,
+    public void player_rolls_and(Integer playerIndex, Integer int1, String string, Integer int2, String string2,
+            Integer int3,
             String string3, Integer int4, String string4, Integer int5, String string5) {
         ArrayList<String> tempRoll = new ArrayList<String>();
         for (int i = 0; i < int1; i++) {
@@ -135,7 +147,8 @@ public class StepDefinitions {
     }
 
     @Then("player {int} gets {int} {string} and {int} {string} after reroll")
-    public void player_gets_and_after_reroll(Integer playerIndex, Integer int1, String string, Integer int2, String string2) {
+    public void player_gets_and_after_reroll(Integer playerIndex, Integer int1, String string, Integer int2,
+            String string2) {
         for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
             if (int1 == 0) {
                 break;

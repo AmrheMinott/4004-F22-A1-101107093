@@ -101,3 +101,8 @@ Feature: Acceptance Tests for Assignment 2
     Given Fortune Card as "Coin"
     When player 1 rolls 7 "Parrot" and 1 "Skull"
     Then player 1 scores 2100
+
+  Scenario: Row 64
+    Given Fortune Card as "Coin"
+    When player 1 rolls 8 "Gold"
+    Then player 1 scores 5400
