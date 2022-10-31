@@ -21,6 +21,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pirates_logic.GameLogic;
+import player.Player;
 
 public class StepDefinitions {
 
@@ -32,7 +33,7 @@ public class StepDefinitions {
 
     private FortuneCard card = null;
     private GameLogic gameLogic = new GameLogic();
-    private ArrayList<String> roll = new ArrayList<String>();
+    private Player player = new Player("Cumcumber 1");
 
     @Given("Fortune Card as {string}")
     public void fortune_card_as(String cardString) {
@@ -48,7 +49,7 @@ public class StepDefinitions {
         for (int i = 0; i < int2; i++) {
             tempRoll.add(string2);
         }
-        roll = tempRoll;
+        player.setRoll(tempRoll);
     }
 
     @When("player rolls {int} {string}, {int} {string} and {int} {string}")
@@ -64,7 +65,7 @@ public class StepDefinitions {
         for (int i = 0; i < int3; i++) {
             tempRoll.add(string3);
         }
-        roll = tempRoll;
+        player.setRoll(tempRoll);
     }
 
     @When("player rolls {int} {string}, {int} {string}, {int} {string} and {int} {string}")
@@ -83,17 +84,17 @@ public class StepDefinitions {
         for (int i = 0; i < int4; i++) {
             tempRoll.add(string4);
         }
-        roll = tempRoll;
+        player.setRoll(tempRoll);
     }
 
     @Then("player gets {int} {string}")
     public void player_gets(Integer int1, String string) {
-        for (int i = 0; i < roll.size(); i++) {
+        for (int i = 0; i < player.getRoll().size(); i++) {
             if (int1 == 0) {
                 break;
             }
-            if (roll.get(i).equals("-")) {
-                roll.set(i, string);
+            if (player.getRoll().get(i).equals("-")) {
+                player.getRoll().set(i, string);
                 int1--;
             }
         }
@@ -101,31 +102,31 @@ public class StepDefinitions {
 
     @When("player reroll {int} {string}")
     public void player_reroll(Integer int1, String string) {
-        for (int i = 0; i < roll.size(); i++) {
-            if (roll.get(i).equals(string)) {
-                roll.set(i, "-");
+        for (int i = 0; i < player.getRoll().size(); i++) {
+            if (player.getRoll().get(i).equals(string)) {
+                player.getRoll().set(i, "-");
             }
         }
     }
 
     @Then("player gets {int} {string} and {int} {string} after reroll")
     public void player_gets_and_after_reroll(Integer int1, String string, Integer int2, String string2) {
-        for (int i = 0; i < roll.size(); i++) {
+        for (int i = 0; i < player.getRoll().size(); i++) {
             if (int1 == 0) {
                 break;
             }
-            if (roll.get(i).equals("-")) {
-                roll.set(i, string);
+            if (player.getRoll().get(i).equals("-")) {
+                player.getRoll().set(i, string);
                 int1--;
             }
         }
 
-        for (int i = 0; i < roll.size(); i++) {
+        for (int i = 0; i < player.getRoll().size(); i++) {
             if (int2 == 0) {
                 break;
             }
-            if (roll.get(i).equals("-")) {
-                roll.set(i, string2);
+            if (player.getRoll().get(i).equals("-")) {
+                player.getRoll().set(i, string2);
                 int2--;
             }
         }
@@ -133,10 +134,10 @@ public class StepDefinitions {
 
     @Then("player scores {int} after Death")
     public void player_scores_after_death(Integer int1) {
-        assertEquals(int1, gameLogic.scoreTurn(roll, card));
+        assertEquals(int1, gameLogic.scoreTurn(player.getRoll(), card));
     }
     
     @Then("player scores {int}")
     public void player_scores(Integer int1) {
-        assertEquals(int1, gameLogic.scoreTurn(roll, card));    }
+        assertEquals(int1, gameLogic.scoreTurn(player.getRoll(), card));    }
 }
