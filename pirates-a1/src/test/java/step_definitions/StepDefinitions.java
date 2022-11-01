@@ -183,6 +183,40 @@ public class StepDefinitions {
         }
     }
 
+    @Then("player {int} gets {int} {string}, {int} {string} and {int} {string} after reroll")
+    public void player_gets_and_after_reroll(Integer playerIndex, Integer int1, String string, Integer int2,
+            String string2, Integer int3, String string3) {
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
+            if (int1 == 0) {
+                break;
+            }
+            if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
+                players.get(playerIndex - 1).getRoll().set(i, string);
+                int1--;
+            }
+        }
+
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
+            if (int2 == 0) {
+                break;
+            }
+            if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
+                players.get(playerIndex - 1).getRoll().set(i, string2);
+                int2--;
+            }
+        }
+
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
+            if (int3 == 0) {
+                break;
+            }
+            if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
+                players.get(playerIndex - 1).getRoll().set(i, string3);
+                int3--;
+            }
+        }
+    }
+
     @Then("player {int} scores {int} after Death")
     public void player_scores_after_death(Integer playerIndex, Integer int1) {
         assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(), card));
