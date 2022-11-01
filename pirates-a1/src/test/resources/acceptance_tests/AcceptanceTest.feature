@@ -259,3 +259,15 @@ Feature: Acceptance Tests for Assignment 2
     Given player 1 Fortune Card as "Skull One"
     When player 1 rolls 2 "Skull" and 6 "Sword"
     And player 1 scores 0 after Death
+
+  Scenario: Row 109
+    Given player 1 Fortune Card as "Skull Two"
+    When player 1 rolls 2 "Skull", 3 "Parrot" and 3 "Monkey"
+    And player 1 reroll 3 "Parrot"
+    Then player 1 gets 2 "Skull" and 1 "Sword" after reroll
+    When player 1 reroll 3 "Monkey"
+    Then player 1 gets 3 "Skull" after reroll
+    When player 1 reroll 1 "Sword"
+    Then player 1 gets 1 "Sword" after reroll
+    And player 1 scores 0 after Death
+    And player 1 deductions will be -900

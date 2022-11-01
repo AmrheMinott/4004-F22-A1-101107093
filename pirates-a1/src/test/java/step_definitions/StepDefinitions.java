@@ -92,6 +92,7 @@ public class StepDefinitions {
         for (int i = 0; i < int3; i++) {
             tempRoll.add(string3);
         }
+        addSkullBasedOnSkullCard(tempRoll);
         players.get(playerIndex - 1).setRoll(tempRoll);
     }
 
@@ -240,6 +241,12 @@ public class StepDefinitions {
     @Then("player {int} scores {int}")
     public void player_scores(Integer playerIndex, Integer int1) {
         assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
+                players.get(playerIndex - 1).getFortuneCard()));
+    }
+
+    @Then("player {int} deductions will be {int}")
+    public void player_deductions_will_be(Integer playerIndex, Integer int1) {
+        assertEquals(int1, gameLogic.scoreIslandOfTheDeadDeduction(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard()));
     }
 
