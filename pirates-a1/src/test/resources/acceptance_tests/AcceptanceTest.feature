@@ -180,3 +180,8 @@ Feature: Acceptance Tests for Assignment 2
     Then player 1 gets 1 "Skull" and 2 "Parrot" after reroll
     And player 1 activates Sorceress getting a "Parrot"
     And player 1 scores 2000
+
+  Scenario: Row 82
+    Given Fortune Card as "Monkey Business"
+    When player 1 rolls 3 "Monkey", 3 "Parrot", 1 "Gold" and 1 "Skull"
+    And player 1 scores 1100
