@@ -151,3 +151,8 @@ Feature: Acceptance Tests for Assignment 2
     And player 1 reroll 3 "Sword"
     Then player 1 gets 1 "Gold", 1 "Monkey" and 1 "Parrot" after reroll
     And player 1 scores 500
+
+  Scenario: Row 72
+    Given Fortune Card as "Coin"
+    When player 1 rolls 4 "Monkey", 2 "Gold" and 2 "Skull"
+    And player 1 scores 600
