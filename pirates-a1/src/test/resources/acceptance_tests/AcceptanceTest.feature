@@ -237,3 +237,10 @@ Feature: Acceptance Tests for Assignment 2
     Given player 1 Fortune Card as "Coin"
     When player 1 rolls 3 "Monkey", 4 "Sword" and 1 "Diamond"
     And player 1 scores 1000
+
+  Scenario: Row 102
+    Given player 1 Fortune Card as "Sea Battle One"
+    When player 1 rolls 4 "Monkey", 1 "Sword", 2 "Parrot" and 1 "Gold"
+    And player 1 reroll 2 "Parrot"
+    Then player 1 gets 2 "Sword" and 1 "Gold" after reroll
+    And player 1 scores 1200
