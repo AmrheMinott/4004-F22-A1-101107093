@@ -211,3 +211,14 @@ Feature: Acceptance Tests for Assignment 2
     And player 1 reroll 1 "Gold"
     Then player 1 gets 1 "Gold" after reroll
     And player 1 scores 1100
+
+  Scenario: Row 94
+    Given player 1 Fortune Card as "Chest"
+    When player 1 rolls 2 "Skull", 3 "Parrot" and 3 "Gold"
+    And player 1 puts 3 "Gold" in chest
+    And player 1 reroll 3 "Parrot"
+    Then player 1 gets 2 "Diamond" and 1 "Gold" after reroll
+    When player 1 puts 1 "Gold" in chest
+    And player 1 reroll 2 "Diamond"
+    Then player 1 gets 1 "Gold" and 1 "Skull" after reroll
+    And player 1 scores 600
