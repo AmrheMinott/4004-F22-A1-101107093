@@ -226,17 +226,17 @@ Feature: Acceptance Tests for Assignment 2
   Scenario: Row 97
     Given player 1 Fortune Card as "Coin"
     When player 1 rolls 3 "Monkey", 3 "Sword", 1 "Diamond" and 1 "Parrot"
-    And player 1 scores 400
+    Then player 1 scores 400
 
   Scenario: Row 98
     Given player 1 Fortune Card as "Captain"
     When player 1 rolls 3 "Monkey", 3 "Sword" and 2 "Gold"
-    And player 1 scores 1800
+    Then player 1 scores 1800
 
   Scenario: Row 99
     Given player 1 Fortune Card as "Coin"
     When player 1 rolls 3 "Monkey", 4 "Sword" and 1 "Diamond"
-    And player 1 scores 1000
+    Then player 1 scores 1000
 
   Scenario: Row 102
     Given player 1 Fortune Card as "Sea Battle One"
@@ -248,17 +248,17 @@ Feature: Acceptance Tests for Assignment 2
   Scenario: Row 103
     Given player 1 Fortune Card as "Monkey Business"
     When player 1 rolls 2 "Monkey", 1 "Parrot", 2 "Gold" and 3 "Diamond"
-    And player 1 scores 1200
+    Then player 1 scores 1200
 
   Scenario: Row 106
     Given player 1 Fortune Card as "Skull Two"
     When player 1 rolls 1 "Skull" and 7 "Sword"
-    And player 1 scores 0 after Death
+    Then player 1 scores 0 after Death
 
   Scenario: Row 107
     Given player 1 Fortune Card as "Skull One"
     When player 1 rolls 2 "Skull" and 6 "Sword"
-    And player 1 scores 0 after Death
+    Then player 1 scores 0 after Death
 
   Scenario: Row 109
     Given player 1 Fortune Card as "Skull Two"
