@@ -156,3 +156,11 @@ Feature: Acceptance Tests for Assignment 2
     Given Fortune Card as "Coin"
     When player 1 rolls 4 "Monkey", 2 "Gold" and 2 "Skull"
     And player 1 scores 600
+
+  Scenario: Row 77
+    Given Fortune Card as "Sorceress"
+    When player 1 rolls 2 "Diamond", 1 "Sword", 1 "Monkey", 1 "Gold" and 3 "Parrot"
+    And player 1 reroll 3 "Parrot"
+    Then player 1 gets 1 "Skull" and 2 "Monkey" after reroll
+    And player 1 activates Sorceress getting a "Monkey"
+    And player 1 scores 500

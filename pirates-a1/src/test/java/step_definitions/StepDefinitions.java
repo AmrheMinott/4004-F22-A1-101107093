@@ -18,6 +18,7 @@ import fortune_cards.SeaBattleTypeThree;
 import fortune_cards.SeaBattleTypeTwo;
 import fortune_cards.SkullTypeOne;
 import fortune_cards.SkullTypeTwo;
+import fortune_cards.Sorceress;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -30,7 +31,8 @@ public class StepDefinitions {
             entry("Chest", new Chest()), entry("Captain", new Captain()), entry("Diamond", new DiamondCard()),
             entry("Monkey Business", new MonkeyBusiness()), entry("Sea Battle One", new SeaBattleTypeOne()),
             entry("Sea Battle Two", new SeaBattleTypeTwo()), entry("Sea Battle Three", new SeaBattleTypeThree()),
-            entry("Skull One", new SkullTypeOne()), entry("Skull Two", new SkullTypeTwo()));
+            entry("Skull One", new SkullTypeOne()), entry("Skull Two", new SkullTypeTwo()),
+            entry("Sorceress", new Sorceress()));
 
     private FortuneCard card = null;
     private GameLogic gameLogic = new GameLogic();
@@ -225,5 +227,18 @@ public class StepDefinitions {
     @Then("player {int} scores {int}")
     public void player_scores(Integer playerIndex, Integer int1) {
         assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(), card));
+    }
+
+    /**
+     * Fortune Card Activation Section
+     */
+    @Then("player {int} activates Sorceress getting a {string}")
+    public void player_activates_sorceress_getting_a(Integer playerIndex, String string) {
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
+            if (players.get(playerIndex - 1).getRoll().get(i).equals("Skull")) {
+                players.get(playerIndex - 1).getRoll().set(i, string);
+                break;
+            }
+        }
     }
 }
