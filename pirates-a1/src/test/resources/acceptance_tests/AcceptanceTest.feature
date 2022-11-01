@@ -197,3 +197,16 @@ Feature: Acceptance Tests for Assignment 2
     Given Fortune Card as "Monkey Business"
     When player 1 rolls 3 "Monkey", 3 "Skull" and 2 "Parrot"
     And player 1 scores 0
+
+  Scenario: Row 90
+    Given player 1 Fortune Card as "Chest"
+    When player 1 rolls 3 "Parrot", 2 "Sword", 2 "Diamond" and 1 "Gold"
+    And player 1 puts 2 "Diamond" and 1 "Gold" in chest
+    And player 1 reroll 2 "Sword"
+    Then player 1 gets 2 "Parrot" after reroll
+    When player 1 puts 5 "Parrot" in chest
+    And player 1 takes out 2 "Diamond" and 1 "Gold" in chest
+    And player 1 reroll 2 "Diamond"
+    And player 1 reroll 1 "Gold"
+    Then player 1 gets 1 "Parrot", 1 "Skull" and 1 "Gold" after reroll
+    And player 1 scores 1100
