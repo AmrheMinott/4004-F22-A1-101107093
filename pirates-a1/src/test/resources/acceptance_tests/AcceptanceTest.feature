@@ -232,3 +232,8 @@ Feature: Acceptance Tests for Assignment 2
     Given player 1 Fortune Card as "Captain"
     When player 1 rolls 3 "Monkey", 3 "Sword" and 2 "Gold"
     And player 1 scores 1800
+
+  Scenario: Row 99
+    Given player 1 Fortune Card as "Coin"
+    When player 1 rolls 3 "Monkey", 4 "Sword" and 1 "Diamond"
+    And player 1 scores 1000
