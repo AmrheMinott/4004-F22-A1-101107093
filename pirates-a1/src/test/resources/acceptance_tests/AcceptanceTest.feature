@@ -254,3 +254,8 @@ Feature: Acceptance Tests for Assignment 2
     Given player 1 Fortune Card as "Skull Two"
     When player 1 rolls 1 "Skull" and 7 "Sword"
     And player 1 scores 0 after Death
+
+  Scenario: Row 107
+    Given player 1 Fortune Card as "Skull One"
+    When player 1 rolls 2 "Skull" and 6 "Sword"
+    And player 1 scores 0 after Death

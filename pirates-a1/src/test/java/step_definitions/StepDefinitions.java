@@ -69,6 +69,9 @@ public class StepDefinitions {
     }
 
     private void addSkullBasedOnSkullCard(ArrayList<String> tempRoll) {
+        if (card instanceof SkullTypeOne) {
+            tempRoll.add("Skull");
+        }
         if (card instanceof SkullTypeTwo) {
             tempRoll.add("Skull");
             tempRoll.add("Skull");
