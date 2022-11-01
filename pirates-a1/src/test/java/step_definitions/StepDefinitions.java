@@ -39,10 +39,11 @@ public class StepDefinitions {
     private Player player = new Player("Cumcumber 1");
 
     private ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(player));
-
-    @Given("Fortune Card as {string}")
-    public void fortune_card_as(String cardString) {
+    
+    @Given("player {int} Fortune Card as {string}")
+    public void player_fortune_card_as(Integer playerIndex, String cardString) {
         card = fortuneCardMap.get(cardString);
+        players.get(playerIndex - 1).setFortuneCard(card);
     }
 
     @When("player {int} rolls {int} {string}")
@@ -221,12 +222,12 @@ public class StepDefinitions {
 
     @Then("player {int} scores {int} after Death")
     public void player_scores_after_death(Integer playerIndex, Integer int1) {
-        assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(), card));
+        assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(), players.get(playerIndex - 1).getFortuneCard()));
     }
 
     @Then("player {int} scores {int}")
     public void player_scores(Integer playerIndex, Integer int1) {
-        assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(), card));
+        assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(), players.get(playerIndex - 1).getFortuneCard()));
     }
 
     /**
@@ -241,4 +242,70 @@ public class StepDefinitions {
             }
         }
     }
+
+    @When("player {int} puts {int} {string} and {int} {string} in chest")
+    public void player_puts_and_in_chest(Integer playerIndex, Integer int1, String string, Integer int2,
+            String string2) {
+
+        for (int i = players.get(playerIndex - 1).getRoll().size() - 1; i > 0; i--) {
+            if (players.get(playerIndex - 1).getRoll().get(i).equals(string)) {
+                players.get(playerIndex - 1).addItemAtIndexToChest(i+1);
+                int1--;
+            }
+            if (int1 == 0) {
+                break;
+            }
+        }
+
+        for (int i = players.get(playerIndex - 1).getRoll().size() - 1; i > 0; i--) {
+            if (players.get(playerIndex - 1).getRoll().get(i).equals(string2)) {
+                players.get(playerIndex - 1).addItemAtIndexToChest(i+1);
+                int2--;
+            }
+            if (int2 == 0) {
+                break;
+            }
+        }
+
+    }
+
+    @When("player {int} puts {int} {string} in chest")
+    public void player_puts_in_chest(Integer playerIndex, Integer int1, String string) {
+        for (int i = players.get(playerIndex - 1).getRoll().size() - 1; i >= 0; i--) {
+            if (players.get(playerIndex - 1).getRoll().get(i).equals(string)) {
+                players.get(playerIndex - 1).addItemAtIndexToChest(i+1);
+                int1--;
+            }
+            if (int1 == 0) {
+                break;
+            }
+        }
+    }
+
+    @When("player {int} takes out {int} {string} and {int} {string} in chest")
+    public void player_takes_out_and_in_chest(Integer playerIndex, Integer int1, String string, Integer int2,
+            String string2) {
+        for (int i = ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().size() -1; i >= 0; i--) {
+            if (((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().get(i).equals(string)) {
+                players.get(playerIndex - 1).getRoll()
+                        .add(((Chest) players.get(playerIndex - 1).getFortuneCard()).takeOut(i));
+                int1--;
+            }
+            if (int1 == 0) {
+                break;
+            }
+        }
+
+        for (int i = ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().size() - 1; i >= 0; i--) {
+            if (((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().get(i).equals(string)) {
+                players.get(playerIndex - 1).getRoll()
+                        .add(((Chest) players.get(playerIndex - 1).getFortuneCard()).takeOut(i));
+                int2--;
+            }
+            if (int2 == 0) {
+                break;
+            }
+        }
+    }
+
 }
