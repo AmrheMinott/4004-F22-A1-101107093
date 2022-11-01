@@ -249,3 +249,8 @@ Feature: Acceptance Tests for Assignment 2
     Given player 1 Fortune Card as "Monkey Business"
     When player 1 rolls 2 "Monkey", 1 "Parrot", 2 "Gold" and 3 "Diamond"
     And player 1 scores 1200
+
+  Scenario: Row 106
+    Given player 1 Fortune Card as "Skull Two"
+    When player 1 rolls 1 "Skull" and 7 "Sword"
+    And player 1 scores 0 after Death

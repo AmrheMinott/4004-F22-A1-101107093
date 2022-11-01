@@ -64,7 +64,15 @@ public class StepDefinitions {
         for (int i = 0; i < int2; i++) {
             tempRoll.add(string2);
         }
+        addSkullBasedOnSkullCard(tempRoll);
         players.get(playerIndex - 1).setRoll(tempRoll);
+    }
+
+    private void addSkullBasedOnSkullCard(ArrayList<String> tempRoll) {
+        if (card instanceof SkullTypeTwo) {
+            tempRoll.add("Skull");
+            tempRoll.add("Skull");
+        }
     }
 
     @When("player {int} rolls {int} {string}, {int} {string} and {int} {string}")
