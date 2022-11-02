@@ -310,7 +310,7 @@ Feature: Acceptance Tests for Assignment 2
     When player 1 rolls 3 "Monkey", 2 "Sword", 1 "Gold" and 2 "Parrot"
     Then player 1 scores 500 after winning at sea
 
-  Scenario: Row 118
+  Scenario: Row 119
     Given player 1 Fortune Card as "Sea Battle One"
     When player 1 rolls 4 "Monkey", 1 "Sword", 1 "Skull" and 2 "Parrot"
     And player 1 reroll 2 "Parrot"
