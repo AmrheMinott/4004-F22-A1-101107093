@@ -292,4 +292,10 @@ Feature: Acceptance Tests for Assignment 2
     Given player 1 Fortune Card as "Sea Battle One"
     When player 1 rolls 4 "Monkey", 3 "Skull" and 1 "Sword"
     And player 1 scores an additional -300 losing at sea
-    
+
+  Scenario: Row 115
+    Given player 1 Fortune Card as "Sea Battle Two"
+    When player 1 rolls 2 "Sword", 2 "Skull" and 4 "Parrot"
+    And player 1 reroll 4 "Parrot"
+    Then player 1 gets 4 "Skull" after reroll
+    And player 1 scores an additional -500 losing at sea
