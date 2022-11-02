@@ -279,3 +279,11 @@ Feature: Acceptance Tests for Assignment 2
     Then player 1 gets 2 "Skull" and 1 "Gold" after reroll
     And player 1 scores 0 after Death
     And player 1 deductions will be -1400
+
+  Scenario: Row 111
+    Given player 1 Fortune Card as "Skull Two"
+    When player 1 rolls 3 "Skull" and 5 "Sword"
+    And player 1 reroll 5 "Sword"
+    Then player 1 gets 5 "Gold" after reroll
+    And player 1 scores 0 after Death
+    And player 1 deductions will be -500
