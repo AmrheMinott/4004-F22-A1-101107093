@@ -287,3 +287,9 @@ Feature: Acceptance Tests for Assignment 2
     Then player 1 gets 5 "Gold" after reroll
     And player 1 scores 0 after Death
     And player 1 deductions will be -500
+
+  Scenario: Row 114
+    Given player 1 Fortune Card as "Sea Battle One"
+    When player 1 rolls 4 "Monkey", 3 "Skull" and 1 "Sword"
+    And player 1 scores an additional -300 losing at sea
+    

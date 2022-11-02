@@ -330,4 +330,15 @@ public class StepDefinitions {
         }
     }
 
+    /**
+     * Sea Battle Fortune Card
+     * 
+     * @param playerIndex
+     * @param seaBattleScoreDeductions
+     */
+    @When("player {int} scores an additional {int} losing at sea")
+    public void player_scores_an_additional_losing_at_sea(Integer playerIndex, Integer seaBattleScoreDeductions) {
+        assertEquals(seaBattleScoreDeductions, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
+                players.get(playerIndex - 1).getFortuneCard()));
+    }
 }
