@@ -316,3 +316,9 @@ Feature: Acceptance Tests for Assignment 2
     And player 1 reroll 2 "Parrot"
     Then player 1 gets 1 "Sword" and 1 "Skull" after reroll
     And player 1 scores 500 after winning at sea
+
+  Scenario: Row 120
+    Given player 1 Fortune Card as "Sea Battle Two"
+    When player 1 rolls 3 "Monkey", 4 "Sword" and 1 "Skull"
+    Then player 1 scores 800 after winning at sea
+    
