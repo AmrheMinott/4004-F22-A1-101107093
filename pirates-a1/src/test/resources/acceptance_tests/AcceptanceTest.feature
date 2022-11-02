@@ -333,3 +333,12 @@ Feature: Acceptance Tests for Assignment 2
     Given player 1 Fortune Card as "Sea Battle Three"
     When player 1 rolls 3 "Monkey", 4 "Sword" and 1 "Skull"
     Then player 1 scores 1300 after winning at sea
+
+  Scenario: Row 126
+    Given player 1 Fortune Card as "Sea Battle Three"
+    When player 1 rolls 3 "Monkey", 1 "Sword", 1 "Skull", 1 "Diamond" and 2 "Parrot"
+    And player 1 reroll 2 "Parrot"
+    Then player 1 gets 2 "Sword" after reroll
+    When player 1 reroll 3 "Monkey"
+    Then player 1 gets 1 "Sword" and 2 "Parrot" after reroll
+    And player 1 scores 1300 after winning at sea
