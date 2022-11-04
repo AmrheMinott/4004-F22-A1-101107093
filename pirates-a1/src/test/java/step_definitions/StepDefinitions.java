@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import fortune_cards.Captain;
@@ -36,9 +37,11 @@ public class StepDefinitions {
 
     private FortuneCard card = null;
     private GameLogic gameLogic = new GameLogic();
-    private Player player = new Player("Cumcumber 1");
+    private Player player_1 = new Player("Cumcumber 1");
+    private Player player_2 = new Player("Cumcumber 2");
+    private Player player_3 = new Player("Cumcumber 3");
 
-    private ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(player));
+    private ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(player_1, player_2, player_3));
 
     @Given("player {int} Fortune Card as {string}")
     public void player_fortune_card_as(Integer playerIndex, String cardString) {
@@ -240,14 +243,27 @@ public class StepDefinitions {
 
     @Then("player {int} scores {int}")
     public void player_scores(Integer playerIndex, Integer int1) {
-        assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
-                players.get(playerIndex - 1).getFortuneCard()));
+        int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
+                players.get(playerIndex - 1).getFortuneCard());
+        players.get(playerIndex - 1).incrementScore(score);
+        assertEquals(int1, score);
     }
 
     @Then("player {int} deductions will be {int}")
     public void player_deductions_will_be(Integer playerIndex, Integer int1) {
-        assertEquals(int1, gameLogic.scoreIslandOfTheDeadDeduction(players.get(playerIndex - 1).getRoll(),
-                players.get(playerIndex - 1).getFortuneCard()));
+        int score = gameLogic.scoreIslandOfTheDeadDeduction(players.get(playerIndex - 1).getRoll(),
+                players.get(playerIndex - 1).getFortuneCard());
+        players.get(playerIndex - 1).incrementScore(score);
+        assertEquals(int1, score);
+    }
+    
+    @When("Game declares {string} as winner")
+    public void game_declares_as_winner(String string) {
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        for (Player p : players) {
+            map.put(p.getName(), p.getScore());
+        }
+        assertEquals(string, gameLogic.determineWinner(map));
     }
 
     /**
