@@ -253,6 +253,10 @@ public class StepDefinitions {
     /**
      * Fortune Card Activation Section
      */
+
+    /**
+     * Sorceress Card
+     */
     @Then("player {int} activates Sorceress getting a {string}")
     public void player_activates_sorceress_getting_a(Integer playerIndex, String string) {
         for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
@@ -263,6 +267,9 @@ public class StepDefinitions {
         }
     }
 
+    /**
+     * Chest Card
+     */
     @When("player {int} puts {int} {string} and {int} {string} in chest")
     public void player_puts_and_in_chest(Integer playerIndex, Integer int1, String string, Integer int2,
             String string2) {

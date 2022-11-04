@@ -1,5 +1,6 @@
 Feature: Acceptance Tests for Assignment 2
 
+  # Part 1
   Scenario: Row 45
     Given player 1 Fortune Card as "Coin"
     When player 1 rolls 3 "Skull" and 5 "Sword"
@@ -157,6 +158,8 @@ Feature: Acceptance Tests for Assignment 2
     When player 1 rolls 4 "Monkey", 2 "Gold" and 2 "Skull"
     And player 1 scores 600
 
+  # PART 2: Miscellaneous Fortune Cards and Full Chest bonus
+  # Sorceress
   Scenario: Row 77
     Given player 1 Fortune Card as "Sorceress"
     When player 1 rolls 2 "Diamond", 1 "Sword", 1 "Monkey", 1 "Gold" and 3 "Parrot"
@@ -181,6 +184,7 @@ Feature: Acceptance Tests for Assignment 2
     And player 1 activates Sorceress getting a "Parrot"
     And player 1 scores 2000
 
+  # Monkey Business
   Scenario: Row 82
     Given player 1 Fortune Card as "Monkey Business"
     When player 1 rolls 3 "Monkey", 3 "Parrot", 1 "Gold" and 1 "Skull"
@@ -198,6 +202,7 @@ Feature: Acceptance Tests for Assignment 2
     When player 1 rolls 3 "Monkey", 3 "Skull" and 2 "Parrot"
     And player 1 scores 0
 
+  # Treasure Chest
   Scenario: Row 90
     Given player 1 Fortune Card as "Chest"
     When player 1 rolls 3 "Parrot", 2 "Sword", 2 "Diamond" and 1 "Gold"
@@ -223,6 +228,7 @@ Feature: Acceptance Tests for Assignment 2
     Then player 1 gets 1 "Gold" and 1 "Skull" after reroll
     And player 1 scores 600
 
+  # Full Chest
   Scenario: Row 97
     Given player 1 Fortune Card as "Coin"
     When player 1 rolls 3 "Monkey", 3 "Sword", 1 "Diamond" and 1 "Parrot"
@@ -250,6 +256,7 @@ Feature: Acceptance Tests for Assignment 2
     When player 1 rolls 2 "Monkey", 1 "Parrot", 2 "Gold" and 3 "Diamond"
     Then player 1 scores 1200
 
+  # Skulls Island and Skull Fortune Cards
   Scenario: Row 106
     Given player 1 Fortune Card as "Skull Two"
     When player 1 rolls 1 "Skull" and 7 "Sword"
@@ -288,6 +295,7 @@ Feature: Acceptance Tests for Assignment 2
     And player 1 scores 0 after Death
     And player 1 deductions will be -500
 
+  # Sea Battles
   Scenario: Row 114
     Given player 1 Fortune Card as "Sea Battle One"
     When player 1 rolls 4 "Monkey", 3 "Skull" and 1 "Sword"
@@ -342,3 +350,4 @@ Feature: Acceptance Tests for Assignment 2
     When player 1 reroll 3 "Monkey"
     Then player 1 gets 1 "Sword" and 2 "Parrot" after reroll
     And player 1 scores 1300 after winning at sea
+  # Part 3: Multi-player Scenarios
