@@ -26,6 +26,7 @@ Feature: Multi Player Case One
     And player 1 is initialised MP1
     And player 2 is initialised MP1
     And player 3 is initialised MP1
+    And player 1 is "Play" MP1
     Given player 1 draws Fortune Card as "Captain" MP1
     When player 1 rolls 7 "Sword" and 1 "Skull" MP1
     Then player 1 scores 4000 MP1

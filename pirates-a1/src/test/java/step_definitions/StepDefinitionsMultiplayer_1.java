@@ -20,6 +20,7 @@ import fortune_cards.SeaBattleTypeTwo;
 import fortune_cards.SkullTypeOne;
 import fortune_cards.SkullTypeTwo;
 import fortune_cards.Sorceress;
+import game_server.GameServer;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
@@ -38,7 +39,8 @@ public class StepDefinitionsMultiplayer_1 {
             entry("Sorceress", new Sorceress()));
 
     private FortuneCard card = null;
-    private GameLogic gameLogic = new GameLogic();
+    private GameServer server = new GameServer(1234567);
+    private GameLogic gameLogic = null;
 
     private ArrayList<Player> players = new ArrayList<Player>();
 
@@ -59,15 +61,16 @@ public class StepDefinitionsMultiplayer_1 {
         gameLogic = new GameLogic();
     }
 
-    @When("server tells player {int} to {string} MP1")
-    public void server_tells_player_to_mp1(Integer playerIndex, String string) throws ClassNotFoundException {
-
-    }
-
     @When("player {int} draws Fortune Card as {string} MP1")
     public void player_draws_fortune_card_as_mp1(Integer playerIndex, String cardString) {
+        String cardFromServer = server.getDeck().get(0).getClass().getSimpleName();
+        server.getDeck().remove(0);
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
+                + " was granted Fortune Card -> " + cardFromServer);
         card = fortuneCardMap.get(cardString);
         players.get(playerIndex - 1).setFortuneCard(card);
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
+                + " Fortune Card was set to -> " + cardString);
     }
 
     @When("player {int} rolls {int} {string} and {int} {string} MP1")
@@ -79,14 +82,26 @@ public class StepDefinitionsMultiplayer_1 {
         for (int i = 0; i < int2; i++) {
             tempRoll.add(string2);
         }
+        gameLogic.rollAllEightDie(players.get(playerIndex - 1).getRoll());
+        System.out
+                .println(this.scenario.getName() + " " +  players.get(playerIndex - 1).getName() + " roll after simulation -> "
+                        + players.get(playerIndex - 1).getRoll().toString());
         players.get(playerIndex - 1).setRoll(tempRoll);
+        System.out.println(this.scenario.getName() + " " +  players.get(playerIndex - 1).getName() + " roll set to -> "
+                + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @When("player {int} scores {int} MP1")
     public void player_scores_mp1(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard());
+        System.out.println(this.scenario.getName() + " " +  players.get(playerIndex - 1).getName() + " earned "
+                + Integer.toString(score));
+
         players.get(playerIndex - 1).incrementScore(score);
+        System.out.println(this.scenario.getName() + " " +  players.get(playerIndex - 1).getName() + " new score = "
+                + players.get(playerIndex - 1).getScore());
+
         assertEquals(int1, score);
     }
 
@@ -95,24 +110,30 @@ public class StepDefinitionsMultiplayer_1 {
         System.out.println(
                 this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " has ended their turn!");
     }
-    
+
     @Then("player {int} is {string} MP1")
     public void player_is_mp1(Integer playerIndex, String string) {
-        System.out.println(players.get(playerIndex - 1).getName() + " is currently " + string);
+        System.out.println(
+                this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " is currently " + string);
     }
 
     @When("player {int} scores {int} after Death MP1")
     public void player_scores_after_death_mp1(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard());
+        System.out.println(this.scenario.getName() + players.get(playerIndex - 1).getName() + " earned " + Integer.toString(score));
         players.get(playerIndex - 1).incrementScore(score);
+        System.out.println(this.scenario.getName() + players.get(playerIndex - 1).getName() + " new score = "
+                + players.get(playerIndex - 1).getScore());
         assertEquals(int1, score);
-        assertTrue(players.get(playerIndex - 1).isPlayerDead());
     }
 
     @Then("player {int} is dead MP1")
     public void player_is_dead_mp1(Integer playerIndex) {
-        assertTrue(players.get(playerIndex - 1).isPlayerDead());
+        boolean isPlayerDead = players.get(playerIndex - 1).isPlayerDead();
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " Died -> "
+                + Boolean.toString(isPlayerDead));
+        assertTrue(isPlayerDead);
     }
 
     @Then("Game declares {string} as winner MP1")
@@ -121,6 +142,8 @@ public class StepDefinitionsMultiplayer_1 {
         for (Player p : players) {
             map.put(p.getName(), p.getScore());
         }
+        String winner = gameLogic.determineWinner(map);
+        System.out.println(this.scenario.getName() + " The winner in the end is -> " + winner);
         assertEquals(string, gameLogic.determineWinner(map));
     }
 
