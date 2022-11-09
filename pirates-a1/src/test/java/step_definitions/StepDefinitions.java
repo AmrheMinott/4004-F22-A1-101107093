@@ -21,6 +21,8 @@ import fortune_cards.SeaBattleTypeTwo;
 import fortune_cards.SkullTypeOne;
 import fortune_cards.SkullTypeTwo;
 import fortune_cards.Sorceress;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -42,9 +44,16 @@ public class StepDefinitions {
 
     private ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(player_1));
 
+    private Scenario scenario;
+
+    @Before
+    public void before(Scenario scenario) {
+        this.scenario = scenario;
+    }
+
     @Given("player {int} Fortune Card as {string}")
     public void player_fortune_card_as(Integer playerIndex, String cardString) {
-        System.out.println("Player was granted Fortune Card -> " + cardString);
+        System.out.println(this.scenario.getName() + " Player was granted Fortune Card -> " + cardString);
         card = fortuneCardMap.get(cardString);
         players.get(playerIndex - 1).setFortuneCard(card);
     }
@@ -56,9 +65,11 @@ public class StepDefinitions {
             tempRoll.add(string);
         }
         gameLogic.rollAllEightDie(players.get(playerIndex - 1).getRoll());
-        System.out.println("Player roll after simulation -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll after simulation -> "
+                + players.get(playerIndex - 1).getRoll().toString());
         players.get(playerIndex - 1).setRoll(tempRoll);
-        System.out.println("Player roll set to -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll set to -> "
+                + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @When("player {int} rolls {int} {string} and {int} {string}")
@@ -71,10 +82,12 @@ public class StepDefinitions {
             tempRoll.add(string2);
         }
         gameLogic.rollAllEightDie(players.get(playerIndex - 1).getRoll());
-        System.out.println("Player roll after simulation -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll after simulation -> "
+                + players.get(playerIndex - 1).getRoll().toString());
         addSkullBasedOnSkullCard(tempRoll);
         players.get(playerIndex - 1).setRoll(tempRoll);
-        System.out.println("Player roll set to -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll set to -> "
+                + players.get(playerIndex - 1).getRoll().toString());
     }
 
     private void addSkullBasedOnSkullCard(ArrayList<String> tempRoll) {
@@ -102,10 +115,12 @@ public class StepDefinitions {
             tempRoll.add(string3);
         }
         gameLogic.rollAllEightDie(players.get(playerIndex - 1).getRoll());
-        System.out.println("Player roll after simulation -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll after simulation -> "
+                + players.get(playerIndex - 1).getRoll().toString());
         addSkullBasedOnSkullCard(tempRoll);
         players.get(playerIndex - 1).setRoll(tempRoll);
-        System.out.println("Player roll set to -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll set to -> "
+                + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @When("player {int} rolls {int} {string}, {int} {string}, {int} {string} and {int} {string}")
@@ -126,9 +141,11 @@ public class StepDefinitions {
             tempRoll.add(string4);
         }
         gameLogic.rollAllEightDie(players.get(playerIndex - 1).getRoll());
-        System.out.println("Player roll after simulation -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll after simulation -> "
+                + players.get(playerIndex - 1).getRoll().toString());
         players.get(playerIndex - 1).setRoll(tempRoll);
-        System.out.println("Player roll set to -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll set to -> "
+                + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @When("player {int} rolls {int} {string}, {int} {string}, {int} {string}, {int} {string} and {int} {string}")
@@ -152,9 +169,11 @@ public class StepDefinitions {
             tempRoll.add(string5);
         }
         gameLogic.rollAllEightDie(players.get(playerIndex - 1).getRoll());
-        System.out.println("Player roll after simulation -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll after simulation -> "
+                + players.get(playerIndex - 1).getRoll().toString());
         players.get(playerIndex - 1).setRoll(tempRoll);
-        System.out.println("Player roll set to -> " + players.get(playerIndex - 1).getRoll().toString());
+        System.out.println(this.scenario.getName() + " Player roll set to -> "
+                + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @Then("player {int} gets {int} {string}")
@@ -169,7 +188,8 @@ public class StepDefinitions {
             }
         }
         System.out
-                .println("Player roll after reroll is set to -> " + players.get(playerIndex - 1).getRoll().toString());
+                .println(this.scenario.getName() + " Player roll after reroll is set to -> "
+                        + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @When("player {int} reroll {int} {string}")
@@ -194,7 +214,8 @@ public class StepDefinitions {
             }
         }
         System.out
-                .println("Player roll after reroll is set to -> " + players.get(playerIndex - 1).getRoll().toString());
+                .println(this.scenario.getName() + " Player roll after reroll is set to -> "
+                        + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @Then("player {int} gets {int} {string} and {int} {string} after reroll")
@@ -220,7 +241,8 @@ public class StepDefinitions {
             }
         }
         System.out
-                .println("Player roll after reroll is set to -> " + players.get(playerIndex - 1).getRoll().toString());
+                .println(this.scenario.getName() + " Player roll after reroll is set to -> "
+                        + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @Then("player {int} gets {int} {string}, {int} {string} and {int} {string} after reroll")
@@ -256,7 +278,8 @@ public class StepDefinitions {
             }
         }
         System.out
-                .println("Player roll after reroll is set to -> " + players.get(playerIndex - 1).getRoll().toString());
+                .println(this.scenario.getName() + " Player roll after reroll is set to -> "
+                        + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @Then("player {int} scores {int} after Death")
@@ -264,7 +287,7 @@ public class StepDefinitions {
         assertEquals(int1, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard()));
         boolean isPlayerDead = players.get(playerIndex - 1).isPlayerDead();
-        System.out.println("Player Died -> " + Boolean.toString(isPlayerDead));
+        System.out.println(this.scenario.getName() + " Player Died -> " + Boolean.toString(isPlayerDead));
         assertTrue(isPlayerDead);
     }
 
@@ -272,9 +295,9 @@ public class StepDefinitions {
     public void player_scores(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard());
-        System.out.println("Player earned " + Integer.toString(score));
+        System.out.println(this.scenario.getName() + " Player earned " + Integer.toString(score));
         players.get(playerIndex - 1).incrementScore(score);
-        System.out.println("Player new score = " + players.get(playerIndex - 1).getScore());
+        System.out.println(this.scenario.getName() + " Player new score = " + players.get(playerIndex - 1).getScore());
         assertEquals(int1, score);
     }
 
@@ -293,7 +316,7 @@ public class StepDefinitions {
             map.put(p.getName(), p.getScore());
         }
         String winner = gameLogic.determineWinner(map);
-        System.out.println("The winner in the end is -> " + winner);
+        System.out.println(this.scenario.getName() + " The winner in the end is -> " + winner);
         assertEquals(string, gameLogic.determineWinner(map));
     }
 
@@ -309,6 +332,7 @@ public class StepDefinitions {
         for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
             if (players.get(playerIndex - 1).getRoll().get(i).equals("Skull")) {
                 players.get(playerIndex - 1).sorceressActivation();
+                System.out.println(this.scenario.getName() + " Player activated Sorceress card");
                 players.get(playerIndex - 1).getRoll().set(i, string);
                 break;
             }
@@ -341,7 +365,7 @@ public class StepDefinitions {
                 break;
             }
         }
-
+        System.out.println(this.scenario.getName() + " Player chess contents is now -> " + ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().toString());
     }
 
     @When("player {int} puts {int} {string} in chest")
@@ -355,6 +379,8 @@ public class StepDefinitions {
                 break;
             }
         }
+        
+        System.out.println(this.scenario.getName() + " Player chess contents is now -> " + ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().toString());
     }
 
     @When("player {int} takes out {int} {string} and {int} {string} in chest")
@@ -383,6 +409,7 @@ public class StepDefinitions {
                 break;
             }
         }
+        System.out.println(this.scenario.getName() + " Player chess contents is now -> " + ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().toString());
     }
 
     /**
@@ -390,13 +417,19 @@ public class StepDefinitions {
      */
     @When("player {int} scores an additional {int} losing at sea")
     public void player_scores_an_additional_losing_at_sea(Integer playerIndex, Integer seaBattleScoreDeductions) {
-        assertEquals(seaBattleScoreDeductions, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
-                players.get(playerIndex - 1).getFortuneCard()));
+        int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
+                players.get(playerIndex - 1).getFortuneCard());
+        System.out.println(this.scenario.getName() + " Player lost at sea a total of -> " + score);
+
+        assertEquals(seaBattleScoreDeductions, score);
     }
 
     @Then("player {int} scores {int} after winning at sea")
     public void player_scores_after_winning_at_sea(Integer playerIndex, Integer seaBattleWinScore) {
-        assertEquals(seaBattleWinScore, gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
-                players.get(playerIndex - 1).getFortuneCard()));
+        int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
+                players.get(playerIndex - 1).getFortuneCard());
+        System.out.println(this.scenario.getName() + " Player won at sea a total of -> " + score);
+
+        assertEquals(seaBattleWinScore, score);
     }
 }
