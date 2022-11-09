@@ -39,6 +39,10 @@ public class GameServer implements Runnable {
     private ArrayList<Server> playerServer = new ArrayList<Server>();
     private ArrayList<Player> players = new ArrayList<Player>();
 
+    public ArrayList<Server> getPlayerServer() {
+        return playerServer;
+    }
+
     private HashMap<String, Integer> playerScores = new HashMap<String, Integer>();
     private HashMap<String, Integer> playerDeductions = new HashMap<String, Integer>();
 
@@ -53,6 +57,10 @@ public class GameServer implements Runnable {
             ex.printStackTrace();
             System.exit(1);
         }
+    }
+
+    public GameServer(int port) {
+        shuffleDeck();
     }
 
     private void shuffleDeck() {
@@ -138,7 +146,8 @@ public class GameServer implements Runnable {
             if (status.getMessageCode() == GameStatus.ISLAND_OF_THE_DEAD) {
                 for (int i = 0; i < TOTAL_NUMBER_OF_PLAYERS; i++) {
                     if (i != currentConnectedPlayer) {
-                        System.out.println("Server: -> " + players.get(i).getName() + " will lose: " + status.getScoreDeduction());
+                        System.out.println(
+                                "Server: -> " + players.get(i).getName() + " will lose: " + status.getScoreDeduction());
                         updatePlayerDeductions(status, i);
                         status.setScoreDeduction(playerDeductions.get(players.get(i).getName()));
                         status.setMessageCode(GameStatus.DEDUCT_COMMAND);
@@ -238,7 +247,7 @@ public class GameServer implements Runnable {
 
             gameServer.acceptConnections();
             gameServer.gameLoop();
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             System.out.println("Servers are down due to player premature exit from system.");
             System.exit(1);
         } catch (Exception e) {
