@@ -29,7 +29,6 @@ public class Player implements Serializable {
     private String playerName = "";
     private int currentScore = 0;
     private int playerOption = -99;
-    private boolean isPlayerAlive = true;
     private boolean islandOfTheDeadMode = false;
 
     private FortuneCard fortuneCard = new FortuneCard();
@@ -47,6 +46,10 @@ public class Player implements Serializable {
 
     public Player(String playerName) {
         this.playerName = playerName;
+    }
+
+    public Client getClientConnection() {
+        return this.clientConnection;
     }
 
     public void startGame() throws ClassNotFoundException {
@@ -103,7 +106,6 @@ public class Player implements Serializable {
         Scanner playerInput = new Scanner(System.in);
         System.out.println("\n\n\n\n Start of " + this.playerName + " turn with FC Card "
                 + this.fortuneCard.getClass().getSimpleName() + ". Score: " + this.currentScore + ". Roll All 8 dice.");
-        this.isPlayerAlive = true;
         if (this.fortuneCard instanceof SkullTypeTwo) {
             this.setRoll(new ArrayList<>(Arrays.asList(DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE,
                     DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.NONE, DieSides.SKULL, DieSides.SKULL)));
@@ -290,7 +292,6 @@ public class Player implements Serializable {
         }
 
         if (Collections.frequency(this.dieRolled, DieSides.SKULL) >= 3) {
-            isPlayerAlive = false;
             System.out.println(this.playerName + " has died and is ending their turn now!");
             return true;
         }
@@ -320,7 +321,7 @@ public class Player implements Serializable {
         }
     }
 
-    private class Client {
+    public class Client {
         private Socket socket;
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
@@ -431,8 +432,8 @@ public class Player implements Serializable {
         return this.fortuneCard;
     }
 
-    public boolean getIsPlayerAlive() {
-        return this.isPlayerAlive;
+    public boolean isPlayerDead() {
+        return (Collections.frequency(this.dieRolled, DieSides.SKULL) >= 3);
     }
 
     public Integer getScore() {
