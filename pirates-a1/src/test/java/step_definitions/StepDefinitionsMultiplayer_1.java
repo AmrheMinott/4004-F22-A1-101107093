@@ -93,6 +93,29 @@ public class StepDefinitionsMultiplayer_1 {
                 + players.get(playerIndex - 1).getRoll().toString());
     }
 
+    @Then("player {int} ends turn MP1")
+    public void player_ends_turn_mp1(Integer playerIndex) {
+        System.out.println(
+                this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " has ended their turn!");
+    }
+
+    @Then("player {int} is {string} MP1")
+    public void player_is_mp1(Integer playerIndex, String string) {
+        System.out.println(
+                this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " is currently " + string);
+    }
+
+    @Then("player {int} loses score due to player {int} deductions")
+    public void player_loses_score_due_to_player_deductions(Integer playerIndex1, Integer playerIndex2) {
+        int score_deductions = gameLogic.scoreIslandOfTheDeadDeduction(players.get(playerIndex2 - 1).getRoll(),
+                players.get(playerIndex2 - 1).getFortuneCard());
+        System.out.println(this.scenario.getName() + players.get(playerIndex1 - 1).getName() + " deductions -> "
+                + score_deductions);
+        players.get(playerIndex1 - 1).incrementScore(score_deductions);
+        System.out.println(this.scenario.getName() + players.get(playerIndex1 - 1).getName() + " new score = "
+                + players.get(playerIndex1 - 1).getScore());
+    }
+
     @When("player {int} scores {int} MP1")
     public void player_scores_mp1(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
@@ -107,18 +130,6 @@ public class StepDefinitionsMultiplayer_1 {
         assertEquals(int1, score);
     }
 
-    @Then("player {int} ends turn MP1")
-    public void player_ends_turn_mp1(Integer playerIndex) {
-        System.out.println(
-                this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " has ended their turn!");
-    }
-
-    @Then("player {int} is {string} MP1")
-    public void player_is_mp1(Integer playerIndex, String string) {
-        System.out.println(
-                this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " is currently " + string);
-    }
-
     @When("player {int} scores {int} after Death MP1")
     public void player_scores_after_death_mp1(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
@@ -130,17 +141,6 @@ public class StepDefinitionsMultiplayer_1 {
                 + players.get(playerIndex - 1).getScore());
         assertEquals(int1, score);
     }
-
-    @Then("player {int} loses score due to player {int} deductions")
-    public void player_loses_score_due_to_player_deductions(Integer playerIndex1, Integer playerIndex2) {
-        int score_deductions = gameLogic.scoreIslandOfTheDeadDeduction(players.get(playerIndex2 - 1).getRoll(),
-                players.get(playerIndex2 - 1).getFortuneCard());
-        System.out.println(this.scenario.getName() + players.get(playerIndex1 - 1).getName() + " deductions -> " + score_deductions);
-        players.get(playerIndex1 - 1).incrementScore(score_deductions);
-        System.out.println(this.scenario.getName() + players.get(playerIndex1 - 1).getName() + " new score = "
-                + players.get(playerIndex1 - 1).getScore());
-    }
-    
 
     @Then("player {int} is dead MP1")
     public void player_is_dead_mp1(Integer playerIndex) {
@@ -160,7 +160,7 @@ public class StepDefinitionsMultiplayer_1 {
         System.out.println(this.scenario.getName() + " The winner in the end is -> " + winner);
         assertEquals(string, gameLogic.determineWinner(map));
     }
-    
+
     private void addSkullBasedOnSkullCard(ArrayList<String> tempRoll) {
         if (card instanceof SkullTypeOne) {
             tempRoll.add("Skull");

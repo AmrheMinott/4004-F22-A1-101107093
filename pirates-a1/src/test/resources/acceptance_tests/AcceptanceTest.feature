@@ -9,14 +9,14 @@ Feature: Acceptance Tests for Assignment 2
   Scenario: Row 46
     Given player 1 Fortune Card as "Coin"
     When player 1 rolls 1 "Skull", 4 "Parrot" and 3 "Sword"
-    When player 1 reroll 3 "Sword"
+    And player 1 reroll 3 "Sword"
     Then player 1 gets 2 "Skull" and 1 "Sword" after reroll
     And player 1 scores 0 after Death
 
   Scenario: Row 47
     Given player 1 Fortune Card as "Coin"
     When player 1 rolls 2 "Skull", 4 "Parrot" and 2 "Sword"
-    When player 1 reroll 2 "Sword"
+    And player 1 reroll 2 "Sword"
     Then player 1 gets 1 "Skull" and 1 "Sword" after reroll
     And player 1 scores 0 after Death
 
