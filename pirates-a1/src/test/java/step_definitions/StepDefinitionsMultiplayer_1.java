@@ -84,10 +84,12 @@ public class StepDefinitionsMultiplayer_1 {
         }
         gameLogic.rollAllEightDie(players.get(playerIndex - 1).getRoll());
         System.out
-                .println(this.scenario.getName() + " " +  players.get(playerIndex - 1).getName() + " roll after simulation -> "
+                .println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
+                        + " roll after simulation -> "
                         + players.get(playerIndex - 1).getRoll().toString());
+        addSkullBasedOnSkullCard(tempRoll);
         players.get(playerIndex - 1).setRoll(tempRoll);
-        System.out.println(this.scenario.getName() + " " +  players.get(playerIndex - 1).getName() + " roll set to -> "
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " roll set to -> "
                 + players.get(playerIndex - 1).getRoll().toString());
     }
 
@@ -95,11 +97,11 @@ public class StepDefinitionsMultiplayer_1 {
     public void player_scores_mp1(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard());
-        System.out.println(this.scenario.getName() + " " +  players.get(playerIndex - 1).getName() + " earned "
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " earned "
                 + Integer.toString(score));
 
         players.get(playerIndex - 1).incrementScore(score);
-        System.out.println(this.scenario.getName() + " " +  players.get(playerIndex - 1).getName() + " new score = "
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " new score = "
                 + players.get(playerIndex - 1).getScore());
 
         assertEquals(int1, score);
@@ -121,12 +123,24 @@ public class StepDefinitionsMultiplayer_1 {
     public void player_scores_after_death_mp1(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard());
-        System.out.println(this.scenario.getName() + players.get(playerIndex - 1).getName() + " earned " + Integer.toString(score));
+        System.out.println(this.scenario.getName() + players.get(playerIndex - 1).getName() + " earned "
+                + Integer.toString(score));
         players.get(playerIndex - 1).incrementScore(score);
         System.out.println(this.scenario.getName() + players.get(playerIndex - 1).getName() + " new score = "
                 + players.get(playerIndex - 1).getScore());
         assertEquals(int1, score);
     }
+
+    @Then("player {int} loses score due to player {int} deductions")
+    public void player_loses_score_due_to_player_deductions(Integer playerIndex1, Integer playerIndex2) {
+        int score_deductions = gameLogic.scoreIslandOfTheDeadDeduction(players.get(playerIndex2 - 1).getRoll(),
+                players.get(playerIndex2 - 1).getFortuneCard());
+        System.out.println(this.scenario.getName() + players.get(playerIndex1 - 1).getName() + " deductions -> " + score_deductions);
+        players.get(playerIndex1 - 1).incrementScore(score_deductions);
+        System.out.println(this.scenario.getName() + players.get(playerIndex1 - 1).getName() + " new score = "
+                + players.get(playerIndex1 - 1).getScore());
+    }
+    
 
     @Then("player {int} is dead MP1")
     public void player_is_dead_mp1(Integer playerIndex) {
@@ -145,6 +159,16 @@ public class StepDefinitionsMultiplayer_1 {
         String winner = gameLogic.determineWinner(map);
         System.out.println(this.scenario.getName() + " The winner in the end is -> " + winner);
         assertEquals(string, gameLogic.determineWinner(map));
+    }
+    
+    private void addSkullBasedOnSkullCard(ArrayList<String> tempRoll) {
+        if (card instanceof SkullTypeOne) {
+            tempRoll.add("Skull");
+        }
+        if (card instanceof SkullTypeTwo) {
+            tempRoll.add("Skull");
+            tempRoll.add("Skull");
+        }
     }
 
 }
