@@ -72,7 +72,7 @@ public class StepDefinitionsMultiplayer_1 {
         System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
                 + " Fortune Card was set to -> " + cardString);
     }
-    
+
     @When("player {int} rolls {int} {string} MP1")
     public void player_rolls_mp1(Integer playerIndex, Integer int1, String string) {
         ArrayList<String> tempRoll = new ArrayList<String>();
@@ -90,7 +90,6 @@ public class StepDefinitionsMultiplayer_1 {
         System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " roll set to -> "
                 + players.get(playerIndex - 1).getRoll().toString());
     }
-
 
     @When("player {int} rolls {int} {string} and {int} {string} MP1")
     public void player_rolls_and_mp1(Integer playerIndex, Integer int1, String string, Integer int2, String string2) {
@@ -125,7 +124,8 @@ public class StepDefinitionsMultiplayer_1 {
     }
 
     @Then("player {int} loses score due to player {int} deductions score now {int}")
-    public void player_loses_score_due_to_player_deductions_score_now(Integer playerIndex1, Integer playerIndex2, Integer score) {
+    public void player_loses_score_due_to_player_deductions_score_now(Integer playerIndex1, Integer playerIndex2,
+            Integer score) {
         int score_deductions = gameLogic.scoreIslandOfTheDeadDeduction(players.get(playerIndex2 - 1).getRoll(),
                 players.get(playerIndex2 - 1).getFortuneCard());
         System.out.println(this.scenario.getName() + players.get(playerIndex1 - 1).getName() + " deductions -> "
@@ -148,6 +148,33 @@ public class StepDefinitionsMultiplayer_1 {
                 + players.get(playerIndex - 1).getScore());
 
         assertEquals(int1, score);
+    }
+
+    @Then("player {int} reroll {int} {string} MP1")
+    public void player_reroll_mp1(Integer playerIndex, Integer int2, String string) {
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
+            if (players.get(playerIndex - 1).getRoll().get(i).equals(string)) {
+                gameLogic.rollDiePair(i + 1, i + 1, players.get(playerIndex - 1).getRoll());
+                System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
+                        + "reroll " + i + 1);
+                players.get(playerIndex - 1).getRoll().set(i, "-");
+            }
+        }
+    }
+
+    @Then("player {int} gets {int} {string} after reroll MP1")
+    public void player_gets_after_reroll_mp1(Integer playerIndex, Integer int1, String string) {
+        for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
+            if (int1 == 0) {
+                break;
+            }
+            if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
+                players.get(playerIndex - 1).getRoll().set(i, string);
+                int1--;
+            }
+        }
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
+                + " roll after reroll is set to -> " + players.get(playerIndex - 1).getRoll().toString());
     }
 
     @When("player {int} scores {int} after Death MP1")
