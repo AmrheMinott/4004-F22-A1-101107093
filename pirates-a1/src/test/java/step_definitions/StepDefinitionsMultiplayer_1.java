@@ -72,6 +72,25 @@ public class StepDefinitionsMultiplayer_1 {
         System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
                 + " Fortune Card was set to -> " + cardString);
     }
+    
+    @When("player {int} rolls {int} {string} MP1")
+    public void player_rolls_mp1(Integer playerIndex, Integer int1, String string) {
+        ArrayList<String> tempRoll = new ArrayList<String>();
+        for (int i = 0; i < int1; i++) {
+            tempRoll.add(string);
+        }
+
+        gameLogic.rollAllEightDie(players.get(playerIndex - 1).getRoll());
+        System.out
+                .println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
+                        + " roll after simulation -> "
+                        + players.get(playerIndex - 1).getRoll().toString());
+        addSkullBasedOnSkullCard(tempRoll);
+        players.get(playerIndex - 1).setRoll(tempRoll);
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " roll set to -> "
+                + players.get(playerIndex - 1).getRoll().toString());
+    }
+
 
     @When("player {int} rolls {int} {string} and {int} {string} MP1")
     public void player_rolls_and_mp1(Integer playerIndex, Integer int1, String string, Integer int2, String string2) {
@@ -105,8 +124,8 @@ public class StepDefinitionsMultiplayer_1 {
                 this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " is currently " + string);
     }
 
-    @Then("player {int} loses score due to player {int} deductions")
-    public void player_loses_score_due_to_player_deductions(Integer playerIndex1, Integer playerIndex2) {
+    @Then("player {int} loses score due to player {int} deductions score now {int}")
+    public void player_loses_score_due_to_player_deductions_score_now(Integer playerIndex1, Integer playerIndex2, Integer score) {
         int score_deductions = gameLogic.scoreIslandOfTheDeadDeduction(players.get(playerIndex2 - 1).getRoll(),
                 players.get(playerIndex2 - 1).getFortuneCard());
         System.out.println(this.scenario.getName() + players.get(playerIndex1 - 1).getName() + " deductions -> "
@@ -114,6 +133,7 @@ public class StepDefinitionsMultiplayer_1 {
         players.get(playerIndex1 - 1).incrementScore(score_deductions);
         System.out.println(this.scenario.getName() + players.get(playerIndex1 - 1).getName() + " new score = "
                 + players.get(playerIndex1 - 1).getScore());
+        assertEquals(players.get(playerIndex1 - 1).getScore(), score);
     }
 
     @When("player {int} scores {int} MP1")
