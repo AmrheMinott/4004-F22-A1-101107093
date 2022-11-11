@@ -2,7 +2,6 @@
 Feature: Multi Player Case One
 
   # Part 3: Multi-player Scenarios
-  @tag1
   Scenario: Row 132
     Given Game Logic is initialised MP1
     And player 1 is initialised MP1
@@ -31,7 +30,6 @@ Feature: Multi Player Case One
     And player 2 is "Stop" MP1
     And player 3 is "Stop" MP1
 
-  @tag2
   Scenario: Row 140
     Given Game Logic is initialised MP1
     And player 1 is initialised MP1
@@ -82,7 +80,6 @@ Feature: Multi Player Case One
     And player 2 is "Stop" MP1
     And player 3 is "Stop" MP1
 
-  @tag3
   Scenario: Row 145
     Given Game Logic is initialised MP1
     And player 1 is initialised MP1
@@ -117,3 +114,26 @@ Feature: Multi Player Case One
     And player 1 is "Stop" MP1
     And player 2 is "Stop" MP1
     And player 3 is "Stop" MP1
+
+  Scenario: Row 150
+    Given Game Logic is initialised MP1
+    And player 1 is initialised MP1
+    And player 2 is initialised MP1
+    And player 1 is "Play" MP1
+    And player 1 draws Fortune Card as "Coin" MP1
+    When player 1 rolls 6 "Sword" and 2 "Skull" MP1
+    Then player 1 scores 1100 MP1
+    And player 1 ends turn MP1
+    And player 1 is "Waiting" MP1
+    And player 2 is "Play" MP1
+    Given player 2 draws Fortune Card as "Sorceress" MP1
+    When player 2 rolls 7 "Skull" and 1 "Gold" MP1
+    Then player 2 scores 0 MP1
+    And player 2 is dead MP1
+    And player 2 reroll 1 "Gold" MP1
+    Then player 2 gets 1 "Skull" after reroll MP1
+    Then player 1 loses score due to player 2 deductions score now 300
+    And player 2 ends turn MP1
+    And player 2 is "Waiting" MP1
+    And player 1 is "Stop" MP1
+    And player 2 is "Stop" MP1
