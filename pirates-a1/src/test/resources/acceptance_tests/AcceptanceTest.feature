@@ -277,7 +277,7 @@ Feature: Acceptance Tests for Assignment 2
     When player 1 reroll 1 "Sword"
     Then player 1 gets 1 "Sword" after reroll
     And player 1 scores 0 after Death
-    And player 1 deductions will be -900
+    And player 1 will cause deductions of -900
 
   Scenario: Row 110
     Given player 1 Fortune Card as "Captain"
@@ -285,7 +285,7 @@ Feature: Acceptance Tests for Assignment 2
     And player 1 reroll 3 "Monkey"
     Then player 1 gets 2 "Skull" and 1 "Gold" after reroll
     And player 1 scores 0 after Death
-    And player 1 deductions will be -1400
+    And player 1 will cause deductions of -1400
 
   Scenario: Row 111
     Given player 1 Fortune Card as "Skull Two"
@@ -293,7 +293,7 @@ Feature: Acceptance Tests for Assignment 2
     And player 1 reroll 5 "Sword"
     Then player 1 gets 5 "Gold" after reroll
     And player 1 scores 0 after Death
-    And player 1 deductions will be -500
+    And player 1 will cause deductions of -500
 
   # Sea Battles
   Scenario: Row 114

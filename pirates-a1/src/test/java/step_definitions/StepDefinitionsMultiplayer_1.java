@@ -157,7 +157,7 @@ public class StepDefinitionsMultiplayer_1 {
                 gameLogic.rollDiePair(i + 1, i + 1, players.get(playerIndex - 1).getRoll());
                 System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
                         + "reroll " + i + 1);
-                players.get(playerIndex - 1).getRoll().set(i, "-");
+                players.get(playerIndex - 1).setRollAtIndex(i, "-");
             }
         }
     }
@@ -169,7 +169,7 @@ public class StepDefinitionsMultiplayer_1 {
                 break;
             }
             if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
-                players.get(playerIndex - 1).getRoll().set(i, string);
+                players.get(playerIndex - 1).setRollAtIndex(i, string);
                 int1--;
             }
         }

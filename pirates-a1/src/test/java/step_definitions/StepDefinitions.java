@@ -21,6 +21,7 @@ import fortune_cards.SeaBattleTypeTwo;
 import fortune_cards.SkullTypeOne;
 import fortune_cards.SkullTypeTwo;
 import fortune_cards.Sorceress;
+import game_server.GameServer;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
@@ -39,6 +40,7 @@ public class StepDefinitions {
             entry("Sorceress", new Sorceress()));
 
     private FortuneCard card = null;
+    private GameServer server = new GameServer(123456789);
     private GameLogic gameLogic = new GameLogic();
     private Player player_1 = new Player("Cumcumber 1");
 
@@ -53,9 +55,14 @@ public class StepDefinitions {
 
     @Given("player {int} Fortune Card as {string}")
     public void player_fortune_card_as(Integer playerIndex, String cardString) {
-        System.out.println(this.scenario.getName() + " Player was granted Fortune Card -> " + cardString);
+        String cardFromServer = server.getDeck().get(0).getClass().getSimpleName();
+        server.getDeck().remove(0);
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
+                + " was granted Fortune Card -> " + cardFromServer);
         card = fortuneCardMap.get(cardString);
         players.get(playerIndex - 1).setFortuneCard(card);
+        System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
+                + " Fortune Card was set to -> " + cardString);
     }
 
     @When("player {int} rolls {int} {string}")
@@ -183,7 +190,7 @@ public class StepDefinitions {
                 break;
             }
             if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
-                players.get(playerIndex - 1).getRoll().set(i, string);
+                players.get(playerIndex - 1).setRollAtIndex(i, string);
                 int1--;
             }
         }
@@ -197,7 +204,9 @@ public class StepDefinitions {
         for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
             if (players.get(playerIndex - 1).getRoll().get(i).equals(string)) {
                 gameLogic.rollDiePair(i + 1, i + 1, players.get(playerIndex - 1).getRoll());
-                players.get(playerIndex - 1).getRoll().set(i, "-");
+                System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
+                        + " reroll die at position " + (i + 1));
+                players.get(playerIndex - 1).setRollAtIndex(i, "-");
             }
         }
     }
@@ -209,7 +218,7 @@ public class StepDefinitions {
                 break;
             }
             if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
-                players.get(playerIndex - 1).getRoll().set(i, string);
+                players.get(playerIndex - 1).setRollAtIndex(i, string);
                 int1--;
             }
         }
@@ -226,7 +235,7 @@ public class StepDefinitions {
                 break;
             }
             if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
-                players.get(playerIndex - 1).getRoll().set(i, string);
+                players.get(playerIndex - 1).setRollAtIndex(i, string);
                 int1--;
             }
         }
@@ -236,7 +245,7 @@ public class StepDefinitions {
                 break;
             }
             if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
-                players.get(playerIndex - 1).getRoll().set(i, string2);
+                players.get(playerIndex - 1).setRollAtIndex(i, string2);
                 int2--;
             }
         }
@@ -253,7 +262,7 @@ public class StepDefinitions {
                 break;
             }
             if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
-                players.get(playerIndex - 1).getRoll().set(i, string);
+                players.get(playerIndex - 1).setRollAtIndex(i, string);
                 int1--;
             }
         }
@@ -263,7 +272,7 @@ public class StepDefinitions {
                 break;
             }
             if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
-                players.get(playerIndex - 1).getRoll().set(i, string2);
+                players.get(playerIndex - 1).setRollAtIndex(i, string2);
                 int2--;
             }
         }
@@ -273,7 +282,7 @@ public class StepDefinitions {
                 break;
             }
             if (players.get(playerIndex - 1).getRoll().get(i).equals("-")) {
-                players.get(playerIndex - 1).getRoll().set(i, string3);
+                players.get(playerIndex - 1).setRollAtIndex(i, string3);
                 int3--;
             }
         }
@@ -301,8 +310,8 @@ public class StepDefinitions {
         assertEquals(int1, score);
     }
 
-    @Then("player {int} deductions will be {int}")
-    public void player_deductions_will_be(Integer playerIndex, Integer int1) {
+    @Then("player {int} will cause deductions of {int}")
+    public void player_will_cause_deductions_of(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreIslandOfTheDeadDeduction(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard());
         players.get(playerIndex - 1).incrementScore(score);
@@ -333,7 +342,7 @@ public class StepDefinitions {
             if (players.get(playerIndex - 1).getRoll().get(i).equals("Skull")) {
                 players.get(playerIndex - 1).sorceressActivation();
                 System.out.println(this.scenario.getName() + " Player activated Sorceress card");
-                players.get(playerIndex - 1).getRoll().set(i, string);
+                players.get(playerIndex - 1).setRollAtIndex(i, string);
                 break;
             }
         }
@@ -365,7 +374,8 @@ public class StepDefinitions {
                 break;
             }
         }
-        System.out.println(this.scenario.getName() + " Player chess contents is now -> " + ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().toString());
+        System.out.println(this.scenario.getName() + " Player chess contents is now -> "
+                + ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().toString());
     }
 
     @When("player {int} puts {int} {string} in chest")
@@ -379,8 +389,9 @@ public class StepDefinitions {
                 break;
             }
         }
-        
-        System.out.println(this.scenario.getName() + " Player chess contents is now -> " + ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().toString());
+
+        System.out.println(this.scenario.getName() + " Player chess contents is now -> "
+                + ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().toString());
     }
 
     @When("player {int} takes out {int} {string} and {int} {string} in chest")
@@ -409,7 +420,8 @@ public class StepDefinitions {
                 break;
             }
         }
-        System.out.println(this.scenario.getName() + " Player chess contents is now -> " + ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().toString());
+        System.out.println(this.scenario.getName() + " Player chess contents is now -> "
+                + ((Chest) players.get(playerIndex - 1).getFortuneCard()).getChestContent().toString());
     }
 
     /**
