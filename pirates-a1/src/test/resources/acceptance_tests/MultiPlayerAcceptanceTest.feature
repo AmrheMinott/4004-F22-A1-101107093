@@ -132,7 +132,7 @@ Feature: Multi Player Case One
     And player 2 is dead MP
     And player 2 reroll 1 "Gold" MP
     Then player 2 gets 1 "Skull" after reroll MP
-    Then player 1 loses score due to player 2 deductions score now 300
+    And player 1 loses score due to player 2 deductions score now 300
     And player 2 ends turn MP
     And player 2 is "Waiting" MP
     And player 1 is "Stop" MP
