@@ -30,7 +30,7 @@ import io.cucumber.java.en.When;
 import pirates_logic.GameLogic;
 import player.Player;
 
-public class StepDefinitions {
+public class StepDefinitionsSinglePlayer {
 
     private Map<String, FortuneCard> fortuneCardMap = Map.ofEntries(entry("Coin", new GoldCard()),
             entry("Chest", new Chest()), entry("Captain", new Captain()), entry("Diamond", new DiamondCard()),

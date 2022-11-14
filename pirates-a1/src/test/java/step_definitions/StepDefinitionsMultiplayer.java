@@ -29,7 +29,7 @@ import io.cucumber.java.en.When;
 import pirates_logic.GameLogic;
 import player.Player;
 
-public class StepDefinitionsMultiplayer_1 {
+public class StepDefinitionsMultiplayer {
 
     private Map<String, FortuneCard> fortuneCardMap = Map.ofEntries(entry("Coin", new GoldCard()),
             entry("Chest", new Chest()), entry("Captain", new Captain()), entry("Diamond", new DiamondCard()),
@@ -156,7 +156,7 @@ public class StepDefinitionsMultiplayer_1 {
             if (players.get(playerIndex - 1).getRoll().get(i).equals(string)) {
                 gameLogic.rollDiePair(i + 1, i + 1, players.get(playerIndex - 1).getRoll());
                 System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
-                        + "reroll " + i + 1);
+                        + "reroll " + (i + 1));
                 players.get(playerIndex - 1).setRollAtIndex(i, "-");
             }
         }
