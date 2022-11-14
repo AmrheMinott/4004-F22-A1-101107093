@@ -51,18 +51,18 @@ public class StepDefinitionsMultiplayer_1 {
         this.scenario = scenario;
     }
 
-    @Given("player {int} is initialised MP1")
-    public void player_is_initialised_mp1(Integer playerIndex) throws ClassNotFoundException {
+    @Given("player {int} is initialised MP")
+    public void player_is_initialised_mp(Integer playerIndex) throws ClassNotFoundException {
         players.add(new Player("Cumcumber " + playerIndex));
     }
 
-    @Given("Game Logic is initialised MP1")
-    public void game_logic_is_initialised_mp1() {
+    @Given("Game Logic is initialised MP")
+    public void game_logic_is_initialised_mp() {
         gameLogic = new GameLogic();
     }
 
-    @When("player {int} draws Fortune Card as {string} MP1")
-    public void player_draws_fortune_card_as_mp1(Integer playerIndex, String cardString) {
+    @When("player {int} draws Fortune Card as {string} MP")
+    public void player_draws_fortune_card_as_mp(Integer playerIndex, String cardString) {
         String cardFromServer = server.getDeck().get(0).getClass().getSimpleName();
         server.getDeck().remove(0);
         System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName()
@@ -73,8 +73,8 @@ public class StepDefinitionsMultiplayer_1 {
                 + " Fortune Card was set to -> " + cardString);
     }
 
-    @When("player {int} rolls {int} {string} MP1")
-    public void player_rolls_mp1(Integer playerIndex, Integer int1, String string) {
+    @When("player {int} rolls {int} {string} MP")
+    public void player_rolls_mp(Integer playerIndex, Integer int1, String string) {
         ArrayList<String> tempRoll = new ArrayList<String>();
         for (int i = 0; i < int1; i++) {
             tempRoll.add(string);
@@ -91,8 +91,8 @@ public class StepDefinitionsMultiplayer_1 {
                 + players.get(playerIndex - 1).getRoll().toString());
     }
 
-    @When("player {int} rolls {int} {string} and {int} {string} MP1")
-    public void player_rolls_and_mp1(Integer playerIndex, Integer int1, String string, Integer int2, String string2) {
+    @When("player {int} rolls {int} {string} and {int} {string} MP")
+    public void player_rolls_and_mp(Integer playerIndex, Integer int1, String string, Integer int2, String string2) {
         ArrayList<String> tempRoll = new ArrayList<String>();
         for (int i = 0; i < int1; i++) {
             tempRoll.add(string);
@@ -111,14 +111,14 @@ public class StepDefinitionsMultiplayer_1 {
                 + players.get(playerIndex - 1).getRoll().toString());
     }
 
-    @Then("player {int} ends turn MP1")
-    public void player_ends_turn_mp1(Integer playerIndex) {
+    @Then("player {int} ends turn MP")
+    public void player_ends_turn_mp(Integer playerIndex) {
         System.out.println(
                 this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " has ended their turn!");
     }
 
-    @Then("player {int} is {string} MP1")
-    public void player_is_mp1(Integer playerIndex, String string) {
+    @Then("player {int} is {string} MP")
+    public void player_is_mp(Integer playerIndex, String string) {
         System.out.println(
                 this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " is currently " + string);
     }
@@ -136,8 +136,8 @@ public class StepDefinitionsMultiplayer_1 {
         assertEquals(players.get(playerIndex1 - 1).getScore(), score);
     }
 
-    @When("player {int} scores {int} MP1")
-    public void player_scores_mp1(Integer playerIndex, Integer int1) {
+    @When("player {int} scores {int} MP")
+    public void player_scores_mp(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard());
         System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " earned "
@@ -150,8 +150,8 @@ public class StepDefinitionsMultiplayer_1 {
         assertEquals(int1, score);
     }
 
-    @Then("player {int} reroll {int} {string} MP1")
-    public void player_reroll_mp1(Integer playerIndex, Integer int2, String string) {
+    @Then("player {int} reroll {int} {string} MP")
+    public void player_reroll_mp(Integer playerIndex, Integer int2, String string) {
         for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
             if (players.get(playerIndex - 1).getRoll().get(i).equals(string)) {
                 gameLogic.rollDiePair(i + 1, i + 1, players.get(playerIndex - 1).getRoll());
@@ -162,8 +162,8 @@ public class StepDefinitionsMultiplayer_1 {
         }
     }
 
-    @Then("player {int} gets {int} {string} after reroll MP1")
-    public void player_gets_after_reroll_mp1(Integer playerIndex, Integer int1, String string) {
+    @Then("player {int} gets {int} {string} after reroll MP")
+    public void player_gets_after_reroll_mp(Integer playerIndex, Integer int1, String string) {
         for (int i = 0; i < players.get(playerIndex - 1).getRoll().size(); i++) {
             if (int1 == 0) {
                 break;
@@ -177,8 +177,8 @@ public class StepDefinitionsMultiplayer_1 {
                 + " roll after reroll is set to -> " + players.get(playerIndex - 1).getRoll().toString());
     }
 
-    @When("player {int} scores {int} after Death MP1")
-    public void player_scores_after_death_mp1(Integer playerIndex, Integer int1) {
+    @When("player {int} scores {int} after Death MP")
+    public void player_scores_after_death_mp(Integer playerIndex, Integer int1) {
         int score = gameLogic.scoreTurn(players.get(playerIndex - 1).getRoll(),
                 players.get(playerIndex - 1).getFortuneCard());
         System.out.println(this.scenario.getName() + players.get(playerIndex - 1).getName() + " earned "
@@ -189,16 +189,16 @@ public class StepDefinitionsMultiplayer_1 {
         assertEquals(int1, score);
     }
 
-    @Then("player {int} is dead MP1")
-    public void player_is_dead_mp1(Integer playerIndex) {
+    @Then("player {int} is dead MP")
+    public void player_is_dead_mp(Integer playerIndex) {
         boolean isPlayerDead = players.get(playerIndex - 1).isPlayerDead();
         System.out.println(this.scenario.getName() + " " + players.get(playerIndex - 1).getName() + " Died -> "
                 + Boolean.toString(isPlayerDead));
         assertTrue(isPlayerDead);
     }
 
-    @Then("Game declares {string} as winner MP1")
-    public void game_declares_as_winner_mp1(String string) {
+    @Then("Game declares {string} as winner MP")
+    public void game_declares_as_winner_mp(String string) {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         for (Player p : players) {
             map.put(p.getName(), p.getScore());
